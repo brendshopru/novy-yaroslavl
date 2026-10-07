@@ -372,6 +372,8 @@ section.sec-collapsed:not(.hero)>:not(.sec-head){display:none!important}
 section.sec-collapsed>.sec-head{margin-bottom:0!important}
 section.sec-collapsed>.sec-head .sec-actions>:not(.sec-toggle),section.sec-collapsed>.sec-head .catalog-nav{display:none!important}
 section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:none!important}
+#objects.sec-collapsed>:not(.sec-head){display:none!important}
+#objects.sec-collapsed>.sec-head .sec-actions>:not(.sec-toggle){display:none!important}
 </style>
 </head>
 <body>
@@ -699,6 +701,7 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
     if(history.state&&history.state.nyOverlay===kind){history.back();}
     else{try{closeFn();}catch(e){}}
   }
+  window.nyOverlayPush=nyOverlayPush;window.nyOverlayBack=nyOverlayBack;
   window.addEventListener('popstate',function(){
     if(window.__NY_OVERLAY_CLOSE){
       var fn=window.__NY_OVERLAY_CLOSE;
