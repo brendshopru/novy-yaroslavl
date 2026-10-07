@@ -459,6 +459,29 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 }
 
 </style>
+
+<style id="ny-premium-features">
+/* ===== НОВЫЙ ЯРОСЛАВЛЬ — безопасные премиум-фишки ===== */
+.ny-intro-key{position:absolute;left:50%;top:50%;z-index:4;width:112px;height:30px;margin:-15px 0 0 -56px;opacity:0;pointer-events:none;filter:drop-shadow(0 0 10px rgba(199,168,91,.35));animation:nyKeyFlight 2.25s cubic-bezier(.2,.75,.2,1) .15s forwards}
+.ny-intro-key:before{content:"";position:absolute;left:0;top:8px;width:72px;height:13px;border:2px solid var(--site-accent);border-radius:10px}
+.ny-intro-key:after{content:"";position:absolute;right:0;top:1px;width:30px;height:28px;border:2px solid var(--site-accent);border-radius:50%;box-shadow:inset 0 0 0 6px rgba(199,168,91,.06)}
+.ny-intro-door{position:absolute;left:50%;top:50%;z-index:3;width:min(180px,30vw);height:min(250px,42vw);transform:translate(-50%,-50%) perspective(700px) rotateY(0deg);transform-origin:left center;border:1px solid rgba(199,168,91,.45);background:linear-gradient(145deg,rgba(199,168,91,.07),rgba(255,255,255,.015));box-shadow:inset 0 0 35px rgba(199,168,91,.05);opacity:0;pointer-events:none;animation:nyDoorIn .5s 1.65s ease forwards,nyDoorOpen .85s 2.05s cubic-bezier(.2,.7,.2,1) forwards}
+.ny-intro-door:after{content:"";position:absolute;right:13px;top:50%;width:7px;height:7px;border-radius:50%;background:var(--site-accent);box-shadow:0 0 12px var(--site-accent)}
+.ny-intro-door-glow{position:absolute;left:50%;top:50%;width:min(240px,42vw);height:min(300px,50vw);transform:translate(-50%,-50%);z-index:2;opacity:0;pointer-events:none;background:radial-gradient(ellipse,rgba(199,168,91,.16),transparent 68%);animation:nyDoorGlow .8s 2.2s ease forwards}
+@keyframes nyKeyFlight{0%{opacity:0;transform:translate(-210px,90px) rotate(-28deg) scale(.55)}15%{opacity:1}65%{opacity:1}100%{opacity:0;transform:translate(105px,-8px) rotate(8deg) scale(1)}}
+@keyframes nyDoorIn{to{opacity:1}}
+@keyframes nyDoorOpen{0%{transform:translate(-50%,-50%) perspective(700px) rotateY(0)}100%{transform:translate(-50%,-50%) perspective(700px) rotateY(-72deg);opacity:.18}}
+@keyframes nyDoorGlow{to{opacity:1}}
+.site-intro .intro-title{animation-delay:2.05s}.site-intro .intro-kicker{animation-delay:2.2s}.site-intro .intro-line{animation-delay:2.3s}.site-intro .intro-skip{animation-delay:2.4s}
+.prop:active{transform:scale(.985)!important;border-color:var(--site-accent)!important}.prop:active .ph img{transform:scale(1.025)!important}
+.nav-links a{position:relative}.nav-links a:after{content:"";position:absolute;left:0;right:0;bottom:-7px;height:1px;transform:scaleX(0);transform-origin:center;background:var(--site-accent);box-shadow:0 0 8px rgba(199,168,91,.45);transition:transform .3s ease}.nav-links a.ny-active{color:var(--site-accent)}.nav-links a.ny-active:after{transform:scaleX(1)}
+@media(max-width:700px){.nav-links a:after{bottom:-3px}}
+.reveal.in{animation-duration:.8s}.sec-head.reveal.in{animation-duration:.7s}.svc.reveal.in,.prop.reveal.in,.member.reveal.in,.rv.reveal.in{animation-name:nyRevealPremium}
+@keyframes nyRevealPremium{from{opacity:0;transform:translateY(24px) scale(.985);filter:blur(3px)}to{opacity:1;transform:none;filter:none}}
+#objects{position:relative;isolation:isolate}#objects:before{content:"";position:absolute;inset:50px 0 0;z-index:-1;pointer-events:none;opacity:.055;background-image:linear-gradient(rgba(199,168,91,.8) 1px,transparent 1px),linear-gradient(90deg,rgba(199,168,91,.8) 1px,transparent 1px);background-size:42px 42px;mask-image:linear-gradient(to bottom,transparent,black 18%,black 78%,transparent)}
+#objects:after{content:"⌂  /  PLAN  /  2014  /  YAROSLAVL";position:absolute;right:2%;top:45px;z-index:-1;font-size:clamp(9px,1vw,12px);letter-spacing:.22em;color:var(--site-accent);opacity:.09;white-space:nowrap;transform:rotate(-90deg) translateX(100%);transform-origin:right top}
+@media(prefers-reduced-motion:reduce){.ny-intro-key,.ny-intro-door,.ny-intro-door-glow{animation:none!important;opacity:0!important}.site-intro .intro-title,.site-intro .intro-kicker,.site-intro .intro-line,.site-intro .intro-skip{animation:none!important;opacity:1!important}.nav-links a:after{transition:none}.svc.reveal.in,.prop.reveal.in,.member.reveal.in,.rv.reveal.in{animation:none!important}}
+</style>
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
@@ -660,7 +683,7 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
   skip.addEventListener('click',close);
   intro.addEventListener('click',e=>{if(e.target===intro)close();});
   window.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
-  setTimeout(close,reduce?250:2600);
+  setTimeout(close,reduce?250:4200);
 })();
 </script>
 <script>
@@ -1089,6 +1112,18 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
   });
   var o=document.getElementById('objects'),a=o&&o.querySelector('.sec-actions');
   if(a)a.appendChild(mk(o));
+})();
+</script>
+
+<script id="ny-premium-features-js">
+(function(){
+ var intro=document.getElementById('siteIntro');
+ if(intro&&!intro.querySelector('.ny-intro-key')){var k=document.createElement('div');k.className='ny-intro-key';k.setAttribute('aria-hidden','true');var d=document.createElement('div');d.className='ny-intro-door';d.setAttribute('aria-hidden','true');var g=document.createElement('div');g.className='ny-intro-door-glow';g.setAttribute('aria-hidden','true');intro.appendChild(g);intro.appendChild(d);intro.appendChild(k)}
+ document.addEventListener('pointerdown',function(e){var c=e.target.closest&&e.target.closest('#properties .prop');if(!c||e.target.closest('button,a'))return;c.classList.remove('ny-card-open');void c.offsetWidth;c.classList.add('ny-card-open');setTimeout(function(){c.classList.remove('ny-card-open')},320)},{passive:true});
+ var links=[].slice.call(document.querySelectorAll('.nav-links a[href^="#"]')),secs=links.map(function(a){return{a:a,s:document.getElementById(a.getAttribute('href').slice(1))}}).filter(function(x){return x.s});
+ function active(){var y=(window.pageYOffset||document.documentElement.scrollTop)+140,best=null;secs.forEach(function(x){if(x.s.offsetTop<=y)best=x});links.forEach(function(a){a.classList.toggle('ny-active',best&&a===best.a)})}
+ window.addEventListener('scroll',active,{passive:true});window.addEventListener('resize',active,{passive:true});active();
+ var cards=document.querySelectorAll('#properties .prop,#services .svc,#teamList .member,#reviews .rv');cards.forEach(function(el,i){el.style.setProperty('--d',Math.min(i%6,.5)*.06+'s')});
 })();
 </script>
 </body>
