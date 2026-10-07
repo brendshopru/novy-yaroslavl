@@ -360,15 +360,18 @@ main>section+section{margin-top:44px!important}
 }
 
 /* ===== Скрыть / открыть раздел ===== */
-.sec-toggle{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 14px;border:1px solid var(--line,rgba(128,128,128,.35));border-radius:999px;background:transparent;color:inherit;font:inherit;font-size:13px;line-height:1;cursor:pointer;transition:.25s ease}
+.sec-toggle{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--line,rgba(128,128,128,.35));border-radius:999px;background:transparent;color:inherit;font:inherit;font-size:13px;line-height:1;cursor:pointer;white-space:nowrap;transition:.25s ease}
 .sec-toggle:hover{border-color:var(--site-accent,#c7a85b);color:var(--site-accent,#c7a85b)}
 .sec-toggle .ar{display:inline-block;transition:transform .25s ease}
-section.sec-collapsed>:not(.sec-head){display:none!important}
-section.sec-collapsed>.sec-head .sec-actions,section.sec-collapsed>.sec-head .reviews-nav,section.sec-collapsed>.sec-head .catalog-nav{display:none!important}
+.sec-collapsed .sec-toggle .ar{transform:rotate(180deg)}
+.sec-head.has-tg{position:relative}
+.sec-head.has-tg .eyebrow{padding-right:120px}
+.sec-head.has-tg>.sec-toggle{position:absolute;top:0;right:0}
+.sec-toggle-wrap{display:flex;justify-content:flex-end;margin-bottom:10px}
+section.sec-collapsed:not(.hero)>:not(.sec-head){display:none!important}
 section.sec-collapsed>.sec-head{margin-bottom:0!important}
-section.sec-collapsed .sec-toggle .ar{transform:rotate(180deg)}
-
-section.hero.sec-collapsed>:not(.eyebrow):not(h1):not(.sec-toggle-wrap){display:none!important}
+section.sec-collapsed>.sec-head .sec-actions>:not(.sec-toggle),section.sec-collapsed>.sec-head .catalog-nav{display:none!important}
+section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:none!important}
 </style>
 </head>
 <body>
@@ -969,28 +972,20 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 
 /* ===== Скрыть / открыть раздел ===== */
 (function(){
-  document.querySelectorAll('main > section').forEach(function(sec){
-    var head=sec.querySelector(':scope > .sec-head');
-    if(!head||head.querySelector('.sec-toggle'))return;
-    var host=head.firstElementChild||head;
-    var b=document.createElement('button');
-    b.type='button';b.className='sec-toggle';
+  function mk(sec){
+    var b=document.createElement('button');b.type='button';b.className='sec-toggle';
     function paint(){var c=sec.classList.contains('sec-collapsed');b.innerHTML='<span class="ar">▲</span> '+(c?'Открыть':'Скрыть');b.setAttribute('aria-expanded',c?'false':'true');}
     b.addEventListener('click',function(){sec.classList.toggle('sec-collapsed');paint();});
-    paint();host.appendChild(b);
+    paint();return b;
+  }
+  var hero=document.querySelector('main > section.hero');
+  if(hero){var w=document.createElement('div');w.className='sec-toggle-wrap';w.appendChild(mk(hero));hero.insertBefore(w,hero.firstChild);}
+  ['services','calc'].forEach(function(id){
+    var s=document.getElementById(id),h=s&&s.querySelector(':scope > .sec-head');
+    if(!h)return;h.classList.add('has-tg');h.appendChild(mk(s));
   });
-})();
-
-/* ===== Скрыть / открыть верхний блок ===== */
-(function(){
-  var sec=document.querySelector('main > section.hero');
-  if(!sec||sec.querySelector('.sec-toggle'))return;
-  var h=sec.querySelector('h1');if(!h)return;
-  var w=document.createElement('div');w.className='sec-toggle-wrap';
-  var b=document.createElement('button');b.type='button';b.className='sec-toggle';
-  function paint(){var c=sec.classList.contains('sec-collapsed');b.innerHTML='<span class="ar">▲</span> '+(c?'Открыть':'Скрыть');b.setAttribute('aria-expanded',c?'false':'true');}
-  b.addEventListener('click',function(){sec.classList.toggle('sec-collapsed');paint();});
-  paint();w.appendChild(b);h.insertAdjacentElement('afterend',w);
+  var o=document.getElementById('objects'),a=o&&o.querySelector('.sec-actions');
+  if(a)a.appendChild(mk(o));
 })();
 </script>
 </body>
