@@ -854,6 +854,72 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 100%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40)}}
 }
 </style>
+
+<style id="intro-door-brand-final">
+/* FINAL: original intro copy is physically behind the door and launches through the opened doorway. */
+.intro-brand{
+  z-index:6!important;
+  opacity:0!important;
+  width:min(760px,88vw)!important;
+  transform:translate(-50%,-50%) scale(.10)!important;
+  filter:blur(14px)!important;
+  pointer-events:none!important;
+  animation:doorBrandLaunch 1.25s cubic-bezier(.08,.9,.08,1) 2.52s forwards!important;
+}
+.intro-brand small{display:block!important}
+.intro-brand strong{display:block!important}
+.intro-brand i{display:block!important}
+/* Keep the same doorway composition: no new scene/background is introduced. */
+.intro-room{z-index:4!important}
+.intro-door-wrap{z-index:8!important}
+.intro-key{z-index:14!important}
+.intro-vignette{z-index:30!important;pointer-events:none!important}
+@keyframes doorBrandLaunch{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) scale(.08)!important;
+    filter:blur(18px)!important;
+    letter-spacing:.02em;
+  }
+  18%{
+    opacity:.28;
+    transform:translate(-50%,-50%) scale(.16)!important;
+    filter:blur(12px)!important;
+  }
+  42%{
+    opacity:.72;
+    transform:translate(-50%,-50%) scale(.42)!important;
+    filter:blur(6px)!important;
+  }
+  68%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1.18)!important;
+    filter:blur(1px)!important;
+  }
+  82%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(.98)!important;
+    filter:blur(0)!important;
+  }
+  100%{
+    opacity:1;
+    transform:translate(-50%,-50%) scale(1)!important;
+    filter:blur(0)!important;
+  }
+}
+@media(max-width:700px){
+  .intro-brand{width:90vw!important;animation-name:doorBrandLaunchMobile!important}
+  @keyframes doorBrandLaunchMobile{
+    0%{opacity:0;transform:translate(-50%,-50%) scale(.07)!important;filter:blur(16px)!important}
+    20%{opacity:.3;transform:translate(-50%,-50%) scale(.14)!important;filter:blur(10px)!important}
+    46%{opacity:.8;transform:translate(-50%,-50%) scale(.38)!important;filter:blur(5px)!important}
+    70%{opacity:1;transform:translate(-50%,-50%) scale(1.12)!important;filter:blur(1px)!important}
+    84%{opacity:1;transform:translate(-50%,-50%) scale(.98)!important;filter:blur(0)!important}
+    100%{opacity:1;transform:translate(-50%,-50%) scale(1)!important;filter:blur(0)!important}
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
@@ -863,7 +929,7 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
     <div class="intro-door-wrap" aria-hidden="true"><div class="intro-door-frame"><div class="intro-door"><div class="intro-lock"></div></div></div></div>
     <div class="intro-room" aria-hidden="true"><div class="intro-room-light"></div></div>
     <div class="intro-vignette"></div>
-    <div class="intro-brand"><small>Агентство недвижимости</small><strong>НОВЫЙ <span>ЯРОСЛАВЛЬ</span></strong><i></i></div>
+    <div class="intro-brand"><small>Новый Ярославль · Агентство недвижимости</small><strong>Ваше новое<br><span>пространство</span></strong><i></i></div>
     <button class="intro-skip" id="introSkip" type="button">Пропустить</button>
   </div>
 </div>
