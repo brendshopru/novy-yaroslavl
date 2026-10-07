@@ -8,7 +8,7 @@
   <title>Новый Ярославль — агентство недвижимости</title>
   <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
-  <meta name="ny-build" content="2026-10-07-7">
+  <meta name="ny-build" content="2026-10-07-8">
   <script>
   /* Анти-кэш: стили и скрипты подтягиваются заново (версия меняется раз в минуту) */
   window.__NY_V=Math.floor(Date.now()/60000);
@@ -341,8 +341,10 @@ main>section+section{margin-top:44px!important}
 #objects .grid-props::-webkit-scrollbar-thumb{background:rgba(199,168,91,.45);border-radius:10px}
 #objects .grid-props::-webkit-scrollbar-track{background:rgba(255,255,255,.04);border-radius:10px}
 @media(max-width:700px){
-  #objects .grid-props{gap:12px!important;padding-bottom:12px!important}
-  #objects .grid-props .prop{flex-basis:min(86vw,360px)!important;width:min(86vw,360px)!important}
+  /* На телефоне показываем каталог сеткой, чтобы сразу были видны несколько объектов.
+     Данные и карточки не меняются — меняется только раскладка. */
+  #objects .grid-props{display:flex!important;flex-wrap:wrap!important;gap:12px!important;overflow-x:visible!important;padding-bottom:4px!important;scroll-snap-type:none!important}
+  #objects .grid-props .prop{flex:0 0 calc(50% - 6px)!important;width:calc(50% - 6px)!important;scroll-snap-align:none!important}
 }
 /* ===== Явные стрелки листания каталога ===== */
 #objects .sec-head{align-items:center}
@@ -358,6 +360,14 @@ main>section+section{margin-top:44px!important}
 @media(max-width:700px){
   .f-top>.f-col:nth-child(2) a{display:flex;align-items:center;justify-content:center;width:100%;margin:0 0 8px;padding:11px 14px;min-height:42px;border-radius:12px}
 }
+
+/* ===== Скрыть / открыть фильтр поиска ===== */
+.search-toggle-wrap{display:flex;justify-content:flex-end;margin:0 0 10px}
+.search-toggle-wrap .sec-toggle{font-size:12px;padding:7px 12px}
+.search-box.search-collapsed .search-tabs,
+.search-box.search-collapsed .search-grid,
+.search-box.search-collapsed #searchMessage{display:none!important}
+.search-box.search-collapsed{padding-bottom:12px!important}
 
 /* ===== Скрыть / открыть раздел ===== */
 .sec-toggle{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--line,rgba(128,128,128,.35));border-radius:999px;background:transparent;color:inherit;font:inherit;font-size:13px;line-height:1;cursor:pointer;white-space:nowrap;transition:.25s ease}
@@ -981,8 +991,21 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
     b.addEventListener('click',function(){sec.classList.toggle('sec-collapsed');paint();});
     paint();return b;
   }
-  var hero=document.querySelector('main > section.hero');
-  if(hero){var w=document.createElement('div');w.className='sec-toggle-wrap';w.appendChild(mk(hero));hero.insertBefore(w,hero.firstChild);}
+  /* Кнопка управления должна быть у самого фильтра, а не вверху Hero. */
+  var search=document.querySelector('main > section.hero .search-box');
+  if(search){
+    var sw=document.createElement('div');sw.className='search-toggle-wrap';
+    var sb=mk(search);
+    function paintSearch(){
+      var c=search.classList.contains('search-collapsed');
+      sb.innerHTML='<span class="ar">▲</span> '+(c?'Открыть':'Скрыть');
+      sb.setAttribute('aria-expanded',c?'false':'true');
+    }
+    sb.onclick=function(){search.classList.toggle('search-collapsed');paintSearch();};
+    paintSearch();
+    sw.appendChild(sb);
+    search.insertBefore(sw,search.firstChild);
+  }
   ['services','calc'].forEach(function(id){
     var s=document.getElementById(id),h=s&&s.querySelector(':scope > .sec-head');
     if(!h)return;h.classList.add('has-tg');h.appendChild(mk(s));
