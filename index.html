@@ -29,12 +29,14 @@ body{padding-bottom:76px;overflow-x:hidden}@media(min-width:701px){body{padding-
 @keyframes introUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes scanLine{0%{left:-35%}100%{left:100%}}
 
-/* Hero typography */
+/* Hero typography: framed word with light running around the whole border */
+@property --wa{syntax:'<angle>';inherits:false;initial-value:0deg}
 .hero h1{position:relative;isolation:isolate}
-.hero h1 .estate-word{position:relative;display:inline-block;color:var(--fg);padding:.02em .09em .10em;white-space:nowrap}
-.hero h1 .estate-word:before{content:"";position:absolute;z-index:-1;left:-.055em;right:-.055em;bottom:.02em;height:.30em;border:1px solid color-mix(in srgb,var(--site-accent) 70%,transparent);border-top-color:transparent;border-radius:2px;opacity:.95}
-.hero h1 .estate-word:after{content:"";position:absolute;z-index:2;left:-.07em;right:-.07em;bottom:.01em;height:calc(.30em + 2px);border:1px solid transparent;border-top-color:var(--site-accent);border-right-color:var(--site-accent);border-radius:2px;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--site-accent) 65%,transparent));clip-path:polygon(0 0,100% 0,100% 100%,0 100%,0 65%,100% 65%,100% 100%,0 100%);animation:wordTrace 3.2s linear infinite}
-@keyframes wordTrace{0%{transform:translateX(-105%) scaleX(.2);opacity:.2}20%{transform:translateX(0) scaleX(1);opacity:1}55%{transform:translateX(0) scaleX(1);opacity:.9}100%{transform:translateX(105%) scaleX(.2);opacity:.2}}
+.hero h1 .estate-word{position:relative;display:inline-block;color:var(--fg);padding:.02em .22em .08em;margin:0 .03em;white-space:nowrap;border-radius:.22em;background:linear-gradient(145deg,color-mix(in srgb,var(--site-accent) 16%,transparent),color-mix(in srgb,var(--site-accent) 3%,transparent));box-shadow:0 0 34px color-mix(in srgb,var(--site-accent) 16%,transparent),inset 0 0 22px color-mix(in srgb,var(--site-accent) 7%,transparent)}
+.hero h1 .estate-word:before,.hero h1 .estate-word:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.hero h1 .estate-word:before{padding:1px;background:color-mix(in srgb,var(--site-accent) 38%,transparent)}
+.hero h1 .estate-word:after{padding:2px;background:conic-gradient(from var(--wa),transparent 0deg,transparent 270deg,var(--site-accent) 325deg,#fff 352deg,transparent 360deg),conic-gradient(from calc(var(--wa) + 180deg),transparent 0deg,transparent 300deg,var(--site-accent) 340deg,#fff 356deg,transparent 360deg);filter:drop-shadow(0 0 6px var(--site-accent));animation:wordSpin 4s linear infinite}
+@keyframes wordSpin{to{--wa:360deg}}
 
 /* Buttons now belong to the same visual system */
 .contact-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
@@ -215,7 +217,85 @@ body{padding-bottom:76px;overflow-x:hidden}@media(min-width:701px){body{padding-
 })();
 </script>
 <script src="data.js?v=2"></script>
+<script>
+/* Данные, сохранённые в админке этого браузера, имеют приоритет над data.js */
+(function(){try{var d=JSON.parse(localStorage.getItem('ny_admin_data_v1')||'null');if(d&&Array.isArray(d.properties))window.SITE_DATA=d;}catch(e){}})();
+</script>
 <script src="app.js?v=2"></script>
+<style>
+.ny-photo-count{z-index:2;position:absolute;right:10px;top:10px;background:rgba(7,21,15,.78);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;backdrop-filter:blur(6px)}
+.ny-desc{font-size:13px;line-height:1.5;opacity:.75;margin-top:8px}
+.ny-lb{position:fixed;inset:0;z-index:6000;background:rgba(3,10,7,.92);display:flex;align-items:center;justify-content:center}
+.ny-lb img{max-width:92vw;max-height:84vh;border-radius:10px}
+.ny-lb button{position:absolute;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:22px;width:46px;height:46px;border-radius:50%;cursor:pointer}
+.ny-lb .x{top:16px;right:16px}.ny-lb .p{left:14px;top:50%}.ny-lb .n{right:14px;top:50%}
+</style>
+<script>
+/* Фото объектов и сотрудников из админки */
+(function(){
+  var data=window.SITE_DATA||{};
+  function photosOf(p){return (p.photos&&p.photos.length)?p.photos:(p.photo?[p.photo]:[]);}
+  function openLb(list,i){
+    var lb=document.createElement('div');lb.className='ny-lb';
+    lb.innerHTML='<img alt=""><button class="x" aria-label="Закрыть">✕</button>'+(list.length>1?'<button class="p" aria-label="Назад">‹</button><button class="n" aria-label="Вперёд">›</button>':'');
+    var img=lb.querySelector('img');
+    function show(){img.src=list[i];}
+    function close(){lb.remove();document.removeEventListener('keydown',key);}
+    function key(e){if(e.key==='Escape')close();if(e.key==='ArrowRight'){i=(i+1)%list.length;show();}if(e.key==='ArrowLeft'){i=(i-1+list.length)%list.length;show();}}
+    lb.addEventListener('click',function(e){
+      if(e.target.classList.contains('p')){i=(i-1+list.length)%list.length;show();}
+      else if(e.target.classList.contains('n')){i=(i+1)%list.length;show();}
+      else if(e.target!==img)close();
+    });
+    document.addEventListener('keydown',key);show();document.body.appendChild(lb);
+  }
+  function cardBy(root,sel,text){
+    var cs=root.querySelectorAll(sel);
+    for(var k=0;k<cs.length;k++){if(cs[k].textContent.indexOf(text)!==-1)return cs[k];}
+    return null;
+  }
+  function apply(){
+    var box=document.getElementById('properties');
+    if(box)(data.properties||[]).forEach(function(p){
+      var list=photosOf(p);
+      var card=cardBy(box,'.prop',(p.address||'')+', '+(p.title||''));
+      if(!card||card.getAttribute('data-ny'))return;
+      card.setAttribute('data-ny','1');
+      var ph=card.querySelector('.ph');
+      if(ph&&list.length){
+        var tag=ph.querySelector('.tag');
+        ph.textContent='';
+        if(tag)ph.appendChild(tag);
+        var img=document.createElement('img');img.src=list[0];img.alt=p.title||'';img.loading='lazy';
+        img.style.cssText='position:absolute;inset:0;width:100%;height:100%;object-fit:cover;cursor:zoom-in';
+        img.addEventListener('click',function(){openLb(list,0);});
+        ph.insertBefore(img,ph.firstChild);
+        if(tag){tag.style.zIndex='2';}
+        if(list.length>1){var c=document.createElement('span');c.className='ny-photo-count';c.textContent='\uD83D\uDCF7 '+list.length;ph.appendChild(c);}
+      }
+      var body=card.querySelector('.body');
+      if(p.description&&body){var d=document.createElement('div');d.className='ny-desc';d.textContent=p.description;body.appendChild(d);}
+    });
+    var team=document.getElementById('teamList');
+    if(team)(data.team||[]).forEach(function(m){
+      if(!m.photo)return;
+      var card=cardBy(team,'.member',m.name||'');
+      if(!card||card.getAttribute('data-ny'))return;
+      card.setAttribute('data-ny','1');
+      var av=card.querySelector('.av');if(!av)return;
+      av.textContent='';av.style.overflow='hidden';
+      var img=document.createElement('img');img.src=m.photo;img.alt=m.name||'';
+      img.style.cssText='width:100%;height:100%;object-fit:cover;display:block';
+      av.appendChild(img);
+    });
+  }
+  ['properties','teamList'].forEach(function(id){
+    var el=document.getElementById(id);if(!el)return;
+    new MutationObserver(function(){apply();}).observe(el,{childList:true});
+  });
+  apply();
+})();
+</script>
 
 <script>
 (function(){
