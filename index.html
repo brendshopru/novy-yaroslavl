@@ -422,44 +422,85 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 </style>
 
 <style id="intro-final-cinematic">
-/* Финальная кинематографичная заставка: один непрерывный проход камеры */
-.site-intro{perspective:1800px}
-.intro-scene{transform-style:preserve-3d}
-.intro-door-wrap{animation:doorRevealFast .32s cubic-bezier(.2,.9,.15,1) .02s forwards;transform-origin:50% 50%;}
-.intro-key{left:50%;top:76%;animation:keyCinematic 1.72s cubic-bezier(.16,.92,.12,1) .03s forwards;opacity:1}
-.intro-lock:after{animation:lockTurnCinematic .22s cubic-bezier(.2,.9,.15,1) 1.53s forwards}
-.intro-door{animation:doorOpenCinematic .58s cubic-bezier(.18,.92,.08,1) 1.70s forwards}
-.intro-room{animation:roomRush 1.05s cubic-bezier(.12,.88,.08,1) 1.82s forwards}
-.intro-room-light{animation:roomLightRush .82s cubic-bezier(.1,.9,.05,1) 1.82s forwards}
-.intro-brand{animation:brandLaunch .9s cubic-bezier(.12,.95,.12,1) 2.02s forwards}
-@keyframes keyCinematic{
-0%{opacity:1;left:18%;top:78%;transform:translate(-50%,-50%) rotate(-48deg) scale(.10);filter:drop-shadow(0 10px 18px rgba(0,0,0,.8)) brightness(.95)}
-18%{opacity:1;left:31%;top:67%;transform:translate(-50%,-50%) rotate(-32deg) scale(.20)}
-43%{opacity:1;left:43%;top:55%;transform:translate(-50%,-50%) rotate(-13deg) scale(.36)}
-67%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.45);filter:drop-shadow(0 0 26px rgba(199,168,91,.55)) brightness(1.15)}
-78%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.45);filter:drop-shadow(0 0 34px rgba(199,168,91,.85)) brightness(1.55)}
-90%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.45);filter:drop-shadow(0 0 30px rgba(199,168,91,.65)) brightness(1.35)}
-100%{opacity:0;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.45);filter:drop-shadow(0 0 50px rgba(199,168,91,0)) brightness(1.1)}}
-@keyframes keyCinematicMobile{
-0%{opacity:1;left:16%;top:78%;transform:translate(-50%,-50%) rotate(-48deg) scale(.08)}
-20%{opacity:1;left:30%;top:67%;transform:translate(-50%,-50%) rotate(-30deg) scale(.18)}
-46%{opacity:1;left:42%;top:55%;transform:translate(-50%,-50%) rotate(-12deg) scale(.31)}
-68%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.40);filter:drop-shadow(0 0 24px rgba(199,168,91,.65)) brightness(1.2)}
-80%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.40);filter:drop-shadow(0 0 30px rgba(199,168,91,.9)) brightness(1.6)}
-91%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40);filter:drop-shadow(0 0 28px rgba(199,168,91,.7)) brightness(1.35)}
-100%{opacity:0;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40)}}
-@keyframes lockTurnCinematic{0%{transform:rotate(0) scale(1)}45%{transform:rotate(90deg) scale(1.12)}100%{transform:rotate(90deg) scale(1)}}
-@keyframes doorOpenCinematic{0%{transform:perspective(1100px) rotateY(0) translateZ(0)}55%{transform:perspective(1100px) rotateY(-72deg) translateZ(20px)}100%{transform:perspective(1100px) rotateY(-102deg) translateZ(55px)}}
-@keyframes roomRush{0%{opacity:0;transform:translate(-50%,-46%) scale(.72)}38%{opacity:1;transform:translate(-50%,-46%) scale(1.05)}100%{opacity:1;transform:translate(-50%,-46%) scale(1.62)}}
-@keyframes roomLightRush{0%{opacity:0;transform:scale(.25)}45%{opacity:1;transform:scale(.9)}100%{opacity:.72;transform:scale(1.8)}}
-@keyframes brandLaunch{0%{opacity:0;transform:translate(-50%,-50%) scale(.28) translateZ(-220px);filter:blur(18px);letter-spacing:.04em}28%{opacity:.25;transform:translate(-50%,-50%) scale(.48) translateZ(-100px);filter:blur(10px)}62%{opacity:1;transform:translate(-50%,-50%) scale(1.16) translateZ(90px);filter:blur(0)}82%{opacity:1;transform:translate(-50%,-50%) scale(1.02) translateZ(40px)}100%{opacity:1;transform:translate(-50%,-50%) scale(1) translateZ(0);filter:blur(0)}}
-@media(max-width:700px){
-.intro-key{animation-name:keyCinematicMobile;animation-duration:1.72s}
+/* ONE CONTINUOUS CINEMATIC SHOT — no scene cuts */
+.site-intro{perspective:1800px;background:#010201!important}
+.intro-scene{transform-style:preserve-3d;perspective:1800px}
+.intro-door-wrap{z-index:8!important;opacity:1!important;animation:doorEntrance .55s cubic-bezier(.16,.9,.08,1) .05s both!important;transform-origin:50% 50%}
+.intro-door-frame{transform-origin:50% 50%;will-change:transform,opacity}
+.intro-door{animation:doorCinematic 1.05s cubic-bezier(.16,.88,.08,1) 2.02s forwards!important;transform-origin:left center;will-change:transform}
+.intro-key{z-index:14!important;opacity:1!important;animation:keyFlightCinematic 2.02s cubic-bezier(.12,.86,.08,1) .12s forwards!important;will-change:left,top,transform,filter}
+.intro-lock{z-index:15!important}
+.intro-lock:after{animation:lockCinematic .24s cubic-bezier(.15,.9,.08,1) 1.82s forwards!important}
+.intro-room{z-index:4!important;opacity:0;animation:roomRevealCinematic 1.55s cubic-bezier(.08,.9,.04,1) 2.05s forwards!important;will-change:transform,opacity}
+.intro-room-light{animation:roomLightCinematic 1.4s cubic-bezier(.08,.9,.04,1) 2.08s forwards!important}
+.intro-brand{z-index:6!important;opacity:0!important;animation:brandFromDepth 1.35s cubic-bezier(.04,.92,.02,1) 2.38s forwards!important;will-change:transform,opacity,filter}
+.intro-vignette{z-index:30!important;animation:vignetteCinematic 1.2s ease 2.15s forwards!important}
+.intro-dust{z-index:29!important}
+
+@keyframes doorEntrance{
+0%{opacity:0;transform:translate(-50%,-46%) scale(.78)}
+100%{opacity:1;transform:translate(-50%,-46%) scale(1)}
 }
-/* Нижняя навигация: настоящие компактные кнопки, без точек и без текстового списка */
-.f-top>.f-col:nth-child(2) a{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:auto!important;margin:0 8px 9px 0!important;padding:9px 15px!important;min-height:36px!important;border:1px solid rgba(199,168,91,.30)!important;border-radius:10px!important;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018))!important;color:var(--fg)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 5px 16px rgba(0,0,0,.12)!important;font-size:13px!important;line-height:1!important;text-decoration:none!important;transition:transform .25s ease,border-color .25s ease,background .25s ease,color .25s ease!important}
-.f-top>.f-col:nth-child(2) a:hover{transform:translateY(-2px)!important;border-color:var(--site-accent)!important;color:var(--site-accent)!important;background:rgba(199,168,91,.08)!important}
-@media(max-width:700px){.f-top>.f-col:nth-child(2) a{margin:0 7px 8px 0!important;padding:9px 13px!important;min-height:35px!important;font-size:12.5px!important;border-radius:9px!important}}
+@keyframes keyFlightCinematic{
+0%{opacity:0;left:8%;top:86%;transform:translate(-50%,-50%) rotate(-58deg) scale(.045);filter:blur(2px) drop-shadow(0 16px 22px rgba(0,0,0,.9))}
+10%{opacity:1;left:15%;top:80%;transform:translate(-50%,-50%) rotate(-52deg) scale(.09);filter:blur(0) drop-shadow(0 16px 24px rgba(0,0,0,.8))}
+30%{left:30%;top:69%;transform:translate(-50%,-50%) rotate(-34deg) scale(.18)}
+52%{left:43%;top:57%;transform:translate(-50%,-50%) rotate(-15deg) scale(.32);filter:drop-shadow(0 12px 22px rgba(0,0,0,.75))}
+68%{left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.45);filter:drop-shadow(0 0 20px rgba(199,168,91,.45))}
+76%{left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.45);filter:drop-shadow(0 0 38px rgba(255,220,130,.95)) brightness(1.25)}
+86%{left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.45);filter:drop-shadow(0 0 32px rgba(255,220,130,.8)) brightness(1.18)}
+100%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.45);filter:drop-shadow(0 0 18px rgba(199,168,91,.45))}
+}
+@keyframes lockCinematic{
+0%{transform:rotate(0) scale(1)}
+40%{transform:rotate(90deg) scale(1.18)}
+100%{transform:rotate(90deg) scale(1)}
+}
+@keyframes doorCinematic{
+0%{transform:perspective(1200px) rotateY(0deg) translateZ(0)}
+30%{transform:perspective(1200px) rotateY(-28deg) translateZ(0)}
+72%{transform:perspective(1200px) rotateY(-78deg) translateZ(18px)}
+100%{transform:perspective(1200px) rotateY(-105deg) translateZ(42px)}
+}
+@keyframes roomRevealCinematic{
+0%{opacity:0;transform:translate(-50%,-46%) scale(.72)}
+18%{opacity:.18;transform:translate(-50%,-46%) scale(.78)}
+42%{opacity:.72;transform:translate(-50%,-46%) scale(1.02)}
+100%{opacity:1;transform:translate(-50%,-46%) scale(1.9)}
+}
+@keyframes roomLightCinematic{
+0%{opacity:0;transform:scale(.25)}
+38%{opacity:.55;transform:scale(.75)}
+100%{opacity:.9;transform:scale(1.8)}
+}
+@keyframes brandFromDepth{
+0%{opacity:0;transform:translate(-50%,-50%) translateZ(-620px) scale(.035);filter:blur(22px);text-shadow:0 0 90px rgba(199,168,91,.8)}
+24%{opacity:.08;transform:translate(-50%,-50%) translateZ(-390px) scale(.12);filter:blur(16px);text-shadow:0 0 75px rgba(199,168,91,.8)}
+48%{opacity:.38;transform:translate(-50%,-50%) translateZ(-190px) scale(.30);filter:blur(9px);text-shadow:0 0 60px rgba(199,168,91,.75)}
+72%{opacity:1;transform:translate(-50%,-50%) translateZ(40px) scale(1.18);filter:blur(0);text-shadow:0 0 38px rgba(199,168,91,.35)}
+88%{opacity:1;transform:translate(-50%,-50%) translateZ(90px) scale(1.03);filter:blur(0)}
+100%{opacity:1;transform:translate(-50%,-50%) translateZ(0) scale(1);filter:blur(0);text-shadow:none}
+}
+@keyframes vignetteCinematic{
+0%{opacity:1}
+55%{opacity:.82}
+100%{opacity:.45}
+}
+@media(max-width:700px){
+.intro-key{animation-name:keyFlightMobile!important;width:330px;height:145px}
+.intro-door-wrap{width:310px;height:570px}
+.intro-brand strong{font-size:clamp(38px,13vw,64px)}
+}
+@keyframes keyFlightMobile{
+0%{opacity:0;left:5%;top:86%;transform:translate(-50%,-50%) rotate(-58deg) scale(.04);filter:blur(2px) drop-shadow(0 12px 18px #000)}
+12%{opacity:1;left:13%;top:79%;transform:translate(-50%,-50%) rotate(-50deg) scale(.075);filter:none}
+34%{left:29%;top:68%;transform:translate(-50%,-50%) rotate(-32deg) scale(.16)}
+56%{left:42%;top:56%;transform:translate(-50%,-50%) rotate(-13deg) scale(.29)}
+70%{left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.40);filter:drop-shadow(0 0 22px rgba(255,220,130,.55))}
+78%{left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.40);filter:drop-shadow(0 0 35px rgba(255,220,130,.95)) brightness(1.25)}
+88%{left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40);filter:drop-shadow(0 0 30px rgba(255,220,130,.75))}
+100%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40);filter:drop-shadow(0 0 16px rgba(199,168,91,.45))}
+}
 </style>
 <style id="intro-wow-fix">
 /* WOW INTRO — one continuous cinematic action */
@@ -653,6 +694,60 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
   90%{opacity:1;left:calc(50% - 59px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40);filter:drop-shadow(0 0 30px rgba(255,225,135,.9))}
   100%{opacity:1;left:calc(50% - 59px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40);filter:drop-shadow(0 0 22px rgba(255,225,135,.55))}
 }
+</style>
+
+<style id="intro-wow-master">
+/* MASTER INTRO: one uninterrupted shot */
+.site-intro{background:#020403!important;perspective:1800px!important}
+.intro-scene{background:radial-gradient(ellipse at 50% 48%,#16231c 0%,#07100c 48%,#010201 100%)!important;transform-style:preserve-3d!important}
+.intro-door-wrap{opacity:1!important;animation:masterDoorIn .38s cubic-bezier(.16,.9,.08,1) forwards!important;z-index:20!important}
+.intro-door-frame{z-index:20!important;transform-origin:50% 50%!important;animation:masterFrame 1.15s cubic-bezier(.06,.9,.03,1) 1.92s forwards!important}
+.intro-door{z-index:21!important;transform-origin:left center!important;animation:masterDoor 1s cubic-bezier(.08,.92,.035,1) 1.58s forwards!important}
+.intro-lock{z-index:30!important}
+.intro-lock:after{animation:masterLock .22s cubic-bezier(.15,.9,.08,1) 1.37s forwards!important}
+.intro-key{z-index:29!important;animation:masterKey 1.48s cubic-bezier(.16,.9,.08,1) .08s forwards!important}
+/* Interior only appears AFTER the door begins opening; it never blacks out the first shot. */
+.intro-room{z-index:22!important;opacity:0!important;transform:translate(-50%,-46%) scale(.35)!important;background:radial-gradient(ellipse at 50% 50%,#111812 0%,#030503 48%,#000 100%)!important;animation:masterRoom 1.35s cubic-bezier(.05,.9,.02,1) 1.62s forwards!important}
+.intro-room-light{z-index:23!important;animation:masterLight 1.15s cubic-bezier(.05,.9,.02,1) 1.67s forwards!important}
+/* Logo is literally behind the opening, then rockets through the SAME opening. */
+.intro-brand{z-index:24!important;opacity:0!important;animation:masterBrand 1.15s cubic-bezier(.02,.95,.02,1) 1.98s forwards!important}
+.intro-vignette{z-index:50!important;animation:masterVignette 1.2s cubic-bezier(.05,.9,.02,1) 1.95s forwards!important}
+
+@keyframes masterDoorIn{0%{opacity:0;transform:translate(-50%,-46%) scale(.58)}100%{opacity:1;transform:translate(-50%,-46%) scale(.72)}}
+@keyframes masterKey{
+0%{opacity:0;left:12%;top:82%;transform:translate(-50%,-50%) rotate(-46deg) scale(.06);filter:blur(1px) drop-shadow(0 12px 22px #000)}
+16%{opacity:1;left:25%;top:71%;transform:translate(-50%,-50%) rotate(-34deg) scale(.14);filter:blur(0) drop-shadow(0 8px 16px #000)}
+42%{opacity:1;left:41%;top:57%;transform:translate(-50%,-50%) rotate(-15deg) scale(.29);filter:drop-shadow(0 0 10px rgba(199,168,91,.35))}
+68%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.45);filter:drop-shadow(0 0 22px rgba(255,225,135,.7)) brightness(1.15)}
+79%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.45);filter:drop-shadow(0 0 38px rgba(255,225,135,1)) brightness(1.5)}
+89%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.45);filter:drop-shadow(0 0 30px rgba(255,225,135,.9)) brightness(1.35)}
+100%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.45);filter:drop-shadow(0 0 22px rgba(255,225,135,.55)) brightness(1.2)}
+}
+@keyframes masterLock{0%{transform:rotate(0) scale(1)}45%{transform:rotate(90deg) scale(1.22)}100%{transform:rotate(90deg) scale(1)}}
+@keyframes masterDoor{0%{transform:perspective(1100px) rotateY(0) translateZ(0)}32%{transform:perspective(1100px) rotateY(-38deg) translateZ(8px)}68%{transform:perspective(1100px) rotateY(-88deg) translateZ(32px)}100%{transform:perspective(1100px) rotateY(-118deg) translateZ(70px)}}
+@keyframes masterRoom{0%{opacity:0;transform:translate(-50%,-46%) scale(.35)}25%{opacity:.72;transform:translate(-50%,-46%) scale(.48)}60%{opacity:1;transform:translate(-50%,-46%) scale(.82)}100%{opacity:1;transform:translate(-50%,-46%) scale(1.7)}}
+@keyframes masterLight{0%{opacity:0;transform:scale(.15)}55%{opacity:.22;transform:scale(.65)}100%{opacity:.5;transform:scale(1.7)}}
+@keyframes masterFrame{0%{opacity:1;transform:scale(1) translateZ(0)}45%{opacity:1;transform:scale(1.08) translateZ(30px)}78%{opacity:.55;transform:scale(1.35) translateZ(130px)}100%{opacity:0;transform:scale(1.9) translateZ(360px)}}
+@keyframes masterVignette{0%{opacity:1}60%{opacity:.62}100%{opacity:.05}}
+@keyframes masterBrand{
+0%{opacity:0;transform:translate(-50%,-50%) translateZ(-650px) scale(.018);filter:blur(24px);text-shadow:0 0 90px rgba(199,168,91,1)}
+22%{opacity:.12;transform:translate(-50%,-50%) translateZ(-470px) scale(.04);filter:blur(18px)}
+45%{opacity:.42;transform:translate(-50%,-50%) translateZ(-260px) scale(.12);filter:blur(10px);text-shadow:0 0 65px rgba(199,168,91,.85)}
+65%{opacity:1;transform:translate(-50%,-50%) translateZ(-70px) scale(.52);filter:blur(3px);text-shadow:0 0 45px rgba(199,168,91,.5)}
+80%{opacity:1;transform:translate(-50%,-50%) translateZ(90px) scale(1.22);filter:blur(0);text-shadow:0 0 28px rgba(199,168,91,.3)}
+90%{opacity:1;transform:translate(-50%,-50%) translateZ(30px) scale(1.05);filter:blur(0)}
+100%{opacity:1;transform:translate(-50%,-50%) translateZ(0) scale(1);filter:blur(0);text-shadow:none}}
+@media(max-width:700px){
+.intro-key{animation-name:masterKeyMobile!important}
+}
+@keyframes masterKeyMobile{
+0%{opacity:0;left:8%;top:82%;transform:translate(-50%,-50%) rotate(-46deg) scale(.055);filter:blur(1px) drop-shadow(0 10px 20px #000)}
+16%{opacity:1;left:23%;top:71%;transform:translate(-50%,-50%) rotate(-34deg) scale(.12);filter:blur(0)}
+42%{opacity:1;left:40%;top:57%;transform:translate(-50%,-50%) rotate(-15deg) scale(.27)}
+68%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.40);filter:drop-shadow(0 0 22px rgba(255,225,135,.7))}
+79%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.40);filter:drop-shadow(0 0 38px rgba(255,225,135,1)) brightness(1.5)}
+89%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40);filter:drop-shadow(0 0 30px rgba(255,225,135,.9)) brightness(1.35)}
+100%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40);filter:drop-shadow(0 0 22px rgba(255,225,135,.55)) brightness(1.2)}}
 </style>
 
 </head>
@@ -857,7 +952,7 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
   skip.addEventListener('click',close);
   intro.addEventListener('click',e=>{if(e.target===intro)close();});
   window.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
-  setTimeout(close,reduce?250:3900);
+  setTimeout(close,reduce?250:4300);
 })();
 </script>
 <script>
@@ -1290,3 +1385,4 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 </script>
 </body>
 </html>
+
