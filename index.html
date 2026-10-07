@@ -11,7 +11,7 @@
 <style>
 /* ===== Premium opening + animated brand accents ===== */
 :root{--site-accent:var(--gold,#c7a85b);--site-green:#0c201a}
-body{padding-bottom:76px;overflow-x:hidden}@media(min-width:701px){body{padding-bottom:0}}
+html,body{overflow-x:clip;overflow-y:visible}
 
 /* Cinematic first impression */
 .site-intro{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;background:radial-gradient(circle at 50% 42%,rgba(199,168,91,.10),transparent 32%),#07150f;color:var(--fg,#f4f1e8);transition:opacity .75s ease,visibility .75s ease}
@@ -52,12 +52,70 @@ body{padding-bottom:76px;overflow-x:hidden}@media(min-width:701px){body{padding-
 .search-btn:hover,.cta-btn:hover,.more:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 12px 28px rgba(0,0,0,.20)}
 .s-tab{transition:color .3s ease,background .3s ease,transform .3s ease}.s-tab:hover{transform:translateY(-1px)}
 
-.mobile-contact-bar{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:999;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:7px;background:rgba(7,21,15,.90);border:1px solid rgba(255,255,255,.13);border-radius:17px;backdrop-filter:blur(16px);box-shadow:0 14px 38px rgba(0,0,0,.35)}
-.mobile-contact-bar a{position:relative;overflow:hidden;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;text-decoration:none;color:var(--fg);font-size:12px;font-weight:800;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07)}
-.mobile-contact-bar a:first-child{background:var(--site-accent);color:#17210f;border-color:transparent}
-@media(min-width:701px){.mobile-contact-bar{display:none}}
-@media(max-width:700px){.contact-actions{grid-template-columns:repeat(2,1fr)}.intro-title{font-size:clamp(38px,12vw,64px)}}
+@media(min-width:701px){@media(max-width:700px){.contact-actions{grid-template-columns:repeat(2,1fr)}.intro-title{font-size:clamp(38px,12vw,64px)}}
 @media(prefers-reduced-motion:reduce){.site-intro,.contact-btn,.search-btn,.cta-btn,.more,.s-tab{transition:none}.intro-title,.intro-kicker,.intro-line,.intro-skip{animation:none;opacity:1}.intro-line:after,.hero h1:after{animation:none}}
+
+/* ===== Cards move like the social buttons ===== */
+.svc,.prop,.member,.rv{position:relative;overflow:hidden;transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease,background .35s ease}
+.svc:before,.prop:before,.member:before,.rv:before{content:"";position:absolute;inset:0;z-index:3;pointer-events:none;background:linear-gradient(105deg,transparent 20%,rgba(255,255,255,.13) 48%,transparent 70%);transform:translateX(-120%);transition:transform .7s ease}
+.svc:hover,.prop:hover,.member:hover,.rv:hover{transform:translateY(-4px);border-color:var(--site-accent);box-shadow:0 14px 36px rgba(0,0,0,.28),0 0 0 1px rgba(199,168,91,.1)}
+.svc:hover:before,.prop:hover:before,.member:hover:before,.rv:hover:before{transform:translateX(120%)}
+.svc:active,.prop:active,.member:active,.rv:active{transform:translateY(-1px) scale(.985)}
+.svc .ic{transition:transform .4s ease,background .4s ease,color .4s ease}
+.svc:hover .ic{transform:scale(1.12) rotate(-6deg);background:var(--site-accent);color:#17210f}
+.member .av{transition:box-shadow .35s ease,transform .35s ease}.member:hover .av{box-shadow:0 0 0 3px var(--site-accent);transform:scale(1.05)}
+.prop:hover .ph img{transform:scale(1.05)}.prop .ph img{transition:transform .5s ease}
+.rv .who{display:flex;align-items:center;gap:10px}
+.ny-rv-av{width:40px;height:40px;border-radius:50%;overflow:hidden;flex-shrink:0;background:var(--card2);color:var(--site-accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px}
+.ny-rv-av img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ===== Reveal on scroll + progress ===== */
+.reveal{opacity:0}.reveal.in{opacity:1;animation:revealUp .7s var(--d,0s) ease backwards}
+@keyframes revealUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+.progress{position:fixed;top:0;left:0;height:3px;width:100%;transform-origin:left;transform:scaleX(0);background:linear-gradient(90deg,var(--site-accent),#fff,var(--site-accent));z-index:2000;pointer-events:none}
+.to-top{position:fixed;left:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:999;width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.16);background:rgba(7,21,15,.88);color:var(--fg);font-size:18px;backdrop-filter:blur(10px);opacity:0;visibility:hidden;transform:translateY(10px);transition:all .3s ease}
+.to-top.show{opacity:1;visibility:visible;transform:none}.to-top:hover{border-color:var(--site-accent);color:var(--site-accent)}
+
+/* ===== Floating "Написать" button ===== */
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:1000;display:flex;align-items:center;gap:9px;height:56px;padding:0 22px 0 18px;border:0;border-radius:999px;background:linear-gradient(135deg,var(--site-accent),color-mix(in srgb,var(--site-accent) 65%,#fff));color:#17210f;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 12px 32px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.15) inset;transition:transform .3s ease}
+.fab:hover{transform:translateY(-3px)}.fab:active{transform:scale(.97)}
+.fab:before{content:"";position:absolute;inset:0;border-radius:inherit;border:2px solid var(--site-accent);animation:fabPulse 2.6s ease-out infinite;pointer-events:none}
+.fab.is-open:before{animation:none;opacity:0}
+.fab svg{width:22px;height:22px;flex-shrink:0}
+@keyframes fabPulse{0%{transform:scale(1);opacity:.75}100%{transform:scale(1.28,1.5);opacity:0}}
+.fab-sheet{position:fixed;right:16px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:1000;width:min(350px,calc(100vw - 32px));max-height:calc(100vh - 120px);overflow:auto;background:rgba(9,26,19,.97);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:18px;box-shadow:0 24px 60px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(14px) scale(.96);transform-origin:bottom right;transition:opacity .28s ease,transform .28s ease,visibility .28s}
+.fab-sheet.open{opacity:1;visibility:visible;transform:none}
+.fab-sheet h3{font-size:17px;font-weight:800}.fab-sheet .sub{font-size:12.5px;color:var(--muted);margin:4px 0 8px;line-height:1.5}
+
+/* ===== Contacts + map ===== */
+.cc{display:grid;gap:16px}@media(min-width:900px){.cc{grid-template-columns:.85fr 1.15fr}}
+.cc-card{background:linear-gradient(160deg,var(--card),#0f241b);border:1px solid var(--line);border-radius:22px;padding:22px}
+.cc-addr{display:flex;gap:14px;align-items:flex-start;padding-bottom:6px}
+.cc-addr b{display:block;font-size:15px;line-height:1.4}.cc-addr em{display:block;font-style:normal;font-size:12.5px;color:var(--muted);margin-top:4px}
+.cc-i,.cc-row i{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:rgba(199,168,91,.12);font-style:normal;font-size:19px;flex-shrink:0}
+.cc-row{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;padding:11px 14px;margin-top:10px;border:1px solid rgba(255,255,255,.11);border-radius:15px;background:linear-gradient(145deg,rgba(255,255,255,.05),rgba(255,255,255,.015));transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
+.cc-row:before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 20%,rgba(255,255,255,.14) 48%,transparent 70%);transform:translateX(-120%);transition:transform .65s ease;pointer-events:none}
+.cc-row:hover{transform:translateX(5px);border-color:var(--site-accent);box-shadow:0 10px 26px rgba(0,0,0,.25)}.cc-row:hover:before{transform:translateX(120%)}
+.cc-row b{display:block;font-size:14px}.cc-row em{display:block;font-style:normal;font-size:12.5px;color:var(--muted);margin-top:2px;word-break:break-all}
+.map-card{position:relative;height:340px;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:var(--card)}
+@media(min-width:900px){.map-card{height:auto;min-height:420px}}
+.map-card iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.map-links{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.map-links .contact-btn{min-height:44px;padding:10px 14px;font-size:13px;flex:1 1 auto}
+
+/* ===== Footer ===== */
+footer{border-top:1px solid var(--line)!important;background:linear-gradient(180deg,transparent,rgba(0,0,0,.30));padding:0!important;position:relative}
+footer:before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;background:linear-gradient(90deg,transparent,var(--site-accent),transparent);opacity:.7}
+.f-top{display:grid;gap:30px;padding:46px 0 30px}@media(min-width:800px){.f-top{grid-template-columns:1.4fr 1fr 1.2fr;gap:50px}}
+.f-brand .logo{font-size:22px;display:inline-block}.f-brand p{color:var(--muted);font-size:13.5px;line-height:1.65;margin:14px 0 18px;max-width:360px}
+.f-soc{display:flex;gap:9px}.f-soc a{width:44px;height:44px;display:grid;place-items:center;border:1px solid rgba(255,255,255,.14);border-radius:13px;background:rgba(255,255,255,.04);font-size:18px;transition:transform .3s ease,border-color .3s ease,background .3s ease}
+.f-soc a:hover{transform:translateY(-3px);border-color:var(--site-accent);background:rgba(199,168,91,.14)}
+.f-col h4{font-size:12px;font-weight:800;color:var(--site-accent);text-transform:uppercase;letter-spacing:.12em;margin-bottom:14px}
+.f-col a,.f-col .f-line{display:block;color:var(--muted);font-size:14px;padding:6px 0;line-height:1.45;transition:color .25s ease,transform .25s ease}
+.f-col a:hover{color:var(--fg);transform:translateX(5px)}
+.f-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding:20px 0 96px;color:var(--muted);font-size:12.5px}
+.f-bottom a:hover{color:var(--site-accent)}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1!important}.reveal.in{animation:none}.fab:before{animation:none}.svc,.prop,.member,.rv,.cc-row{transition:none}}
 </style>
 </head>
 <body>
@@ -80,7 +138,7 @@ body{padding-bottom:76px;overflow-x:hidden}@media(min-width:701px){body{padding-
       <a href="#team">Команда</a>
       <a href="#contacts">Контакты</a>
     </nav>
-    <a class="nav-phone" data-contact="phone" href="tel:+79201085073">+7 920 108-50-73</a>
+    <a class="nav-phone" data-contact="phone" data-phone-text href="tel:+79201085073">+7 920 108-50-73</a>
   </div>
 </header>
 
@@ -179,26 +237,66 @@ body{padding-bottom:76px;overflow-x:hidden}@media(min-width:701px){body{padding-
     <div class="sec-head"><div><div class="eyebrow">Клиенты</div><h2>Отзывы</h2></div></div>
     <div class="reviews" id="reviews"></div>
   </section>
+  <section id="contacts" aria-labelledby="ccTitle">
+    <div class="sec-head"><div><div class="eyebrow">Контакты</div><h2 id="ccTitle">Как нас найти</h2></div></div>
+    <div class="cc">
+      <div class="cc-card">
+        <div class="cc-addr"><span class="cc-i">📍</span><span><b data-address>г. Ярославль, ул. Советская, д. 35, оф. 5</b><em data-hours hidden></em></span></div>
+        <a class="cc-row" data-contact="phone" href="tel:+79201085073"><i>📞</i><span><b>Позвонить</b><em data-v="phone">+7 920 108-50-73</em></span></a>
+        <a class="cc-row" data-contact="whatsapp" href="https://wa.me/79201085073" target="_blank" rel="noopener"><i>💬</i><span><b>WhatsApp</b><em data-v="whatsapp">+7 920 108-50-73</em></span></a>
+        <a class="cc-row" data-contact="telegram" href="https://t.me/AndreiAndriichuk" target="_blank" rel="noopener"><i>✈️</i><span><b>Telegram</b><em data-v="telegram">@AndreiAndriichuk</em></span></a>
+        <a class="cc-row" data-contact="vk" href="https://vk.com/id420778533" target="_blank" rel="noopener"><i>🔵</i><span><b>ВКонтакте</b><em data-v="vk">vk.com/id420778533</em></span></a>
+        <div class="map-links">
+          <a class="contact-btn" id="mapOpen" href="https://yandex.ru/maps/?text=%D0%AF%D1%80%D0%BE%D1%81%D0%BB%D0%B0%D0%B2%D0%BB%D1%8C%2C%20%D0%A1%D0%BE%D0%B2%D0%B5%D1%82%D1%81%D0%BA%D0%B0%D1%8F%2035" target="_blank" rel="noopener">🧭 Открыть в Яндекс Картах</a>
+          <a class="contact-btn" id="mapRoute" href="https://yandex.ru/maps/?rtext=~%D0%AF%D1%80%D0%BE%D1%81%D0%BB%D0%B0%D0%B2%D0%BB%D1%8C%2C%20%D0%A1%D0%BE%D0%B2%D0%B5%D1%82%D1%81%D0%BA%D0%B0%D1%8F%2035&rtt=auto" target="_blank" rel="noopener">🚗 Построить маршрут</a>
+        </div>
+      </div>
+      <div class="map-card"><iframe id="mapFrame" title="Карта офиса" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://yandex.ru/map-widget/v1/?text=%D0%AF%D1%80%D0%BE%D1%81%D0%BB%D0%B0%D0%B2%D0%BB%D1%8C%2C%20%D0%A1%D0%BE%D0%B2%D0%B5%D1%82%D1%81%D0%BA%D0%B0%D1%8F%2035&z=16"></iframe></div>
+    </div>
+  </section>
 </main>
 
-<footer id="contacts">
+<footer>
   <div class="wrap">
-    <div class="foot-grid">
-      <div class="foot-col">
-        <div class="h">Новый Ярославль</div>
-        <div>г. Ярославль, ул. Советская, д. 35, оф. 5</div>
-        <a data-contact="phone" href="tel:+79201085073">+7 920 108-50-73</a>
-        <a data-contact="whatsapp" href="https://wa.me/79201085073" target="_blank" rel="noopener">WhatsApp →</a>
-        <a data-contact="telegram" href="https://t.me/AndreiAndriichuk" target="_blank" rel="noopener">Telegram →</a>
-        <a data-contact="vk" href="https://vk.com/id420778533" target="_blank" rel="noopener">ВКонтакте →</a>
-        <div class="map-stub"><span>Карта офиса</span></div>
+    <div class="f-top">
+      <div class="f-brand">
+        <a class="logo" href="#">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a>
+        <p>Агентство недвижимости в Ярославле с 2014 года. Продажа, покупка, аренда и юридическое сопровождение сделок.</p>
+        <div class="f-soc">
+          <a data-contact="phone" href="tel:+79201085073" aria-label="Позвонить">📞</a>
+          <a data-contact="whatsapp" href="https://wa.me/79201085073" target="_blank" rel="noopener" aria-label="WhatsApp">💬</a>
+          <a data-contact="telegram" href="https://t.me/AndreiAndriichuk" target="_blank" rel="noopener" aria-label="Telegram">✈️</a>
+          <a data-contact="vk" href="https://vk.com/id420778533" target="_blank" rel="noopener" aria-label="ВКонтакте">🔵</a>
+        </div>
       </div>
-      <div class="foot-col"><div class="h">Услуги</div><a href="#services">Продажа и покупка</a><a href="#services">Аренда</a><a href="#calc">Ипотека</a><a href="#services">Срочный выкуп</a></div>
-      <div class="foot-col"><div class="h">Компания</div><a href="#team">Команда</a><a href="#reviews-sec">Отзывы</a><a href="#objects">Объекты</a><a data-contact="phone" href="tel:+79201085073">Записаться на консультацию</a></div>
+      <div class="f-col"><h4>Навигация</h4><a href="#objects">Объекты</a><a href="#services">Услуги</a><a href="#calc">Ипотека</a><a href="#team">Команда</a><a href="#reviews-sec">Отзывы</a></div>
+      <div class="f-col"><h4>Связаться</h4>
+        <a data-contact="phone" href="tel:+79201085073"><span data-v="phone">+7 920 108-50-73</span></a>
+        <a data-contact="whatsapp" href="https://wa.me/79201085073" target="_blank" rel="noopener">WhatsApp · <span data-v="whatsapp">+7 920 108-50-73</span></a>
+        <a data-contact="telegram" href="https://t.me/AndreiAndriichuk" target="_blank" rel="noopener">Telegram · <span data-v="telegram">@AndreiAndriichuk</span></a>
+        <a data-contact="vk" href="https://vk.com/id420778533" target="_blank" rel="noopener">ВКонтакте · <span data-v="vk">vk.com/id420778533</span></a>
+        <a href="#contacts"><span data-address>г. Ярославль, ул. Советская, д. 35, оф. 5</span></a>
+      </div>
     </div>
-    <div class="copy">Новый Ярославль © 2026 · агентство недвижимости</div>
+    <div class="f-bottom"><span>Новый Ярославль © 2026 · агентство недвижимости</span><a href="#">↑ Наверх</a></div>
   </div>
 </footer>
+
+<div class="progress" id="progress" aria-hidden="true"></div>
+<button class="to-top" id="toTop" type="button" aria-label="Наверх">↑</button>
+<div class="fab-sheet" id="fabSheet" role="dialog" aria-label="Связаться с нами">
+  <h3>Напишите нам</h3>
+  <div class="sub">Выберите удобный способ — ответим в рабочее время как можно быстрее.</div>
+  <a class="cc-row" data-contact="phone" href="tel:+79201085073"><i>📞</i><span><b>Позвонить</b><em data-v="phone">+7 920 108-50-73</em></span></a>
+  <a class="cc-row" data-contact="whatsapp" href="https://wa.me/79201085073" target="_blank" rel="noopener"><i>💬</i><span><b>WhatsApp</b><em data-v="whatsapp">+7 920 108-50-73</em></span></a>
+  <a class="cc-row" data-contact="telegram" href="https://t.me/AndreiAndriichuk" target="_blank" rel="noopener"><i>✈️</i><span><b>Telegram</b><em data-v="telegram">@AndreiAndriichuk</em></span></a>
+  <a class="cc-row" data-contact="vk" href="https://vk.com/id420778533" target="_blank" rel="noopener"><i>🔵</i><span><b>ВКонтакте</b><em data-v="vk">vk.com/id420778533</em></span></a>
+  <a class="cc-row" href="#contacts"><i>📍</i><span><b>Как нас найти</b><em>Адрес и карта</em></span></a>
+</div>
+<button class="fab" id="fab" type="button" aria-expanded="false" aria-controls="fabSheet">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>
+  <span class="fab-t">Написать</span>
+</button>
 
 
 <script>
@@ -219,7 +317,7 @@ body{padding-bottom:76px;overflow-x:hidden}@media(min-width:701px){body{padding-
 <script src="data.js?v=2"></script>
 <script>
 /* Данные, сохранённые в админке этого браузера, имеют приоритет над data.js */
-(function(){try{var d=JSON.parse(localStorage.getItem('ny_admin_data_v1')||'null');if(d&&Array.isArray(d.properties))window.SITE_DATA=d;}catch(e){}})();
+(function(){try{var d=JSON.parse(localStorage.getItem('ny_admin_data_v1')||'null');if(d&&d._dirty!==false&&Array.isArray(d.properties))window.SITE_DATA=d;}catch(e){}})();
 </script>
 <script src="app.js?v=2"></script>
 <style>
@@ -288,8 +386,21 @@ body{padding-bottom:76px;overflow-x:hidden}@media(min-width:701px){body{padding-
       img.style.cssText='width:100%;height:100%;object-fit:cover;display:block';
       av.appendChild(img);
     });
+    var rv=document.getElementById('reviews');
+    if(rv)(data.reviews||[]).forEach(function(r){
+      var card=cardBy(rv,'.rv',(r.text||'').slice(0,60));
+      if(!card||card.getAttribute('data-ny'))return;
+      card.setAttribute('data-ny','1');
+      var who=card.querySelector('.who');if(!who)return;
+      var name=who.textContent;who.textContent='';
+      var av=document.createElement('span');av.className='ny-rv-av';
+      if(r.photo){var im=document.createElement('img');im.src=r.photo;im.alt=name;im.loading='lazy';av.appendChild(im);}
+      else av.textContent=(name||'?').trim().charAt(0).toUpperCase();
+      var nm=document.createElement('span');nm.textContent=name;
+      who.appendChild(av);who.appendChild(nm);
+    });
   }
-  ['properties','teamList'].forEach(function(id){
+  ['properties','teamList','reviews'].forEach(function(id){
     var el=document.getElementById(id);if(!el)return;
     new MutationObserver(function(){apply();}).observe(el,{childList:true});
   });
@@ -299,20 +410,61 @@ body{padding-bottom:76px;overflow-x:hidden}@media(min-width:701px){body{padding-
 
 <script>
 (function(){
-  const defaults={phone:'+7 920 108-50-73',whatsapp:'+7 920 108-50-73',telegram:'@AndreiAndriichuk',vk:'@id420778533'};
-  const saved=JSON.parse(localStorage.getItem('ny_contacts_v1')||'null')||defaults;
-  const digits=v=>(String(v||'').match(/\d/g)||[]).join('');
-  const cleanHandle=(v)=>String(v||'').trim().replace(/^@/,'');
-  const links={
-    phone:'tel:'+digits(saved.phone),
-    whatsapp:'https://wa.me/'+digits(saved.whatsapp),
-    telegram:'https://t.me/'+cleanHandle(saved.telegram),
-    vk:'https://vk.com/'+cleanHandle(saved.vk)
-  };
-  document.querySelectorAll('[data-contact]').forEach(el=>{const k=el.dataset.contact;if(links[k])el.href=links[k];if(k==='phone')el.textContent=el.textContent.includes('Позвонить')?'📞 Позвонить':saved.phone;});
-  const bar=document.createElement('div');bar.className='mobile-contact-bar';
-  bar.innerHTML='<a data-contact="phone" href="'+links.phone+'">📞 Позвонить</a><a data-contact="whatsapp" href="'+links.whatsapp+'" target="_blank" rel="noopener">💬 WhatsApp</a><a data-contact="telegram" href="'+links.telegram+'" target="_blank" rel="noopener">✈️ Telegram</a>';
-  document.body.appendChild(bar);
+  var $=function(id){return document.getElementById(id)};
+  var defaults={phone:'+7 920 108-50-73',whatsapp:'+7 920 108-50-73',telegram:'@AndreiAndriichuk',vk:'@id420778533',address:'г. Ярославль, ул. Советская, д. 35, оф. 5',hours:''};
+  var stored=(window.SITE_DATA&&window.SITE_DATA.contacts)||null;
+  if(!stored){try{stored=JSON.parse(localStorage.getItem('ny_contacts_v1')||'{}')||{};}catch(e){stored={};}}
+  var saved={};Object.keys(defaults).forEach(function(k){var v=stored[k];saved[k]=(v&&String(v).trim())||defaults[k];});
+  function digits(v){return (String(v||'').match(/\d/g)||[]).join('');}
+  function intl(v){var d=digits(v);if(d.length===11&&d.charAt(0)==='8')d='7'+d.slice(1);return d;}
+  function handle(v){return String(v||'').trim().replace(/^@/,'').replace(/^https?:\/\/(www\.)?(t\.me|vk\.com)\//,'');}
+  var links={phone:'tel:+'+intl(saved.phone),whatsapp:'https://wa.me/'+intl(saved.whatsapp),telegram:'https://t.me/'+handle(saved.telegram),vk:'https://vk.com/'+handle(saved.vk)};
+  var shown={phone:saved.phone,whatsapp:saved.whatsapp,telegram:'@'+handle(saved.telegram),vk:'vk.com/'+handle(saved.vk)};
+  document.querySelectorAll('[data-contact]').forEach(function(el){var k=el.getAttribute('data-contact');if(links[k])el.setAttribute('href',links[k]);});
+  document.querySelectorAll('[data-v]').forEach(function(el){var k=el.getAttribute('data-v');if(shown[k])el.textContent=shown[k];});
+  document.querySelectorAll('[data-phone-text]').forEach(function(el){el.textContent=saved.phone;});
+  document.querySelectorAll('[data-address]').forEach(function(el){el.textContent=saved.address;});
+  document.querySelectorAll('[data-hours]').forEach(function(el){if(saved.hours){el.textContent=saved.hours;el.hidden=false;}else el.hidden=true;});
+
+  /* map built from the address typed in the admin */
+  var q=encodeURIComponent(saved.address.replace(/,?\s*(оф|офис|пом|кв)\.?.*$/i,''));
+  var fr=$('mapFrame');if(fr)fr.src='https://yandex.ru/map-widget/v1/?text='+q+'&z=16';
+  if($('mapOpen'))$('mapOpen').href='https://yandex.ru/maps/?text='+q;
+  if($('mapRoute'))$('mapRoute').href='https://yandex.ru/maps/?rtext=~'+q+'&rtt=auto';
+
+  /* floating "Написать" button */
+  var fab=$('fab'),sheet=$('fabSheet');
+  function setOpen(o){sheet.classList.toggle('open',o);fab.classList.toggle('is-open',o);fab.setAttribute('aria-expanded',o?'true':'false');fab.querySelector('.fab-t').textContent=o?'Закрыть':'Написать';}
+  fab.addEventListener('click',function(e){e.stopPropagation();setOpen(!sheet.classList.contains('open'));});
+  document.addEventListener('click',function(e){if(sheet.classList.contains('open')&&!sheet.contains(e.target))setOpen(false);});
+  sheet.addEventListener('click',function(e){if(e.target.closest('a'))setTimeout(function(){setOpen(false);},150);});
+  window.addEventListener('keydown',function(e){if(e.key==='Escape')setOpen(false);});
+
+  /* progress bar + back to top */
+  var bar=$('progress'),top=$('toTop'),ticking=false;
+  function onScroll(){
+    var h=document.documentElement,max=h.scrollHeight-h.clientHeight,y=window.pageYOffset||h.scrollTop;
+    bar.style.transform='scaleX('+(max>0?Math.min(1,y/max):0)+')';
+    top.classList.toggle('show',y>700);ticking=false;
+  }
+  window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(onScroll);}},{passive:true});
+  top.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'});});
+  onScroll();
+
+  /* reveal on scroll */
+  var sel='.sec-head,.svc,.prop,.member,.rv,.calc,.search-box,.cc-card,.map-card';
+  var io=('IntersectionObserver' in window)?new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target);}});},{threshold:.1,rootMargin:'0px 0px -5% 0px'}):null;
+  function scan(){
+    if(!io)return;
+    document.querySelectorAll(sel).forEach(function(el){
+      if(el.getAttribute('data-rv'))return;el.setAttribute('data-rv','1');
+      var idx=el.parentElement?Array.prototype.indexOf.call(el.parentElement.children,el):0;
+      el.style.setProperty('--d',(Math.min(idx,8)*0.06)+'s');
+      el.classList.add('reveal');io.observe(el);
+    });
+  }
+  ['properties','teamList','reviews'].forEach(function(id){var el=$(id);if(el)new MutationObserver(scan).observe(el,{childList:true});});
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scan);else scan();
 })();
 </script>
 </body>

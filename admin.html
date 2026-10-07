@@ -30,14 +30,24 @@ textarea{min-height:90px;resize:vertical}.wide{grid-column:1/-1}
 .edit-banner.on{display:block}
 .storage{font-size:12px;color:var(--muted)}
 @media(max-width:650px){.form-grid{grid-template-columns:1fr}.wide{grid-column:auto}.admin-head{align-items:flex-start;flex-direction:column}.item{flex-direction:column;align-items:flex-start}}
+.pubbar{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:-8px 0 14px;font-size:13px}
+.pubbar .dirty{color:var(--gold);font-weight:700}.pubbar .clean{color:#7ddc9a;font-weight:700}.pubbar .err{color:#ff8a8a}
+details.panel summary{cursor:pointer;font-weight:700}details.panel ol{margin:12px 0 0 18px;line-height:1.8;font-size:13px;color:var(--muted)}
+.admin-btn:disabled{opacity:.55;cursor:wait}
 </style>
 </head>
 <body>
 <header><div class="nav wrap"><a class="logo" href="index.html">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a><a class="nav-phone" href="index.html">На сайт →</a></div></header>
 <main class="wrap admin">
 <div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель</h1></div>
-<div class="actions" style="margin:0"><button class="admin-btn" id="downloadData">Экспорт data.js</button><button class="admin-btn secondary" id="importBtn">Импорт data.js</button><button class="admin-btn secondary" id="resetData">Сбросить к исходным</button><input type="file" id="importFile" accept=".js,.json" hidden></div></div>
-<p class="admin-note">Изменения сохраняются в этом браузере и сразу видны на сайте, открытом в нём. Чтобы они появились у всех посетителей, нажмите «Экспорт data.js» и замените файл data.js на хостинге. <span class="storage" id="storageInfo"></span></p>
+<div class="actions" style="margin:0"><button class="admin-btn" id="publishBtn">🚀 Опубликовать на сайт</button><button class="admin-btn secondary" id="tokenBtn">🔑 Токен</button><button class="admin-btn secondary" id="downloadData">Экспорт</button><button class="admin-btn secondary" id="importBtn">Импорт</button><button class="admin-btn secondary" id="resetData">Сбросить</button><input type="file" id="importFile" accept=".js,.json" hidden></div></div>
+<div class="pubbar"><span id="pubState"></span><span id="pubStatus"></span></div>
+<p class="admin-note">Правки сохраняются как черновик в этом браузере. Чтобы их увидели все посетители сайта, нажмите «Опубликовать на сайт» — данные и фото запишутся прямо в репозиторий GitHub. <span class="storage" id="storageInfo"></span></p>
+<details class="panel"><summary>Как включить публикацию (один раз)</summary>
+<ol><li>GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token.</li>
+<li>Repository access: <b>Only select repositories</b> → выберите репозиторий сайта.</li>
+<li>Permissions → Repository permissions → <b>Contents: Read and write</b>.</li>
+<li>Скопируйте токен (начинается с <code>github_pat_</code>) и вставьте его при первой публикации. Он хранится только в вашем браузере. Админка открыта всем, но без токена опубликовать изменения нельзя.</li></ol></details>
 
 <section class="panel"><h2>Контакты и соцсети</h2>
 <p class="admin-note">Эти данные используются кнопками «Позвонить», WhatsApp, Telegram и VK на сайте. Номер можно вводить в любом удобном формате.</p>
@@ -46,6 +56,8 @@ textarea{min-height:90px;resize:vertical}.wide{grid-column:1/-1}
 <input name="whatsapp" placeholder="WhatsApp" required>
 <input name="telegram" placeholder="Telegram: @username" required>
 <input name="vk" placeholder="VK: @id или короткое имя" required>
+<input name="address" class="wide" placeholder="Адрес офиса — по нему строится карта на сайте">
+<input name="hours" class="wide" placeholder="График работы (необязательно), например: Пн–Пт 9:00–19:00">
 <div class="actions wide"><button class="admin-btn" type="submit">Сохранить контакты</button><span id="contactsSaved" class="admin-note" style="margin:0"></span></div>
 </form>
 <div class="actions"><a id="testPhone" class="admin-btn secondary" href="#">📞 Позвонить</a><a id="testWa" class="admin-btn secondary" href="#" target="_blank" rel="noopener">💬 WhatsApp</a><a id="testTg" class="admin-btn secondary" href="#" target="_blank" rel="noopener">✈️ Telegram</a><a id="testVk" class="admin-btn secondary" href="#" target="_blank" rel="noopener">🔵 VK</a></div></section>
@@ -77,21 +89,24 @@ textarea{min-height:90px;resize:vertical}.wide{grid-column:1/-1}
 <section class="panel"><h2>Отзывы</h2><div id="reviewListAdmin"></div>
 <form id="reviewForm" class="form-grid" style="margin-top:18px">
 <div class="edit-banner wide" id="reviewBanner"></div>
-<input name="who" placeholder="Имя клиента" required><textarea name="text" class="wide" placeholder="Текст отзыва" required></textarea>
+<input name="who" placeholder="Имя клиента" required>
+<div><input type="file" id="reviewFile" accept="image/*" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)"></div>
+<div class="wide"><div class="photos" id="reviewPhoto"></div></div>
+<textarea name="text" class="wide" placeholder="Текст отзыва" required></textarea>
 <div class="actions wide"><button class="admin-btn" id="reviewSubmit">Добавить отзыв</button><button class="admin-btn secondary" type="button" id="reviewCancel" hidden>Отмена</button></div></form></section>
 </main>
 <script src="data.js?v=2"></script>
 <script>
 const key="ny_admin_data_v1";
 const original=JSON.parse(JSON.stringify(window.SITE_DATA||{properties:[],team:[],reviews:[]}));
-let state;
-try{state=JSON.parse(localStorage.getItem(key)||"null")}catch(e){state=null}
-state=state||JSON.parse(JSON.stringify(original));
-["properties","team","reviews"].forEach(k=>{if(!Array.isArray(state[k]))state[k]=[]});
+let state=null,local=null;
+try{local=JSON.parse(localStorage.getItem(key)||"null")}catch(e){local=null}
+const norm=d=>{["properties","team","reviews"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});return d};
+const clean=d=>{const c=JSON.parse(JSON.stringify(d));delete c._dirty;return c};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 function save(){
- try{localStorage.setItem(key,JSON.stringify(state));updateStorage();return true}
+ try{state._dirty=true;localStorage.setItem(key,JSON.stringify(state));updateStorage();updatePub();return true}
  catch(e){alert("Не удалось сохранить: хранилище браузера заполнено. Удалите часть фото или экспортируйте data.js.");return false}
 }
 function updateStorage(){const kb=Math.round((localStorage.getItem(key)||"").length/1024);$("storageInfo").textContent="Занято в браузере: "+kb+" КБ из ~5000 КБ.";}
@@ -113,20 +128,28 @@ function readImage(file,max=1280,q=.78){
 /* ---------- contacts ---------- */
 const contactsKey="ny_contacts_v1";
 const defaultContacts={phone:"+7 920 108-50-73",whatsapp:"+7 920 108-50-73",telegram:"@AndreiAndriichuk",vk:"@id420778533"};
-let contacts;try{contacts=JSON.parse(localStorage.getItem(contactsKey)||"null")}catch(e){}contacts=contacts||{...defaultContacts};
+defaultContacts.address="г. Ярославль, ул. Советская, д. 35, оф. 5";defaultContacts.hours="";
+let contacts;
+function fillContacts(){
+ let legacy=null;try{legacy=JSON.parse(localStorage.getItem(contactsKey)||"null")}catch(e){}
+ contacts={...defaultContacts,...(legacy||{}),...(state.contacts||{})};
+ ["phone","whatsapp","telegram","vk","address"].forEach(k=>{if(!String(contacts[k]||"").trim())contacts[k]=defaultContacts[k]});
+ state.contacts=contacts;
+}
 const digits=v=>(String(v||"").match(/\d/g)||[]).join("");
 const handle=v=>String(v||"").trim().replace(/^@/,"");
 function renderContacts(){
  const f=$("contactsForm");
- f.phone.value=contacts.phone||"";f.whatsapp.value=contacts.whatsapp||"";f.telegram.value=contacts.telegram||"";f.vk.value=contacts.vk||"";
+ f.phone.value=contacts.phone||"";f.whatsapp.value=contacts.whatsapp||"";f.telegram.value=contacts.telegram||"";f.vk.value=contacts.vk||"";f.address.value=contacts.address||"";f.hours.value=contacts.hours||"";
  $("testPhone").href="tel:"+digits(contacts.phone);
  $("testWa").href="https://wa.me/"+digits(contacts.whatsapp);
  $("testTg").href="https://t.me/"+handle(contacts.telegram);
  $("testVk").href="https://vk.com/"+handle(contacts.vk);
 }
 $("contactsForm").addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.target);
- ["phone","whatsapp","telegram","vk"].forEach(k=>contacts[k]=f.get(k));
- localStorage.setItem(contactsKey,JSON.stringify(contacts));renderContacts();
+ ["phone","whatsapp","telegram","vk","address","hours"].forEach(k=>contacts[k]=String(f.get(k)||"").trim());
+ if(!contacts.address)contacts.address=defaultContacts.address;
+ state.contacts=contacts;localStorage.setItem(contactsKey,JSON.stringify(contacts));save();renderContacts();
  $("contactsSaved").textContent="✓ Сохранено";setTimeout(()=>$("contactsSaved").textContent="",2000);});
 
 /* ---------- properties ---------- */
@@ -183,14 +206,19 @@ tf.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(tf);
 });
 
 /* ---------- reviews ---------- */
-let reviewEdit=null;const rf=$("reviewForm");
-function resetReviewForm(){reviewEdit=null;rf.reset();$("reviewSubmit").textContent="Добавить отзыв";$("reviewCancel").hidden=true;$("reviewBanner").classList.remove("on");rf.classList.remove("editing")}
-window.editReview=i=>{const r=state.reviews[i];reviewEdit=i;rf.who.value=r.who||"";rf.text.value=r.text||"";
+let reviewEdit=null,reviewPhoto="";const rf=$("reviewForm");
+function renderReviewPhoto(){$("reviewPhoto").innerHTML=reviewPhoto?`<div class="ph"><img src="${reviewPhoto}" alt=""><div class="pb"><button type="button" onclick="reviewPhoto='';renderReviewPhoto()">✕</button></div></div>`:""}
+window.renderReviewPhoto=renderReviewPhoto;
+$("reviewFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{reviewPhoto=await readImage(f,500,.8)}catch(err){alert("Не удалось прочитать файл")}e.target.value="";renderReviewPhoto()});
+function resetReviewForm(){reviewEdit=null;reviewPhoto="";renderReviewPhoto();rf.reset();$("reviewSubmit").textContent="Добавить отзыв";$("reviewCancel").hidden=true;$("reviewBanner").classList.remove("on");rf.classList.remove("editing")}
+window.editReview=i=>{const r=state.reviews[i];reviewEdit=i;rf.who.value=r.who||"";rf.text.value=r.text||"";reviewPhoto=r.photo||"";renderReviewPhoto();
  $("reviewSubmit").textContent="Сохранить изменения";$("reviewCancel").hidden=false;$("reviewBanner").textContent="Редактирование отзыва: "+r.who;$("reviewBanner").classList.add("on");rf.classList.add("editing");rf.scrollIntoView({behavior:"smooth",block:"center"})};
 $("reviewCancel").addEventListener("click",resetReviewForm);
-rf.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(rf);const data={who:f.get("who"),text:f.get("text")};
+rf.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(rf);const data={who:f.get("who"),text:f.get("text"),photo:reviewPhoto};
+ const backup=JSON.stringify(state);
  if(reviewEdit===null)state.reviews.push({id:Date.now(),...data});else state.reviews[reviewEdit]={...state.reviews[reviewEdit],...data};
- save();resetReviewForm();render();
+ if(!save()){state=JSON.parse(backup);return}
+ resetReviewForm();render();
 });
 
 /* ---------- lists ---------- */
@@ -203,19 +231,102 @@ function render(){
  $("propertyList").innerHTML=state.properties.map((p,i)=>{const ph=(p.photos&&p.photos[0])||p.photo||"";
   return `<div class="item"><div class="info">${ph?`<img class="thumb" src="${ph}" alt="">`:`<div class="thumb"></div>`}<div><b>${esc(p.title)}</b> · ${Number(p.price).toLocaleString("ru-RU")} ₽<br><small>${esc(p.address)} · ${esc(p.tag||"")}${p.photos&&p.photos.length?" · 📷 "+p.photos.length:""}</small></div></div>${btns("properties",i,"editProp")}</div>`}).join("")||'<p class="admin-note">Объектов пока нет.</p>';
  $("teamListAdmin").innerHTML=state.team.map((m,i)=>`<div class="item"><div class="info">${m.photo?`<img class="thumb round" src="${m.photo}" alt="">`:`<div class="thumb round"></div>`}<div><b>${esc(m.name)}</b><br><small>${esc(m.role)}</small></div></div>${btns("team",i,"editTeam")}</div>`).join("")||'<p class="admin-note">Сотрудников пока нет.</p>';
- $("reviewListAdmin").innerHTML=state.reviews.map((r,i)=>`<div class="item"><div><b>${esc(r.who)}</b><br><small>${esc(r.text)}</small></div>${btns("reviews",i,"editReview")}</div>`).join("")||'<p class="admin-note">Отзывов пока нет.</p>';
+ $("reviewListAdmin").innerHTML=state.reviews.map((r,i)=>`<div class="item"><div class="info">${r.photo?`<img class="thumb round" src="${r.photo}" alt="">`:`<div class="thumb round"></div>`}<div><b>${esc(r.who)}</b><br><small>${esc(r.text)}</small></div></div>${btns("reviews",i,"editReview")}</div>`).join("")||'<p class="admin-note">Отзывов пока нет.</p>';
 }
 
 /* ---------- export / import / reset ---------- */
-$("downloadData").addEventListener("click",()=>{const content="window.SITE_DATA = "+JSON.stringify(state,null,2)+";";const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type:"text/javascript"}));a.download="data.js";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
+$("downloadData").addEventListener("click",()=>{const content="window.SITE_DATA = "+JSON.stringify(clean(state),null,2)+";";const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type:"text/javascript"}));a.download="data.js";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
 $("importBtn").addEventListener("click",()=>$("importFile").click());
 $("importFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;
- try{const t=await f.text();const m=t.match(/=\s*([\s\S]*?);?\s*$/);const d=JSON.parse(m?m[1]:t);
-  if(!d||!Array.isArray(d.properties))throw 0;state=d;["team","reviews"].forEach(k=>{if(!Array.isArray(state[k]))state[k]=[]});save();render();alert("Данные импортированы")}
+ try{const t=await f.text();const d=parseData(t);
+  if(!d||!Array.isArray(d.properties))throw 0;state=norm(d);fillContacts();save();renderContacts();render();alert("Данные импортированы")}
  catch(err){alert("Не удалось прочитать файл data.js")}e.target.value=""});
-$("resetData").addEventListener("click",()=>{if(!confirm("Сбросить все изменения и вернуть исходные данные из data.js?"))return;localStorage.removeItem(key);state=JSON.parse(JSON.stringify(original));updateStorage();resetPropForm();resetTeamForm();resetReviewForm();render()});
+$("resetData").addEventListener("click",()=>{if(!confirm("Отбросить черновик и вернуть опубликованную на сайте версию?"))return;localStorage.removeItem(key);location.reload()});
 
-renderContacts();render();updateStorage();
+
+function parseData(t){try{return new Function("var window={};"+t+";return window.SITE_DATA;")()}catch(e){return null}}
+function updatePub(){
+ const dirty=state&&state._dirty!==false;
+ $("pubState").innerHTML=dirty?'<span class="dirty">● Есть неопубликованные изменения</span>':'<span class="clean">✓ Всё опубликовано</span>';
+}
+function setStatus(t,cls){$("pubStatus").innerHTML=t?`<span class="${cls||""}">${esc(t)}</span>`:""}
+async function boot(){
+ if(local&&local._dirty!==false&&Array.isArray(local.properties)){state=local}
+ else{
+  try{const r=await fetch("data.js?t="+Date.now(),{cache:"no-store"});if(r.ok){const d=parseData(await r.text());if(d&&Array.isArray(d.properties)){state=d;state._dirty=false}}}catch(e){}
+ }
+ if(!state)state=(local&&Array.isArray(local.properties))?local:JSON.parse(JSON.stringify(original));
+ norm(state);fillContacts();renderContacts();render();updateStorage();updatePub();
+}
+
+/* ---------- publish to GitHub ---------- */
+const tokenKey="ny_gh_token";
+function repoInfo(){
+ let owner="brendshopru",repo="novy-yaroslavl";const h=location.hostname;
+ if(h.endsWith(".github.io")){owner=h.split(".")[0];const seg=location.pathname.split("/").filter(Boolean)[0];if(seg&&!/\.html?$/.test(seg))repo=seg}
+ return{owner,repo};
+}
+function askToken(force){
+ let t=localStorage.getItem(tokenKey)||"";
+ if(t&&!force)return t;
+ const v=prompt(force?"Новый токен GitHub (оставьте пустым, чтобы удалить сохранённый):":"Вставьте токен GitHub (github_pat_…). Как его получить — в блоке «Как включить публикацию» выше.",force?"":"");
+ if(v===null)return t||"";
+ t=v.trim();if(t)localStorage.setItem(tokenKey,t);else localStorage.removeItem(tokenKey);
+ return t;
+}
+$("tokenBtn").addEventListener("click",()=>{const t=askToken(true);setStatus(t?"Токен сохранён в этом браузере":"Токен удалён",t?"clean":"")});
+async function gh(token,method,path,body){
+ const {owner,repo}=repoInfo();
+ return fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`,{method,headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28",...(body?{"Content-Type":"application/json"}:{})},body:body?JSON.stringify(body):undefined});
+}
+function b64utf8(str){const bytes=new TextEncoder().encode(str);let bin="";for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(bin)}
+async function sha16(str){const h=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(str));return[...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join("").slice(0,16)}
+function explain(r){
+ if(r.status===401)return"Токен не принят (401). Создайте новый через кнопку «Токен».";
+ if(r.status===403)return"Нет прав (403). У токена должно быть Contents: Read and write.";
+ if(r.status===404)return"Репозиторий не найден (404) — проверьте, что токен выдан именно для него.";
+ return"Ошибка GitHub: "+r.status;
+}
+$("publishBtn").addEventListener("click",async()=>{
+ const token=askToken(false);if(!token)return;
+ const btn=$("publishBtn");btn.disabled=true;
+ try{
+  const out=clean(state);
+  const imgs=[];
+  const walk=(o,k)=>{const v=o[k];if(typeof v==="string"&&v.startsWith("data:image"))imgs.push([o,k])};
+  out.properties.forEach(p=>{(p.photos||[]).forEach((_,i,a)=>walk(a,i));walk(p,"photo")});
+  out.team.forEach(m=>walk(m,"photo"));out.reviews.forEach(r=>walk(r,"photo"));
+  const cache={};let n=0;
+  for(const [o,k] of imgs){
+   const v=o[k];
+   if(!cache[v]){
+    n++;setStatus(`Загружаю фото ${n} из ${new Set(imgs.map(x=>x[0][x[1]])).size}…`);
+    const name="photos/"+await sha16(v)+".jpg";
+    const ex=await gh(token,"GET",name);
+    if(ex.status===404){
+     const up=await gh(token,"PUT",name,{message:"Фото из админки",content:v.split(",")[1]});
+     if(!up.ok&&up.status!==422)throw new Error(explain(up));
+    }else if(!ex.ok)throw new Error(explain(ex));
+    cache[v]=name;
+   }
+   o[k]=cache[v];
+  }
+  out.properties.forEach(p=>{if(Array.isArray(p.photos))p.photo=p.photos[0]||""});
+  setStatus("Записываю данные сайта…");
+  const cur=await gh(token,"GET","data.js");
+  let sha;if(cur.ok){sha=(await cur.json()).sha}else if(cur.status!==404)throw new Error(explain(cur));
+  const put=await gh(token,"PUT","data.js",{message:"Обновление данных из админки",content:b64utf8("window.SITE_DATA = "+JSON.stringify(out,null,2)+";\n"),...(sha?{sha}:{})});
+  if(!put.ok)throw new Error(explain(put));
+  state._dirty=false;
+  try{localStorage.setItem(key,JSON.stringify({...out,_dirty:false}))}catch(e){}
+  updateStorage();updatePub();
+  setStatus("✓ Опубликовано. Сайт обновится через 1–2 минуты (обновите страницу без кеша).","clean");
+ }catch(err){
+  if(/401/.test(err.message))localStorage.removeItem(tokenKey);
+  setStatus(err.message||"Не удалось опубликовать","err");
+ }finally{btn.disabled=false}
+});
+boot();
 </script>
 </body>
 </html>
