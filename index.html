@@ -750,6 +750,57 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 100%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40);filter:drop-shadow(0 0 22px rgba(255,225,135,.55)) brightness(1.2)}}
 </style>
 
+<style id="intro-final-real-fix">
+/* FINAL REAL INTRO — one continuous visible shot */
+.site-intro{perspective:1600px!important;background:#010201!important}
+.intro-scene{background:#020302!important;transform-style:preserve-3d!important}
+.intro-door-wrap{opacity:1!important;animation:realDoorIn .3s ease-out 0s forwards!important;z-index:20!important}
+.intro-door-frame{z-index:20!important;animation:realFrame .95s cubic-bezier(.08,.92,.04,1) 2.05s forwards!important}
+.intro-door{z-index:21!important;animation:realDoorOpen .72s cubic-bezier(.08,.92,.04,1) 1.62s forwards!important}
+.intro-lock{z-index:40!important}
+.intro-lock:after{animation:realLock .24s cubic-bezier(.12,.9,.08,1) 1.42s forwards!important}
+.intro-key{z-index:41!important;animation:realKey 1.46s cubic-bezier(.14,.9,.08,1) .06s forwards!important;opacity:1!important}
+.intro-room{z-index:8!important;background:radial-gradient(ellipse at 50% 48%,#101711 0%,#030403 42%,#000 75%)!important;animation:realRoom 1.45s cubic-bezier(.06,.92,.03,1) 1.64s forwards!important}
+.intro-room-light{z-index:9!important;animation:realLight 1.15s cubic-bezier(.05,.92,.03,1) 1.72s forwards!important}
+.intro-vignette{z-index:45!important;pointer-events:none!important;animation:realVignette 1.2s ease-out 2s forwards!important}
+.intro-brand{z-index:100!important;opacity:0!important;visibility:visible!important;transform-origin:50% 50%!important;animation:realBrand 1.18s cubic-bezier(.02,.95,.02,1) 2.02s forwards!important;will-change:transform,opacity,filter!important}
+
+@keyframes realDoorIn{from{opacity:0;transform:translate(-50%,-46%) scale(.62)}to{opacity:1;transform:translate(-50%,-46%) scale(.72)}}
+@keyframes realKey{
+0%{opacity:0;left:10%;top:82%;transform:translate(-50%,-50%) rotate(-52deg) scale(.055);filter:blur(1px) drop-shadow(0 14px 20px #000)}
+14%{opacity:1;left:22%;top:72%;transform:translate(-50%,-50%) rotate(-38deg) scale(.13);filter:blur(0) drop-shadow(0 8px 14px #000)}
+38%{opacity:1;left:39%;top:58%;transform:translate(-50%,-50%) rotate(-17deg) scale(.28)}
+64%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.45);filter:drop-shadow(0 0 22px rgba(255,225,135,.65))}
+78%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.45);filter:drop-shadow(0 0 42px rgba(255,225,135,1)) brightness(1.55)}
+90%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.45);filter:drop-shadow(0 0 28px rgba(255,225,135,.8)) brightness(1.25)}
+100%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.45);filter:drop-shadow(0 0 20px rgba(255,225,135,.5))}
+}
+@keyframes realLock{0%{transform:rotate(0) scale(1)}35%{transform:rotate(90deg) scale(1.25)}100%{transform:rotate(90deg) scale(1)}}
+@keyframes realDoorOpen{0%{transform:perspective(1200px) rotateY(0) translateZ(0)}45%{transform:perspective(1200px) rotateY(-55deg) translateZ(12px)}100%{transform:perspective(1200px) rotateY(-115deg) translateZ(75px)}}
+@keyframes realFrame{0%{opacity:1;transform:scale(1) translateZ(0)}60%{opacity:1;transform:scale(1.12) translateZ(60px)}100%{opacity:0;transform:scale(1.65) translateZ(280px)}}
+@keyframes realRoom{0%{opacity:0;transform:translate(-50%,-46%) scale(.34)}30%{opacity:.9;transform:translate(-50%,-46%) scale(.48)}65%{opacity:1;transform:translate(-50%,-46%) scale(.85)}100%{opacity:1;transform:translate(-50%,-46%) scale(1.65)}}
+@keyframes realLight{0%{opacity:0;transform:scale(.18)}45%{opacity:.18;transform:scale(.65)}100%{opacity:.38;transform:scale(1.8)}}
+@keyframes realVignette{0%{opacity:1}55%{opacity:.55}100%{opacity:.08}}
+@keyframes realBrand{
+0%{opacity:0;transform:translate(-50%,-50%) translateZ(-620px) scale(.025);filter:blur(22px);text-shadow:0 0 90px rgba(199,168,91,1)}
+18%{opacity:.18;transform:translate(-50%,-50%) translateZ(-450px) scale(.05);filter:blur(15px)}
+42%{opacity:.62;transform:translate(-50%,-50%) translateZ(-220px) scale(.18);filter:blur(8px);text-shadow:0 0 60px rgba(199,168,91,.8)}
+66%{opacity:1;transform:translate(-50%,-50%) translateZ(-40px) scale(.68);filter:blur(2px);text-shadow:0 0 38px rgba(199,168,91,.45)}
+82%{opacity:1;transform:translate(-50%,-50%) translateZ(100px) scale(1.12);filter:blur(0);text-shadow:0 0 22px rgba(199,168,91,.25)}
+100%{opacity:1;transform:translate(-50%,-50%) translateZ(0) scale(1);filter:blur(0);text-shadow:none}
+}
+@media(max-width:700px){
+.intro-key{animation-name:realKeyMobile!important}
+@keyframes realKeyMobile{
+0%{opacity:0;left:7%;top:82%;transform:translate(-50%,-50%) rotate(-52deg) scale(.05);filter:blur(1px)}
+14%{opacity:1;left:21%;top:72%;transform:translate(-50%,-50%) rotate(-38deg) scale(.12);filter:none}
+38%{opacity:1;left:39%;top:58%;transform:translate(-50%,-50%) rotate(-17deg) scale(.27)}
+64%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.40)}
+78%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.40);filter:drop-shadow(0 0 38px rgba(255,225,135,1)) brightness(1.5)}
+90%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40)}
+100%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40)}}
+}
+</style>
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
