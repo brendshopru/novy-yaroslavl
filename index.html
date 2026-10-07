@@ -801,6 +801,92 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 100%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40)}}
 }
 </style>
+<style id="intro-brand-final-fix">
+/* FINAL CONTINUOUS BRAND EXIT — same doorway, no separate scene */
+.intro-brand{
+  z-index:999!important;
+  visibility:visible!important;
+  pointer-events:none!important;
+  opacity:0!important;
+  mix-blend-mode:normal!important;
+  animation:brandBlastFromDoor 1.45s cubic-bezier(.08,.92,.04,1) 2.18s forwards!important;
+  will-change:transform,opacity,filter!important;
+}
+.intro-brand small,.intro-brand strong,.intro-brand i{position:relative;z-index:2}
+.intro-brand strong{display:block!important}
+@keyframes brandBlastFromDoor{
+  0%{
+    opacity:0;
+    transform:translate(-50%,-50%) translateZ(-700px) scale(.018);
+    filter:blur(24px);
+    letter-spacing:.08em;
+    text-shadow:0 0 100px rgba(199,168,91,1),0 0 180px rgba(255,255,255,.25)
+  }
+  16%{
+    opacity:.18;
+    transform:translate(-50%,-50%) translateZ(-500px) scale(.055);
+    filter:blur(16px)
+  }
+  38%{
+    opacity:.72;
+    transform:translate(-50%,-50%) translateZ(-250px) scale(.20);
+    filter:blur(7px)
+  }
+  62%{
+    opacity:1;
+    transform:translate(-50%,-50%) translateZ(-60px) scale(.72);
+    filter:blur(2px);
+    text-shadow:0 0 55px rgba(199,168,91,.75)
+  }
+  78%{
+    opacity:1;
+    transform:translate(-50%,-50%) translateZ(80px) scale(1.13);
+    filter:blur(0);
+    text-shadow:0 0 32px rgba(199,168,91,.4)
+  }
+  100%{
+    opacity:1;
+    transform:translate(-50%,-50%) translateZ(0) scale(1);
+    filter:blur(0);
+    letter-spacing:normal;
+    text-shadow:none
+  }
+}
+/* keep the intro alive long enough for the brand hit */
+<style id="intro-brand-visible-fix">
+/* FINAL BRAND VISIBILITY FIX: no 3D depth hiding, same open doorway */
+.intro-brand{
+  z-index:9999!important;
+  visibility:visible!important;
+  display:block!important;
+  opacity:0!important;
+  transform:translate(-50%,-50%) scale(.12)!important;
+  filter:blur(18px)!important;
+  animation:brandVisibleLaunch 1.35s cubic-bezier(.08,.9,.04,1) 2.38s forwards!important;
+}
+@keyframes brandVisibleLaunch{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.06);filter:blur(18px);text-shadow:0 0 90px rgba(199,168,91,1)}
+  12%{opacity:.28;transform:translate(-50%,-50%) scale(.12);filter:blur(12px)}
+  34%{opacity:.72;transform:translate(-50%,-50%) scale(.34);filter:blur(6px);text-shadow:0 0 55px rgba(199,168,91,.8)}
+  58%{opacity:1;transform:translate(-50%,-50%) scale(.78);filter:blur(1.5px);text-shadow:0 0 35px rgba(199,168,91,.55)}
+  78%{opacity:1;transform:translate(-50%,-50%) scale(1.12);filter:blur(0);text-shadow:0 0 24px rgba(199,168,91,.35)}
+  100%{opacity:1;transform:translate(-50%,-50%) scale(1);filter:blur(0);text-shadow:none}
+}
+.intro-brand small,.intro-brand strong,.intro-brand i{visibility:visible!important;display:block!important}
+</style>
+</style>
+<script>
+(function(){
+  var intro=document.getElementById('siteIntro');
+  if(!intro)return;
+  setTimeout(function(){
+    if(!intro.classList.contains('is-hidden')){
+      intro.classList.add('is-hidden');
+      document.body.style.overflow='';
+    }
+  },5000);
+})();
+</script>
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
