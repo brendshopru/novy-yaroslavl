@@ -53,7 +53,7 @@ window.SITE_DATA = {
       "name": "Андрей Андрийчук",
       "role": "Генеральный директор",
       "initials": "АА",
-      "photo": "photos/ac5c374019a711ad.jpg"
+      "photo": "photos/0e341f7d0228890b.jpg"
     },
     {
       "id": 2,
