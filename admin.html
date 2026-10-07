@@ -73,6 +73,7 @@ body{padding-bottom:92px}
 <input name="vk" placeholder="VK: @id или короткое имя" required>
 <input name="address" class="wide" placeholder="Адрес офиса — по нему строится карта на сайте">
 <input name="hours" class="wide" placeholder="График работы (необязательно), например: Пн–Пт 9:00–19:00">
+<div class="wide"><label class="admin-note" style="display:block;margin:0 0 6px">Фото офиса (показывается в блоке «Контакты» на сайте)</label><input type="file" id="officeFile" accept="image/*" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)"><div class="photos" id="officePhoto" style="margin-top:10px"></div></div>
 <div class="actions wide"><button class="admin-btn" type="submit">Сохранить контакты</button><button class="admin-btn secondary pub-inline" type="button">🚀 Опубликовать на сайт</button><span id="contactsSaved" class="admin-note" style="margin:0"></span></div>
 </form>
 <div class="actions"><a id="testPhone" class="admin-btn secondary" href="#">📞 Позвонить</a><a id="testWa" class="admin-btn secondary" href="#" target="_blank" rel="noopener">💬 WhatsApp</a><a id="testTg" class="admin-btn secondary" href="#" target="_blank" rel="noopener">✈️ Telegram</a><a id="testVk" class="admin-btn secondary" href="#" target="_blank" rel="noopener">🔵 VK</a></div></section>
@@ -231,6 +232,9 @@ const contactsKey="ny_contacts_v1";
 const defaultContacts={phone:"+7 920 108-50-73",whatsapp:"+7 920 108-50-73",telegram:"@AndreiAndriichuk",vk:"@id420778533"};
 defaultContacts.address="г. Ярославль, ул. Советская, д. 35, оф. 5";defaultContacts.hours="";
 let contacts;
+function renderOfficePhoto(){const b=$("officePhoto");if(!b)return;b.innerHTML=contacts&&contacts.photo?`<div class="ph"><img src="${contacts.photo}" alt=""><div class="pb"><button type="button" title="Удалить" onclick="officeDel()">✕</button></div></div>`:"";}
+window.officeDel=()=>{contacts.photo="";state.contacts=contacts;localStorage.setItem(contactsKey,JSON.stringify(contacts));save();renderOfficePhoto()};
+document.addEventListener("change",async e=>{if(e.target.id!=="officeFile")return;const f=e.target.files[0];e.target.value="";if(!f)return;try{contacts.photo=await readImage(f,1600,.82);state.contacts=contacts;try{localStorage.setItem(contactsKey,JSON.stringify(contacts))}catch(err){}save();renderOfficePhoto()}catch(err){alert("Не удалось открыть фото. Нужен JPG, PNG или WebP.")}});
 function fillContacts(){
  let legacy=null;try{legacy=JSON.parse(localStorage.getItem(contactsKey)||"null")}catch(e){}
  contacts={...defaultContacts,...(legacy||{}),...(state.contacts||{})};
@@ -241,7 +245,7 @@ const digits=v=>(String(v||"").match(/\d/g)||[]).join("");
 const handle=v=>String(v||"").trim().replace(/^@/,"");
 function renderContacts(){
  const f=$("contactsForm");
- f.phone.value=contacts.phone||"";f.whatsapp.value=contacts.whatsapp||"";f.telegram.value=contacts.telegram||"";f.vk.value=contacts.vk||"";f.address.value=contacts.address||"";f.hours.value=contacts.hours||"";
+ f.phone.value=contacts.phone||"";f.whatsapp.value=contacts.whatsapp||"";f.telegram.value=contacts.telegram||"";f.vk.value=contacts.vk||"";f.address.value=contacts.address||"";f.hours.value=contacts.hours||"";renderOfficePhoto();
  $("testPhone").href="tel:"+digits(contacts.phone);
  $("testWa").href="https://wa.me/"+digits(contacts.whatsapp);
  $("testTg").href="https://t.me/"+handle(contacts.telegram);
@@ -407,7 +411,7 @@ $("publishBtn").addEventListener("click",async()=>{
   const imgs=[];
   const walk=(o,k)=>{const v=o[k];if(typeof v==="string"&&v.startsWith("data:image"))imgs.push([o,k])};
   out.properties.forEach(p=>{(p.photos||[]).forEach((_,i,a)=>walk(a,i));walk(p,"photo")});
-  out.team.forEach(m=>walk(m,"photo"));out.reviews.forEach(r=>walk(r,"photo"));
+  out.team.forEach(m=>walk(m,"photo"));out.reviews.forEach(r=>walk(r,"photo"));if(out.contacts)walk(out.contacts,"photo");
   const cache={};let n=0;
   for(const [o,k] of imgs){
    const v=o[k];
