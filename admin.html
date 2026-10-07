@@ -31,6 +31,7 @@ textarea{min-height:90px;resize:vertical}.wide{grid-column:1/-1}
 .edit-banner{display:none;background:color-mix(in srgb,var(--gold) 18%,transparent);border:1px solid var(--gold);border-radius:10px;padding:8px 12px;font-size:13px}
 .edit-banner.on{display:block}
 .storage{font-size:12px;color:var(--muted)}
+.service-admin-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.service-admin-card{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--bg)}.service-admin-card b{display:block;margin-bottom:8px}.service-admin-card input[type=file]{width:100%;box-sizing:border-box;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:8px;color:var(--fg)}.service-admin-card .service-preview{margin-top:8px;height:92px;border-radius:10px;overflow:hidden;background:var(--card);display:grid;place-items:center;color:var(--muted)}.service-admin-card .service-preview img{width:100%;height:100%;object-fit:cover;display:block}@media(max-width:700px){.service-admin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.form-grid{grid-template-columns:1fr}.wide{grid-column:auto}.admin-head{align-items:flex-start;flex-direction:column}.item{flex-direction:column;align-items:flex-start}}
 .pubbar{display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin:-8px 0 14px;font-size:13px}
 .pubbar .dirty{color:var(--gold);font-weight:700}.pubbar .clean{color:#7ddc9a;font-weight:700}.pubbar .err{color:#ff8a8a}
@@ -54,7 +55,7 @@ body{padding-bottom:92px}
 <body>
 <header><div class="nav wrap"><a class="logo" href="index.html">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a><a class="nav-phone" href="index.html">На сайт →</a></div></header>
 <main class="wrap admin">
-<div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель<span class="ver">версия 8</span></h1></div>
+<div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель<span class="ver">версия 9</span></h1></div>
 <div class="actions" style="margin:0"><button class="admin-btn" id="publishBtn">🚀 Опубликовать на сайт</button><button class="admin-btn secondary" id="tokenBtn">🔑 Токен</button><button class="admin-btn secondary" id="downloadData">Экспорт</button><button class="admin-btn secondary" id="importBtn">Импорт</button><button class="admin-btn secondary" id="resetData">Сбросить</button><input type="file" id="importFile" accept=".js,.json" hidden></div></div>
 <div class="pubbar"><span id="pubState"></span><span id="pubStatus"></span></div>
 <p class="admin-note">Правки сохраняются как черновик в этом браузере. Чтобы их увидели все посетители сайта, нажмите «Опубликовать на сайт» — данные и фото запишутся прямо в репозиторий GitHub. <span class="storage" id="storageInfo"></span></p>
@@ -78,6 +79,8 @@ body{padding-bottom:92px}
 </form>
 <div class="actions"><a id="testPhone" class="admin-btn secondary" href="#">📞 Позвонить</a><a id="testWa" class="admin-btn secondary" href="#" target="_blank" rel="noopener">💬 WhatsApp</a><a id="testTg" class="admin-btn secondary" href="#" target="_blank" rel="noopener">✈️ Telegram</a><a id="testVk" class="admin-btn secondary" href="#" target="_blank" rel="noopener">🔵 VK</a></div></section>
 
+<section class="panel"><h2>Услуги — фото</h2><p class="admin-note">Добавьте фото для каждой услуги. Фото появятся внутри плитки на сайте. Если фото нет, останется стандартная иконка. Изменения сохраняются и публикуются вместе с сайтом.</p><div id="servicesAdmin" class="service-admin-grid"></div></section>
+
 <section class="panel"><h2>Объекты</h2><div id="propertyList"></div>
 <form id="propertyForm" class="form-grid" style="margin-top:18px">
 <div class="edit-banner wide" id="propBanner"></div>
@@ -88,6 +91,7 @@ body{padding-bottom:92px}
 <input name="tag" placeholder="Метка: Новостройка">
 <input name="meta" class="wide" placeholder="Параметры через запятую: 2 комнаты, 58 м², 7/12 эт.">
 <textarea name="description" class="wide" placeholder="Описание объекта (необязательно)"></textarea>
+<label class="wide" style="display:flex;align-items:center;gap:10px;padding:10px 0"><input type="checkbox" name="visible" checked style="width:18px;height:18px"> Показывать объект на сайте</label>
 <div class="wide"><label class="admin-note" style="display:block;margin:0 0 6px">Фотографии (можно несколько; первая — обложка). Кнопка ✂ под фото — выбрать кадр: сдвиг, масштаб, поворот</label>
 <input type="file" id="propFiles" accept="image/*" multiple style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)">
 <div class="admin-note" id="propUpState" style="margin:8px 0 0"></div><div class="photos" id="propPhotos" style="margin-top:10px"></div></div>
@@ -128,7 +132,8 @@ const key="ny_admin_data_v1";
 const original=JSON.parse(JSON.stringify(window.SITE_DATA||{properties:[],team:[],reviews:[]}));
 let state=null,local=null;
 try{local=JSON.parse(localStorage.getItem(key)||"null")}catch(e){local=null}
-const norm=d=>{["properties","team","reviews"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});return d};
+const SERVICE_NAMES=["Продажа","Покупка","Обмен","Аренда","Сопровождение","Ипотека","Срочный выкуп","Зарубежная недвижимость","Новостройки"];
+const norm=d=>{["properties","team","reviews","services"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});if(d.services.length<SERVICE_NAMES.length){SERVICE_NAMES.forEach((name,i)=>{if(!d.services[i])d.services[i]={title:name,photo:""};else if(!d.services[i].title)d.services[i].title=name;});}return d};
 const clean=d=>{const c=JSON.parse(JSON.stringify(d));delete c._dirty;return c};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
@@ -282,7 +287,7 @@ window.editProp=i=>{
  const p=state.properties[i];propEdit=i;
  pf.title.value=p.title||"";pf.price.value=p.price||"";pf.address.value=p.address||"";
  setSelect(pf.type,p.type);setSelect(pf.district,p.district);
- pf.tag.value=p.tag||"";pf.meta.value=(p.meta||[]).join(", ");pf.description.value=p.description||"";
+ pf.tag.value=p.tag||"";pf.meta.value=(p.meta||[]).join(", ");pf.description.value=p.description||"";pf.visible.checked=p.visible!==false;
  propPhotos=(p.photos&&p.photos.length?p.photos:(p.photo?[p.photo]:[])).slice();renderPropPhotos();
  $("propSubmit").textContent="Сохранить изменения";$("propCancel").hidden=false;
  $("propBanner").textContent="Редактирование: "+p.title;$("propBanner").classList.add("on");pf.classList.add("editing");
@@ -291,7 +296,7 @@ window.editProp=i=>{
 function setSelect(sel,val){val=val||"";if(val&&![...sel.options].some(o=>o.value===val||o.text===val)){sel.add(new Option(val,val))}sel.value=val}
 $("propCancel").addEventListener("click",resetPropForm);
 pf.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(pf);
- const data={title:f.get("title"),price:+f.get("price"),address:f.get("address"),type:f.get("type"),district:f.get("district"),tag:f.get("tag"),description:f.get("description"),
+ const data={title:f.get("title"),price:+f.get("price"),address:f.get("address"),type:f.get("type"),district:f.get("district"),tag:f.get("tag"),description:f.get("description"),visible:f.get("visible")==="on",
   meta:String(f.get("meta")).split(",").map(x=>x.trim()).filter(Boolean),photos:propPhotos.slice(),photo:propPhotos[0]||""};
  const backup=JSON.stringify(state);
  if(propEdit===null)state.properties.push({id:Date.now(),...data});
@@ -342,9 +347,16 @@ window.move=move;
 window.del=(type,i)=>{if(!confirm("Удалить?"))return;state[type].splice(i,1);save();
  if(type==="properties")resetPropForm();if(type==="team")resetTeamForm();if(type==="reviews")resetReviewForm();render()};
 const btns=(t,i,edit)=>`<div class="btns"><button class="admin-btn secondary small" onclick="move('${t}',${i},-1)" title="Выше">↑</button><button class="admin-btn secondary small" onclick="move('${t}',${i},1)" title="Ниже">↓</button><button class="admin-btn small" onclick="${edit}(${i})">Изменить</button><button class="admin-btn danger small" onclick="del('${t}',${i})">Удалить</button></div>`;
+window.toggleProp=i=>{const p=state.properties[i];if(!p)return;p.visible=p.visible===false;save();render()};
+function renderServices(){
+ const box=$("servicesAdmin");if(!box)return;norm(state);
+ box.innerHTML=SERVICE_NAMES.map((name,i)=>{const s=state.services[i]||{title:name,photo:""};return `<div class="service-admin-card"><b>${esc(name)}</b><input type="file" accept="image/*" data-service-file="${i}"><div class="service-preview" id="servicePreview${i}">${s.photo?`<img src="${s.photo}" alt="">`:'Нет фото'}</div><button type="button" class="admin-btn secondary small" data-service-del="${i}" style="margin-top:8px">Удалить фото</button></div>`}).join("");
+ box.querySelectorAll('[data-service-file]').forEach(inp=>inp.addEventListener('change',async e=>{const i=+e.target.dataset.serviceFile,f=e.target.files[0];e.target.value='';if(!f)return;try{state.services[i]={...(state.services[i]||{}),title:SERVICE_NAMES[i],photo:await readImage(f,1000,.82)};if(save())renderServices();}catch(err){alert('Не удалось прочитать фото')}}));
+ box.querySelectorAll('[data-service-del]').forEach(b=>b.addEventListener('click',()=>{const i=+b.dataset.serviceDel;state.services[i]={...(state.services[i]||{}),title:SERVICE_NAMES[i],photo:''};save();renderServices();}));
+}
 function render(){
  $("propertyList").innerHTML=state.properties.map((p,i)=>{const ph=(p.photos&&p.photos[0])||p.photo||"";
-  return `<div class="item"><div class="info">${ph?`<img class="thumb" src="${ph}" alt="">`:`<div class="thumb"></div>`}<div><b>${esc(p.title)}</b> · ${Number(p.price).toLocaleString("ru-RU")} ₽<br><small>${esc(p.address)} · ${esc(p.tag||"")}${p.photos&&p.photos.length?" · 📷 "+p.photos.length:""}</small></div></div>${btns("properties",i,"editProp")}</div>`}).join("")||'<p class="admin-note">Объектов пока нет.</p>';
+  return `<div class="item"><div class="info">${ph?`<img class="thumb" src="${ph}" alt="">`:`<div class="thumb"></div>`}<div><b>${esc(p.title)}</b> · ${Number(p.price).toLocaleString("ru-RU")} ₽<br><small>${esc(p.address)} · ${esc(p.tag||"")}${p.photos&&p.photos.length?" · 📷 "+p.photos.length:""} · ${p.visible===false?"скрыт":"открыт"}</small></div></div><div class="btns"><button class="admin-btn secondary small" onclick="toggleProp(${i})" title="Скрыть или показать">${p.visible===false?"Открыть":"Скрыть"}</button>${btns("properties",i,"editProp")}</div></div>`}).join("")||'<p class="admin-note">Объектов пока нет.</p>';
  $("teamListAdmin").innerHTML=state.team.map((m,i)=>`<div class="item"><div class="info">${m.photo?`<img class="thumb round" src="${m.photo}" alt="">`:`<div class="thumb round"></div>`}<div><b>${esc(m.name)}</b><br><small>${esc(m.role)}</small></div></div>${btns("team",i,"editTeam")}</div>`).join("")||'<p class="admin-note">Сотрудников пока нет.</p>';
  $("reviewListAdmin").innerHTML=state.reviews.map((r,i)=>`<div class="item"><div class="info">${r.photo?`<img class="thumb round" src="${r.photo}" alt="">`:`<div class="thumb round"></div>`}<div><b>${esc(r.who)}</b><br><small>${esc(r.text)}</small></div></div>${btns("reviews",i,"editReview")}</div>`).join("")||'<p class="admin-note">Отзывов пока нет.</p>';
 }
@@ -354,7 +366,7 @@ $("downloadData").addEventListener("click",()=>{const content="window.SITE_DATA 
 $("importBtn").addEventListener("click",()=>$("importFile").click());
 $("importFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;
  try{const t=await f.text();const d=parseData(t);
-  if(!d||!Array.isArray(d.properties))throw 0;state=norm(d);fillContacts();save();renderContacts();render();alert("Данные импортированы")}
+  if(!d||!Array.isArray(d.properties))throw 0;state=norm(d);fillContacts();save();renderContacts();renderServices();render();alert("Данные импортированы")}
  catch(err){alert("Не удалось прочитать файл data.js")}e.target.value=""});
 $("resetData").addEventListener("click",()=>{if(!confirm("Отбросить черновик и вернуть опубликованную на сайте версию?"))return;localStorage.removeItem(key);location.reload()});
 
@@ -372,7 +384,7 @@ async function boot(){
   try{const r=await fetch("data.js?t="+Date.now(),{cache:"no-store"});if(r.ok){const d=parseData(await r.text());if(d&&Array.isArray(d.properties)){state=d;state._dirty=false}}}catch(e){}
  }
  if(!state)state=(local&&Array.isArray(local.properties))?local:JSON.parse(JSON.stringify(original));
- norm(state);fillContacts();renderContacts();render();updateStorage();updatePub();
+ norm(state);fillContacts();renderContacts();renderServices();render();updateStorage();updatePub();
 }
 
 /* ---------- publish to GitHub ---------- */

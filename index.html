@@ -283,6 +283,18 @@ main>section+section{margin-top:44px!important}
 .sec-head{margin-bottom:18px!important}
 .f-top{padding:34px 0 22px!important}
 .f-bottom{padding-top:16px!important}
+/* ===== Service grid: ровная сетка без одинокого последнего блока ===== */
+.services{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important;align-items:stretch!important}
+.services .svc{min-width:0;min-height:118px;display:flex!important;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.services .svc .t{line-height:1.25}
+.services .svc .svc-photo{width:46px;height:46px;border-radius:12px;object-fit:cover;margin-bottom:9px;border:1px solid rgba(255,255,255,.12);display:block}
+@media(max-width:700px){.services{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px!important}.services .svc{min-height:104px;padding:10px 5px}.services .svc .t{font-size:12px}.services .svc .ic{margin-bottom:4px}}
+
+/* ===== Footer navigation: аккуратные кнопки на всех версиях ===== */
+.f-top>.f-col:nth-child(2) a{display:inline-flex;align-items:center;justify-content:center;margin:0 7px 8px 0;padding:10px 14px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(255,255,255,.04);color:var(--fg);line-height:1.1;text-decoration:none;transition:transform .25s ease,border-color .25s ease,background .25s ease,color .25s ease}
+.f-top>.f-col:nth-child(2) a:hover{transform:translateY(-2px);border-color:var(--site-accent);background:rgba(199,168,91,.10);color:var(--fg)}
+@media(max-width:700px){.f-top>.f-col:nth-child(2) a{margin:0 5px 7px 0;padding:9px 12px;font-size:12.5px}}
+
 @media(max-width:700px){
   main>section+section{margin-top:30px!important}
   .hero{padding-top:18px!important}
@@ -412,7 +424,7 @@ main>section+section{margin-top:44px!important}
         <div class="big" id="rMonthly">— ₽</div>
         <div class="line"><span>Сумма кредита</span><span id="rLoan">—</span></div>
         <div class="line"><span>Переплата за весь срок</span><span id="rOver">—</span></div>
-        <a class="cta-btn" data-contact="whatsapp" href="https://wa.me/79201085073" target="_blank" rel="noopener">Получить точный расчёт</a>
+        <a class="cta-btn" id="calcCallback" href="#" data-open-callback>Получить точный расчёт</a>
       </div>
     </div>
   </section>
@@ -480,7 +492,7 @@ main>section+section{margin-top:44px!important}
   <a class="cc-row" data-contact="telegram" href="https://t.me/AndreiAndriichuk" target="_blank" rel="noopener"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></i><span><b>Telegram</b><em data-v="telegram">@AndreiAndriichuk</em></span></a>
   <a class="cc-row" data-contact="vk" href="https://vk.com/id420778533" target="_blank" rel="noopener"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7 9l2.2 5.2c.2.5.6.8 1.1.8H11V9m0 3.2c1.7-.3 2.6-1.4 3-3.2m-3 3.2L14.8 15M16.5 9l-2 4"/></svg></i><span><b>ВКонтакте</b><em data-v="vk">vk.com/id420778533</em></span></a>
   <a class="cc-row" href="#" data-open-callback><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></i><span><b>Заказать звонок</b><em>Оставьте номер — перезвоним</em></span></a>
-  <a class="cc-row" href="#contacts"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></i><span><b>Как нас найти</b><em>Адрес и карта</em></span></a>
+
 </div>
 <button class="fab" id="fab" type="button" aria-expanded="false" aria-controls="fabSheet">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>
@@ -510,6 +522,10 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 <script>
 /* Данные, сохранённые в админке этого браузера, имеют приоритет над data.js */
 (function(){try{var d=JSON.parse(localStorage.getItem('ny_admin_data_v1')||'null');if(d&&d._dirty!==false&&Array.isArray(d.properties))window.SITE_DATA=d;}catch(e){}})();
+</script>
+<script>
+/* Скрытые объекты остаются в админке, но не показываются посетителям сайта. */
+(function(){try{if(window.SITE_DATA&&Array.isArray(window.SITE_DATA.properties)){window.SITE_DATA={...window.SITE_DATA,properties:window.SITE_DATA.properties.filter(function(p){return p.visible!==false;})};}}catch(e){}})();
 </script>
 <script>document.write('<script src="app.js?v='+window.__NY_V+'"><\/script>');</script>
 
@@ -598,6 +614,7 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
         <option>Купить недвижимость</option><option>Продать недвижимость</option><option>Снять / сдать</option>
         <option>Ипотека</option><option>Другое</option>
       </select>
+      <div id="cbCalcDetails" class="ny-note" style="display:none;text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.035)"></div>
       <button class="ny-submit" type="submit">Отправить заявку</button>
       <div class="ny-note" id="cbNote"></div>
     </form>
@@ -861,6 +878,64 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 
 /* ===== Фото офиса (из админки) ===== */
 (function(){var c=(window.SITE_DATA&&window.SITE_DATA.contacts)||null;var b=document.getElementById('officePh');if(!b||!c||!c.photo)return;var im=document.createElement('img');im.src=c.photo;im.alt='Офис';im.loading='lazy';b.appendChild(im);b.hidden=false;})();
+
+/* ===== Дополнительные точечные исправления ===== */
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var serviceFallback=['Продажа','Покупка','Обмен','Аренда','Сопровождение','Ипотека','Срочный выкуп','Зарубежная недвижимость','Новостройки'];
+  function applyServicePhotos(){
+    var box=document.querySelector('#services .services');if(!box)return;
+    var data=(window.SITE_DATA&&Array.isArray(window.SITE_DATA.services))?window.SITE_DATA.services:[];
+    box.querySelectorAll('.svc').forEach(function(card,i){
+      var s=data[i]||{};
+      var title=s.title||((card.querySelector('.t')||{}).textContent||serviceFallback[i]||'Услуга');
+      var old=card.querySelector('.svc-photo');if(old)old.remove();
+      var ic=card.querySelector('.ic');
+      if(s.photo){var im=document.createElement('img');im.className='svc-photo';im.src=s.photo;im.alt=title;im.loading='lazy';if(ic)ic.style.display='none';card.insertBefore(im,card.querySelector('.t'));}
+      else if(ic)ic.style.display='';
+    });
+  }
+  function resetCatalog(){
+    var form=$('searchForm');
+    if(form)form.reset();
+    ['searchType','searchDistrict','priceFrom','priceTo'].forEach(function(id){var el=$(id);if(el)el.value='';});
+    document.querySelectorAll('.s-tab').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-purpose')==='buy');});
+    if(form){try{form.dispatchEvent(new Event('reset',{bubbles:true}));}catch(e){};try{form.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));}catch(e){}}
+    var empty=$('emptyProperties');if(empty)empty.classList.add('hidden');
+    var msg=$('searchMessage');if(msg)msg.textContent='';
+  }
+  var rb=$('resetCatalog');if(rb)rb.addEventListener('click',function(e){e.preventDefault();resetCatalog();});
+
+  var calcBtn=$('calcCallback'),calcDetails=$('cbCalcDetails'),goal=$('cbGoal');
+  function fmt(n){return Number(n||0).toLocaleString('ru-RU')+' ₽';}
+  function calcSnapshot(){
+    var cost=+($('cost')&&$('cost').value||0),downPct=+($('down')&&$('down').value||0),rate=+($('rate')&&$('rate').value||0),years=+($('term')&&$('term').value||0);
+    var down=cost*downPct/100,loan=Math.max(0,cost-down),months=years*12,r=rate/100/12;
+    var monthly=r&&months?loan*r*Math.pow(1+r,months)/(Math.pow(1+r,months)-1):(months?loan/months:0);
+    var over=Math.max(0,monthly*months-loan);
+    return {cost:cost,downPct:downPct,down:down,rate:rate,years:years,loan:loan,monthly:monthly,over:over};
+  }
+  function prepareCalcCallback(){
+    var c=calcSnapshot();
+    if(goal)goal.value='Ипотека';
+    var txt='Ипотечный расчёт: стоимость '+fmt(c.cost)+', взнос '+c.downPct+'% ('+fmt(c.down)+'), ставка '+c.rate+'%, срок '+c.years+' лет, кредит '+fmt(c.loan)+', платёж '+fmt(Math.round(c.monthly))+'/мес., переплата '+fmt(Math.round(c.over))+'.';
+    if(calcDetails){calcDetails.textContent=txt;calcDetails.style.display='block';}
+    var modal=$('cbModal');if(modal)modal.dataset.calcRequest=txt;
+  }
+  if(calcBtn)calcBtn.addEventListener('click',prepareCalcCallback);
+  var cbForm=$('cbForm');
+  if(cbForm)cbForm.addEventListener('submit',function(){var modal=$('cbModal');if(modal&&modal.dataset.calcRequest)cbForm.dataset.extra=modal.dataset.calcRequest;},true);
+  document.addEventListener('click',function(e){
+    var submit=e.target.closest&&e.target.closest('#cbForm .ny-submit');if(!submit)return;
+    var modal=$('cbModal');if(!modal||!modal.dataset.calcRequest)return;
+    var g=$('cbGoal');if(!g)return;
+    var old=g.value;
+    g.innerHTML='<option>'+modal.dataset.calcRequest.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</option>';
+    g.value=modal.dataset.calcRequest;
+    setTimeout(function(){g.innerHTML='<option>Купить недвижимость</option><option>Продать недвижимость</option><option>Снять / сдать</option><option>Ипотека</option><option>Другое</option>';g.value=old||'Ипотека';},100);
+  },true);
+  applyServicePhotos();
+})();
 </script>
 </body>
 </html>
