@@ -9,12 +9,65 @@
   <link rel="stylesheet" href="styles.css?v=2">
 
 <style>
-.contact-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.contact-btn{display:flex;align-items:center;justify-content:center;min-height:48px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--fg);font-weight:700;text-decoration:none;transition:.2s}.contact-btn:hover{transform:translateY(-1px);border-color:var(--gold)}.contact-btn.call{background:var(--gold);color:#17210f}.contact-btn.whatsapp{border-color:#2f9e44}.contact-btn.telegram{border-color:#2f80ed}.contact-btn.vk{border-color:#2787f5}@media(max-width:700px){.contact-actions{grid-template-columns:repeat(2,1fr)}}
-.mobile-contact-bar{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:999;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:7px;background:rgba(12,32,26,.94);border:1px solid var(--line);border-radius:16px;backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.25)}.mobile-contact-bar a{min-height:42px;display:flex;align-items:center;justify-content:center;border-radius:11px;text-decoration:none;color:var(--fg);font-size:12px;font-weight:800;background:var(--card)}.mobile-contact-bar a:first-child{background:var(--gold);color:#17210f}@media(min-width:701px){.mobile-contact-bar{display:none}}
-body{padding-bottom:76px}@media(min-width:701px){body{padding-bottom:0}}
+/* ===== Premium opening + animated brand accents ===== */
+:root{--site-accent:var(--gold,#c7a85b);--site-green:#0c201a}
+body{padding-bottom:76px;overflow-x:hidden}@media(min-width:701px){body{padding-bottom:0}}
+
+/* Cinematic first impression */
+.site-intro{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;background:radial-gradient(circle at 50% 42%,rgba(199,168,91,.10),transparent 32%),#07150f;color:var(--fg,#f4f1e8);transition:opacity .75s ease,visibility .75s ease}
+.site-intro.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
+.intro-inner{text-align:center;width:min(720px,88vw);position:relative}
+.intro-kicker{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--site-accent);opacity:0;animation:introUp .7s .15s forwards}
+.intro-title{margin:16px 0 22px;font-size:clamp(38px,8vw,88px);line-height:.92;letter-spacing:-.045em;font-weight:800;opacity:0;animation:introUp .8s .3s forwards}
+.intro-title span{display:block;color:var(--site-accent)}
+.intro-line{height:1px;background:rgba(255,255,255,.12);position:relative;overflow:hidden;margin:auto;width:min(440px,70vw);opacity:0;animation:introUp .7s .48s forwards}
+.intro-line:after{content:"";position:absolute;top:0;left:-35%;width:35%;height:100%;background:linear-gradient(90deg,transparent,var(--site-accent),#fff,var(--site-accent),transparent);box-shadow:0 0 16px var(--site-accent);animation:scanLine 1.45s .55s infinite}
+.intro-house{position:absolute;left:50%;top:50%;width:min(560px,78vw);height:min(300px,45vw);transform:translate(-50%,-50%);opacity:.13;pointer-events:none}
+.intro-house:before,.intro-house:after{content:"";position:absolute;left:50%;transform:translateX(-50%) rotate(45deg);border:1px solid var(--site-accent);width:155px;height:155px;border-right:0;border-bottom:0}
+.intro-house:before{top:34px}.intro-house:after{top:58px;width:210px;height:210px;opacity:.2}
+.intro-skip{margin-top:26px;border:0;background:none;color:rgba(255,255,255,.48);font:inherit;font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:0;animation:introUp .7s .65s forwards;cursor:pointer}
+@keyframes introUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes scanLine{0%{left:-35%}100%{left:100%}}
+
+/* Hero typography */
+.hero h1{position:relative;isolation:isolate}
+.hero h1 .estate-word{position:relative;display:inline-block;color:var(--fg);padding:.02em .09em .10em;white-space:nowrap}
+.hero h1 .estate-word:before{content:"";position:absolute;z-index:-1;left:-.055em;right:-.055em;bottom:.02em;height:.30em;border:1px solid color-mix(in srgb,var(--site-accent) 70%,transparent);border-top-color:transparent;border-radius:2px;opacity:.95}
+.hero h1 .estate-word:after{content:"";position:absolute;z-index:2;left:-.07em;right:-.07em;bottom:.01em;height:calc(.30em + 2px);border:1px solid transparent;border-top-color:var(--site-accent);border-right-color:var(--site-accent);border-radius:2px;filter:drop-shadow(0 0 5px color-mix(in srgb,var(--site-accent) 65%,transparent));clip-path:polygon(0 0,100% 0,100% 100%,0 100%,0 65%,100% 65%,100% 100%,0 100%);animation:wordTrace 3.2s linear infinite}
+@keyframes wordTrace{0%{transform:translateX(-105%) scaleX(.2);opacity:.2}20%{transform:translateX(0) scaleX(1);opacity:1}55%{transform:translateX(0) scaleX(1);opacity:.9}100%{transform:translateX(105%) scaleX(.2);opacity:.2}}
+
+/* Buttons now belong to the same visual system */
+.contact-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:22px}
+.contact-btn{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:54px;padding:13px 16px;border:1px solid rgba(255,255,255,.14);border-radius:14px;background:linear-gradient(145deg,rgba(255,255,255,.055),rgba(255,255,255,.015));color:var(--fg);font-weight:750;text-decoration:none;letter-spacing:.01em;box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 8px 24px rgba(0,0,0,.10);transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease,background .35s ease}
+.contact-btn:before{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 20%,rgba(255,255,255,.16) 48%,transparent 70%);transform:translateX(-120%);transition:transform .65s ease}
+.contact-btn:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--site-accent) 72%,white 0%);box-shadow:0 12px 34px rgba(0,0,0,.24),0 0 0 1px rgba(199,168,91,.08)}
+.contact-btn:hover:before{transform:translateX(120%)}
+.contact-btn.call{background:linear-gradient(135deg,var(--site-accent),color-mix(in srgb,var(--site-accent) 68%,#fff));color:#17210f;border-color:transparent;box-shadow:0 10px 28px color-mix(in srgb,var(--site-accent) 24%,transparent)}
+.contact-btn.whatsapp,.contact-btn.telegram,.contact-btn.vk{border-color:rgba(255,255,255,.14)}
+
+/* Search controls */
+.search-btn,.cta-btn,.more{position:relative;overflow:hidden;transition:transform .3s ease,box-shadow .3s ease,filter .3s ease}
+.search-btn:hover,.cta-btn:hover,.more:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 12px 28px rgba(0,0,0,.20)}
+.s-tab{transition:color .3s ease,background .3s ease,transform .3s ease}.s-tab:hover{transform:translateY(-1px)}
+
+.mobile-contact-bar{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:999;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:7px;background:rgba(7,21,15,.90);border:1px solid rgba(255,255,255,.13);border-radius:17px;backdrop-filter:blur(16px);box-shadow:0 14px 38px rgba(0,0,0,.35)}
+.mobile-contact-bar a{position:relative;overflow:hidden;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;text-decoration:none;color:var(--fg);font-size:12px;font-weight:800;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07)}
+.mobile-contact-bar a:first-child{background:var(--site-accent);color:#17210f;border-color:transparent}
+@media(min-width:701px){.mobile-contact-bar{display:none}}
+@media(max-width:700px){.contact-actions{grid-template-columns:repeat(2,1fr)}.hero h1 .estate-word{white-space:normal}.intro-title{font-size:clamp(38px,12vw,64px)}}
+@media(prefers-reduced-motion:reduce){.site-intro,.contact-btn,.search-btn,.cta-btn,.more,.s-tab{transition:none}.intro-title,.intro-kicker,.intro-line,.intro-skip{animation:none;opacity:1}.intro-line:after,.hero h1 .estate-word:after{animation:none}}
 </style>
 </head>
 <body>
+<div class="site-intro" id="siteIntro" aria-hidden="true">
+  <div class="intro-house"></div>
+  <div class="intro-inner">
+    <div class="intro-kicker">Новый Ярославль · Агентство недвижимости</div>
+    <div class="intro-title">Ваше новое<br><span>пространство</span></div>
+    <div class="intro-line"></div>
+    <button class="intro-skip" id="introSkip" type="button">Перейти на сайт</button>
+  </div>
+</div>
 <header>
   <div class="nav wrap">
     <a class="logo" href="#">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a>
@@ -32,7 +85,7 @@ body{padding-bottom:76px}@media(min-width:701px){body{padding-bottom:0}}
 <main class="wrap">
   <section class="hero">
     <div class="eyebrow">Агентство недвижимости · Ярославль · с 2014 года</div>
-    <h1>Недвижимость в Ярославле — без лишних хлопот</h1>
+    <h1><span class="estate-word">Недвижимость</span> в Ярославле — без лишних хлопот</h1>
     <p>Продажа, покупка, аренда и сопровождение сделок любой сложности. Берём на себя юридическую сторону — вы получаете результат.</p>
 
     <div class="search-box">
@@ -145,6 +198,22 @@ body{padding-bottom:76px}@media(min-width:701px){body{padding-bottom:0}}
   </div>
 </footer>
 
+
+<script>
+(function(){
+  const intro=document.getElementById('siteIntro');
+  const skip=document.getElementById('introSkip');
+  if(!intro)return;
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let closed=false;
+  const close=()=>{if(closed)return;closed=true;intro.classList.add('is-hidden');document.body.style.overflow='';};
+  document.body.style.overflow='hidden';
+  skip.addEventListener('click',close);
+  intro.addEventListener('click',e=>{if(e.target===intro)close();});
+  window.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+  setTimeout(close,reduce?250:2600);
+})();
+</script>
 <script src="data.js?v=2"></script>
 <script src="app.js?v=2"></script>
 
