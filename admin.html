@@ -34,12 +34,16 @@ textarea{min-height:90px;resize:vertical}.wide{grid-column:1/-1}
 .pubbar .dirty{color:var(--gold);font-weight:700}.pubbar .clean{color:#7ddc9a;font-weight:700}.pubbar .err{color:#ff8a8a}
 details.panel summary{cursor:pointer;font-weight:700}details.panel ol{margin:12px 0 0 18px;line-height:1.8;font-size:13px;color:var(--muted)}
 .admin-btn:disabled{opacity:.55;cursor:wait}
+body{padding-bottom:92px}
+.pubdock{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 5vw calc(10px + env(safe-area-inset-bottom));background:rgba(7,21,15,.95);backdrop-filter:blur(14px);border-top:1px solid var(--line);font-size:13px}
+.pubdock .st{display:flex;flex-direction:column;gap:2px;min-width:0}.pubdock .admin-btn{padding:12px 18px;font-size:15px}
+.ver{font-size:11px;color:var(--muted);margin-left:8px;font-weight:400}
 </style>
 </head>
 <body>
 <header><div class="nav wrap"><a class="logo" href="index.html">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a><a class="nav-phone" href="index.html">На сайт →</a></div></header>
 <main class="wrap admin">
-<div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель</h1></div>
+<div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель<span class="ver">версия 5</span></h1></div>
 <div class="actions" style="margin:0"><button class="admin-btn" id="publishBtn">🚀 Опубликовать на сайт</button><button class="admin-btn secondary" id="tokenBtn">🔑 Токен</button><button class="admin-btn secondary" id="downloadData">Экспорт</button><button class="admin-btn secondary" id="importBtn">Импорт</button><button class="admin-btn secondary" id="resetData">Сбросить</button><input type="file" id="importFile" accept=".js,.json" hidden></div></div>
 <div class="pubbar"><span id="pubState"></span><span id="pubStatus"></span></div>
 <p class="admin-note">Правки сохраняются как черновик в этом браузере. Чтобы их увидели все посетители сайта, нажмите «Опубликовать на сайт» — данные и фото запишутся прямо в репозиторий GitHub. <span class="storage" id="storageInfo"></span></p>
@@ -58,7 +62,7 @@ details.panel summary{cursor:pointer;font-weight:700}details.panel ol{margin:12p
 <input name="vk" placeholder="VK: @id или короткое имя" required>
 <input name="address" class="wide" placeholder="Адрес офиса — по нему строится карта на сайте">
 <input name="hours" class="wide" placeholder="График работы (необязательно), например: Пн–Пт 9:00–19:00">
-<div class="actions wide"><button class="admin-btn" type="submit">Сохранить контакты</button><span id="contactsSaved" class="admin-note" style="margin:0"></span></div>
+<div class="actions wide"><button class="admin-btn" type="submit">Сохранить контакты</button><button class="admin-btn secondary pub-inline" type="button">🚀 Опубликовать на сайт</button><span id="contactsSaved" class="admin-note" style="margin:0"></span></div>
 </form>
 <div class="actions"><a id="testPhone" class="admin-btn secondary" href="#">📞 Позвонить</a><a id="testWa" class="admin-btn secondary" href="#" target="_blank" rel="noopener">💬 WhatsApp</a><a id="testTg" class="admin-btn secondary" href="#" target="_blank" rel="noopener">✈️ Telegram</a><a id="testVk" class="admin-btn secondary" href="#" target="_blank" rel="noopener">🔵 VK</a></div></section>
 
@@ -75,7 +79,7 @@ details.panel summary{cursor:pointer;font-weight:700}details.panel ol{margin:12p
 <div class="wide"><label class="admin-note" style="display:block;margin:0 0 6px">Фотографии (можно несколько; первая — обложка)</label>
 <input type="file" id="propFiles" accept="image/*" multiple style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)">
 <div class="photos" id="propPhotos" style="margin-top:10px"></div></div>
-<div class="actions wide"><button class="admin-btn" id="propSubmit">Добавить объект</button><button class="admin-btn secondary" type="button" id="propCancel" hidden>Отмена</button></div>
+<div class="actions wide"><button class="admin-btn" id="propSubmit">Добавить объект</button><button class="admin-btn secondary" type="button" id="propCancel" hidden>Отмена</button><button class="admin-btn secondary pub-inline" type="button">🚀 Опубликовать на сайт</button></div>
 </form></section>
 
 <section class="panel"><h2>Команда</h2><div id="teamListAdmin"></div>
@@ -84,7 +88,7 @@ details.panel summary{cursor:pointer;font-weight:700}details.panel ol{margin:12p
 <input name="name" placeholder="ФИО" required><input name="role" placeholder="Должность" required><input name="initials" placeholder="Инициалы (если нет фото)">
 <div><input type="file" id="teamFile" accept="image/*" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)"></div>
 <div class="wide"><div class="photos" id="teamPhoto"></div></div>
-<div class="actions wide"><button class="admin-btn" id="teamSubmit">Добавить сотрудника</button><button class="admin-btn secondary" type="button" id="teamCancel" hidden>Отмена</button></div></form></section>
+<div class="actions wide"><button class="admin-btn" id="teamSubmit">Добавить сотрудника</button><button class="admin-btn secondary" type="button" id="teamCancel" hidden>Отмена</button><button class="admin-btn secondary pub-inline" type="button">🚀 Опубликовать на сайт</button></div></form></section>
 
 <section class="panel"><h2>Отзывы</h2><div id="reviewListAdmin"></div>
 <form id="reviewForm" class="form-grid" style="margin-top:18px">
@@ -93,8 +97,9 @@ details.panel summary{cursor:pointer;font-weight:700}details.panel ol{margin:12p
 <div><input type="file" id="reviewFile" accept="image/*" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)"></div>
 <div class="wide"><div class="photos" id="reviewPhoto"></div></div>
 <textarea name="text" class="wide" placeholder="Текст отзыва" required></textarea>
-<div class="actions wide"><button class="admin-btn" id="reviewSubmit">Добавить отзыв</button><button class="admin-btn secondary" type="button" id="reviewCancel" hidden>Отмена</button></div></form></section>
+<div class="actions wide"><button class="admin-btn" id="reviewSubmit">Добавить отзыв</button><button class="admin-btn secondary" type="button" id="reviewCancel" hidden>Отмена</button><button class="admin-btn secondary pub-inline" type="button">🚀 Опубликовать на сайт</button></div></form></section>
 </main>
+<div class="pubdock"><div class="st"><span id="pubState2"></span><span id="pubStatus2"></span></div><button class="admin-btn" id="publishBtn2" type="button">🚀 Опубликовать на сайт</button></div>
 <script src="data.js?v=2"></script>
 <script>
 const key="ny_admin_data_v1";
@@ -247,9 +252,10 @@ $("resetData").addEventListener("click",()=>{if(!confirm("Отбросить ч�
 function parseData(t){try{return new Function("var window={};"+t+";return window.SITE_DATA;")()}catch(e){return null}}
 function updatePub(){
  const dirty=state&&state._dirty!==false;
- $("pubState").innerHTML=dirty?'<span class="dirty">● Есть неопубликованные изменения</span>':'<span class="clean">✓ Всё опубликовано</span>';
+ const h=dirty?'<span class="dirty">● Есть неопубликованные изменения</span>':'<span class="clean">✓ Всё опубликовано</span>';
+ $("pubState").innerHTML=h;$("pubState2").innerHTML=h;
 }
-function setStatus(t,cls){$("pubStatus").innerHTML=t?`<span class="${cls||""}">${esc(t)}</span>`:""}
+function setStatus(t,cls){const h=t?`<span class="${cls||""}">${esc(t)}</span>`:"";$("pubStatus").innerHTML=h;$("pubStatus2").innerHTML=h}
 async function boot(){
  if(local&&local._dirty!==false&&Array.isArray(local.properties)){state=local}
  else{
@@ -267,9 +273,9 @@ function repoInfo(){
  return{owner,repo};
 }
 function askToken(force){
- let t=localStorage.getItem(tokenKey)||"";
+ let t=localStorage.getItem(tokenKey)||localStorage.getItem("bs_admin_token")||"";
  if(t&&!force)return t;
- const v=prompt(force?"Новый токен GitHub (оставьте пустым, чтобы удалить сохранённый):":"Вставьте токен GitHub (github_pat_…). Как его получить — в блоке «Как включить публикацию» выше.",force?"":"");
+ const v=prompt(force?"Новый токен GitHub (оставьте пустым, чтобы удалить сохранённый):":"Вставьте токен GitHub (github_pat_…) — тот же, что вы вводили в панели магазина. Он нужен один раз, дальше запомнится.",force?"":"");
  if(v===null)return t||"";
  t=v.trim();if(t)localStorage.setItem(tokenKey,t);else localStorage.removeItem(tokenKey);
  return t;
@@ -289,7 +295,7 @@ function explain(r){
 }
 $("publishBtn").addEventListener("click",async()=>{
  const token=askToken(false);if(!token)return;
- const btn=$("publishBtn");btn.disabled=true;
+ const btn=$("publishBtn");btn.disabled=true;$("publishBtn2").disabled=true;
  try{
   const out=clean(state);
   const imgs=[];
@@ -322,10 +328,12 @@ $("publishBtn").addEventListener("click",async()=>{
   updateStorage();updatePub();
   setStatus("✓ Опубликовано. Сайт обновится через 1–2 минуты (обновите страницу без кеша).","clean");
  }catch(err){
-  if(/401/.test(err.message))localStorage.removeItem(tokenKey);
+  if(/401/.test(err.message)){localStorage.removeItem(tokenKey);localStorage.removeItem("bs_admin_token")}
   setStatus(err.message||"Не удалось опубликовать","err");
- }finally{btn.disabled=false}
+ }finally{btn.disabled=false;$("publishBtn2").disabled=false}
 });
+document.querySelectorAll(".pub-inline").forEach(b=>b.addEventListener("click",()=>$("publishBtn").click()));
+$("publishBtn2").addEventListener("click",()=>$("publishBtn").click());
 boot();
 </script>
 </body>
