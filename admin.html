@@ -50,6 +50,10 @@ body{padding-bottom:92px}
 .crop-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
 .ver{font-size:11px;color:var(--muted);margin-left:8px;font-weight:400}
 </style>
+<style>
+/* ===== Точечная полировка панели видимости ===== */
+#toggleServices,#toggleCatalog,#toggleCalc,#toggleSearch{min-width:220px;justify-content:center;font-weight:800}
+</style>
 </head>
 <body>
 <header><div class="nav wrap"><a class="logo" href="index.html">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a><a class="nav-phone" href="index.html">На сайт →</a></div></header>
@@ -96,7 +100,7 @@ body{padding-bottom:92px}
 
 <section class="panel"><h2>Услуги — фото</h2><p class="admin-note">Для каждой услуги можно загрузить своё фото. После выбора нажмите ✂ и сами укажите нужную область кадра: двигайте фото, увеличивайте и поворачивайте.</p><div id="servicesAdmin" class="photos"></div></section>
 
-<section class="panel"><h2>Видимость блоков на сайте</h2><p class="admin-note">Эти кнопки полностью скрывают или возвращают соответствующий блок на главной странице. Никакие данные не удаляются.</p><div class="actions"><button class="admin-btn" type="button" id="toggleServices">Все услуги: открыты</button><button class="admin-btn" type="button" id="toggleCatalog">Актуальные объекты: открыты</button><button class="admin-btn" type="button" id="toggleCalc">Калькулятор: открыт</button><button class="admin-btn" type="button" id="toggleSearch">«Найти»: открыт</button></div></section>
+<section class="panel"><h2>Видимость блоков на сайте</h2><p class="admin-note">Эти кнопки полностью скрывают или возвращают соответствующий блок на главной странице. Никакие данные не удаляются.</p><div class="actions"><button class="admin-btn" type="button" id="toggleServices">Все услуги: открыты</button><button class="admin-btn" type="button" id="toggleCatalog">Актуальные объекты: открыты</button><button class="admin-btn" type="button" id="toggleCalc">Калькулятор: открыт</button><button class="admin-btn" type="button" id="toggleSearch">«Найти»: открыт</button></div><p class="admin-note section-visibility-hint">Нажмите кнопку ещё раз, чтобы скрыть раздел. Данные и объекты при этом не удаляются.</p></section>
 
 <section class="panel"><h2>Команда</h2><div id="teamListAdmin"></div>
 <form id="teamForm" class="form-grid" style="margin-top:18px">
