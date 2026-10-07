@@ -283,18 +283,6 @@ main>section+section{margin-top:44px!important}
 .sec-head{margin-bottom:18px!important}
 .f-top{padding:34px 0 22px!important}
 .f-bottom{padding-top:16px!important}
-/* ===== Service grid: ровная сетка без одинокого последнего блока ===== */
-.services{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:14px!important;align-items:stretch!important}
-.services .svc{min-width:0;min-height:118px;display:flex!important;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-.services .svc .t{line-height:1.25}
-.services .svc .svc-photo{width:46px;height:46px;border-radius:12px;object-fit:cover;margin-bottom:9px;border:1px solid rgba(255,255,255,.12);display:block}
-@media(max-width:700px){.services{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:9px!important}.services .svc{min-height:104px;padding:10px 5px}.services .svc .t{font-size:12px}.services .svc .ic{margin-bottom:4px}}
-
-/* ===== Footer navigation: аккуратные кнопки на всех версиях ===== */
-.f-top>.f-col:nth-child(2) a{display:inline-flex;align-items:center;justify-content:center;margin:0 7px 8px 0;padding:10px 14px;border:1px solid rgba(255,255,255,.14);border-radius:999px;background:rgba(255,255,255,.04);color:var(--fg);line-height:1.1;text-decoration:none;transition:transform .25s ease,border-color .25s ease,background .25s ease,color .25s ease}
-.f-top>.f-col:nth-child(2) a:hover{transform:translateY(-2px);border-color:var(--site-accent);background:rgba(199,168,91,.10);color:var(--fg)}
-@media(max-width:700px){.f-top>.f-col:nth-child(2) a{margin:0 5px 7px 0;padding:9px 12px;font-size:12.5px}}
-
 @media(max-width:700px){
   main>section+section{margin-top:30px!important}
   .hero{padding-top:18px!important}
@@ -314,6 +302,23 @@ main>section+section{margin-top:44px!important}
   .f-bottom{padding-bottom:140px!important}
   .office-ph{aspect-ratio:16/10}
 }
+</style>
+
+<style>
+/* ===== Новые точечные правки ===== */
+.svc{min-height:170px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;isolation:isolate}
+/* Фото занимает весь квадрат карточки, а не только область значка */
+.svc-photo{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;max-width:none!important;max-height:none!important;display:block!important;object-fit:cover!important;object-position:center!important;opacity:1!important;z-index:0!important;transition:transform .55s ease,filter .45s ease}
+.svc:after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.72));z-index:0;pointer-events:none}
+/* Значок красиво появляется сверху поверх фотографии */
+.svc .ic{position:relative;z-index:2;align-self:flex-start;animation:svcIconDrop .7s cubic-bezier(.2,.8,.2,1) both}
+.svc .t{position:relative;z-index:2;margin-top:8px}
+.svc:nth-child(1) .ic{animation-delay:.04s}.svc:nth-child(2) .ic{animation-delay:.10s}.svc:nth-child(3) .ic{animation-delay:.16s}.svc:nth-child(4) .ic{animation-delay:.22s}.svc:nth-child(5) .ic{animation-delay:.28s}.svc:nth-child(6) .ic{animation-delay:.34s}.svc:nth-child(7) .ic{animation-delay:.40s}.svc:nth-child(8) .ic{animation-delay:.46s}.svc:nth-child(9) .ic{animation-delay:.52s}
+@keyframes svcIconDrop{0%{opacity:0;transform:translateY(-70px) scale(.82)}70%{opacity:1;transform:translateY(7px) scale(1.04)}100%{opacity:1;transform:translateY(0) scale(1)}}
+.svc:hover .svc-photo{transform:scale(1.04);filter:saturate(1.04)}
+.reviews-wrap{position:relative}.reviews{display:flex!important;gap:14px!important;overflow:hidden!important;scroll-behavior:smooth;padding:4px 2px 12px!important;scrollbar-width:none}.reviews::-webkit-scrollbar{display:none}.reviews .rv{flex:0 0 calc((100% - 28px)/3);min-width:0}.reviews-nav{display:flex;gap:8px;margin-left:auto}.reviews-nav button{width:42px;height:42px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--fg);font-size:24px;cursor:pointer}.reviews-nav button:hover{border-color:var(--site-accent);color:var(--site-accent)}
+@media(max-width:900px){.reviews .rv{flex-basis:calc((100% - 14px)/2)}}
+@media(max-width:600px){.reviews .rv{flex-basis:100%}.reviews-nav button{width:38px;height:38px}}
 </style>
 </head>
 <body>
@@ -424,7 +429,7 @@ main>section+section{margin-top:44px!important}
         <div class="big" id="rMonthly">— ₽</div>
         <div class="line"><span>Сумма кредита</span><span id="rLoan">—</span></div>
         <div class="line"><span>Переплата за весь срок</span><span id="rOver">—</span></div>
-        <a class="cta-btn" id="calcCallback" href="#" data-open-callback>Получить точный расчёт</a>
+        <a class="cta-btn" id="calcCallback" href="#" data-open-callback>Получить расчёт</a>
       </div>
     </div>
   </section>
@@ -435,8 +440,8 @@ main>section+section{margin-top:44px!important}
   </section>
 
   <section id="reviews-sec">
-    <div class="sec-head"><div><div class="eyebrow">Клиенты</div><h2>Отзывы</h2></div></div>
-    <div class="reviews" id="reviews"></div>
+    <div class="sec-head"><div><div class="eyebrow">Клиенты</div><h2>Отзывы</h2></div><div class="reviews-nav"><button type="button" id="reviewsPrev" aria-label="Предыдущие отзывы">‹</button><button type="button" id="reviewsNext" aria-label="Следующие отзывы">›</button></div></div>
+    <div class="reviews-wrap"><div class="reviews" id="reviews"></div></div>
   </section>
   <section id="contacts" aria-labelledby="ccTitle">
     <div class="sec-head"><div><div class="eyebrow">Контакты</div><h2 id="ccTitle">Как нас найти</h2></div></div>
@@ -492,7 +497,7 @@ main>section+section{margin-top:44px!important}
   <a class="cc-row" data-contact="telegram" href="https://t.me/AndreiAndriichuk" target="_blank" rel="noopener"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/></svg></i><span><b>Telegram</b><em data-v="telegram">@AndreiAndriichuk</em></span></a>
   <a class="cc-row" data-contact="vk" href="https://vk.com/id420778533" target="_blank" rel="noopener"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><path d="M7 9l2.2 5.2c.2.5.6.8 1.1.8H11V9m0 3.2c1.7-.3 2.6-1.4 3-3.2m-3 3.2L14.8 15M16.5 9l-2 4"/></svg></i><span><b>ВКонтакте</b><em data-v="vk">vk.com/id420778533</em></span></a>
   <a class="cc-row" href="#" data-open-callback><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></i><span><b>Заказать звонок</b><em>Оставьте номер — перезвоним</em></span></a>
-
+  <a class="cc-row" href="#contacts"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></i><span><b>Как нас найти</b><em>Адрес и карта</em></span></a>
 </div>
 <button class="fab" id="fab" type="button" aria-expanded="false" aria-controls="fabSheet">
   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>
@@ -522,10 +527,6 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 <script>
 /* Данные, сохранённые в админке этого браузера, имеют приоритет над data.js */
 (function(){try{var d=JSON.parse(localStorage.getItem('ny_admin_data_v1')||'null');if(d&&d._dirty!==false&&Array.isArray(d.properties))window.SITE_DATA=d;}catch(e){}})();
-</script>
-<script>
-/* Скрытые объекты остаются в админке, но не показываются посетителям сайта. */
-(function(){try{if(window.SITE_DATA&&Array.isArray(window.SITE_DATA.properties)){window.SITE_DATA={...window.SITE_DATA,properties:window.SITE_DATA.properties.filter(function(p){return p.visible!==false;})};}}catch(e){}})();
 </script>
 <script>document.write('<script src="app.js?v='+window.__NY_V+'"><\/script>');</script>
 
@@ -614,7 +615,6 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
         <option>Купить недвижимость</option><option>Продать недвижимость</option><option>Снять / сдать</option>
         <option>Ипотека</option><option>Другое</option>
       </select>
-      <div id="cbCalcDetails" class="ny-note" style="display:none;text-align:left;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.035)"></div>
       <button class="ny-submit" type="submit">Отправить заявку</button>
       <div class="ny-note" id="cbNote"></div>
     </form>
@@ -821,6 +821,19 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 </script>
 
 <script>
+/* ===== Точечные настройки: видимость блоков, фото услуг, карусель отзывов ===== */
+(function(){
+ function d(){return window.SITE_DATA||{}}
+ function visibility(){var u=d().ui||{};var q=document.querySelector('.search-box'),c=document.getElementById('objects');if(q)q.style.display=u.searchVisible===false?'none':'';if(c)c.style.display=u.catalogVisible===false?'none':''}
+ function services(){var list=d().services||[];document.querySelectorAll('#services .svc').forEach(function(card){if(card.querySelector('.svc-photo'))return;var title=((card.querySelector('.t')||{}).textContent||'').trim();var x=list.find(function(v){return v&&v.title===title});if(!x||!x.photo)return;var im=document.createElement('img');im.className='svc-photo';im.src=x.photo;im.alt='';im.loading='lazy';card.prepend(im)})}
+ function reviews(){var box=document.getElementById('reviews'),prev=document.getElementById('reviewsPrev'),next=document.getElementById('reviewsNext');if(!box||!prev||!next)return;if(box.dataset.navReady)return;box.dataset.navReady='1';function move(n){var card=box.querySelector('.rv');if(card)box.scrollBy({left:n*(card.getBoundingClientRect().width+(parseFloat(getComputedStyle(box).gap)||14)),behavior:'smooth'})}prev.onclick=function(){move(-1)};next.onclick=function(){move(1)};}
+ function calc(){var b=document.getElementById('calcCallback');if(!b||b.dataset.ready)return;b.dataset.ready='1';b.addEventListener('click',function(){var modal=document.getElementById('cbModal'),goal=document.getElementById('cbGoal'),cost=+(document.getElementById('cost')||{}).value||0,down=+(document.getElementById('down')||{}).value||0,term=+(document.getElementById('term')||{}).value||0,rate=+(document.getElementById('rate')||{}).value||0,loan=cost*(1-down/100),m=rate/1200,n=term*12,p=m?loan*m*Math.pow(1+m,n)/(Math.pow(1+m,n)-1):loan/n;if(goal)goal.value='Ипотека';if(modal)modal.dataset.calcDetails='Стоимость объекта: '+cost.toLocaleString('ru-RU')+' ₽; первоначальный взнос: '+(cost*down/100).toLocaleString('ru-RU')+' ₽; срок: '+term+' лет; ориентировочный платёж: '+Math.round(p||0).toLocaleString('ru-RU')+' ₽.'})}
+ function init(){visibility();services();reviews();calc()}
+ init();setTimeout(init,300);setTimeout(init,1000);
+ var r=document.getElementById('reviews');if(r)new MutationObserver(function(){reviews()}).observe(r,{childList:true});
+})();
+</script>
+<script>
 /* ===== Заявка на обратный звонок (уходит в WhatsApp) ===== */
 (function(){
   var modal=document.getElementById('cbModal'),form=document.getElementById('cbForm');if(!modal||!form)return;
@@ -840,7 +853,7 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
     if(!n||(p.replace(/\D/g,'').length<10)){note.textContent='Укажите имя и корректный номер телефона';return;}
     var wa=document.querySelector('a[data-contact="whatsapp"]');
     var base=wa?wa.getAttribute('href'):'https://wa.me/79201085073';
-    var msg='Здравствуйте! Меня зовут '+n+'. Интересует: '+goal.value+'. Мой телефон: '+p+'. Перезвоните, пожалуйста.';
+    var msg='Здравствуйте! Меня зовут '+n+'. Интересует: '+goal.value+'. Мой телефон: '+p+'. Перезвоните, пожалуйста.';var details=modal.dataset.calcDetails||'';if(details)msg+=' Расчёт: '+details;
     window.open(base.split('?')[0]+'?text='+encodeURIComponent(msg),'_blank','noopener');
     note.textContent='Открываем WhatsApp — нажмите «Отправить» в чате';
     setTimeout(close,1800);
@@ -878,64 +891,6 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 
 /* ===== Фото офиса (из админки) ===== */
 (function(){var c=(window.SITE_DATA&&window.SITE_DATA.contacts)||null;var b=document.getElementById('officePh');if(!b||!c||!c.photo)return;var im=document.createElement('img');im.src=c.photo;im.alt='Офис';im.loading='lazy';b.appendChild(im);b.hidden=false;})();
-
-/* ===== Дополнительные точечные исправления ===== */
-(function(){
-  var $=function(id){return document.getElementById(id)};
-  var serviceFallback=['Продажа','Покупка','Обмен','Аренда','Сопровождение','Ипотека','Срочный выкуп','Зарубежная недвижимость','Новостройки'];
-  function applyServicePhotos(){
-    var box=document.querySelector('#services .services');if(!box)return;
-    var data=(window.SITE_DATA&&Array.isArray(window.SITE_DATA.services))?window.SITE_DATA.services:[];
-    box.querySelectorAll('.svc').forEach(function(card,i){
-      var s=data[i]||{};
-      var title=s.title||((card.querySelector('.t')||{}).textContent||serviceFallback[i]||'Услуга');
-      var old=card.querySelector('.svc-photo');if(old)old.remove();
-      var ic=card.querySelector('.ic');
-      if(s.photo){var im=document.createElement('img');im.className='svc-photo';im.src=s.photo;im.alt=title;im.loading='lazy';if(ic)ic.style.display='none';card.insertBefore(im,card.querySelector('.t'));}
-      else if(ic)ic.style.display='';
-    });
-  }
-  function resetCatalog(){
-    var form=$('searchForm');
-    if(form)form.reset();
-    ['searchType','searchDistrict','priceFrom','priceTo'].forEach(function(id){var el=$(id);if(el)el.value='';});
-    document.querySelectorAll('.s-tab').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-purpose')==='buy');});
-    if(form){try{form.dispatchEvent(new Event('reset',{bubbles:true}));}catch(e){};try{form.dispatchEvent(new Event('submit',{bubbles:true,cancelable:true}));}catch(e){}}
-    var empty=$('emptyProperties');if(empty)empty.classList.add('hidden');
-    var msg=$('searchMessage');if(msg)msg.textContent='';
-  }
-  var rb=$('resetCatalog');if(rb)rb.addEventListener('click',function(e){e.preventDefault();resetCatalog();});
-
-  var calcBtn=$('calcCallback'),calcDetails=$('cbCalcDetails'),goal=$('cbGoal');
-  function fmt(n){return Number(n||0).toLocaleString('ru-RU')+' ₽';}
-  function calcSnapshot(){
-    var cost=+($('cost')&&$('cost').value||0),downPct=+($('down')&&$('down').value||0),rate=+($('rate')&&$('rate').value||0),years=+($('term')&&$('term').value||0);
-    var down=cost*downPct/100,loan=Math.max(0,cost-down),months=years*12,r=rate/100/12;
-    var monthly=r&&months?loan*r*Math.pow(1+r,months)/(Math.pow(1+r,months)-1):(months?loan/months:0);
-    var over=Math.max(0,monthly*months-loan);
-    return {cost:cost,downPct:downPct,down:down,rate:rate,years:years,loan:loan,monthly:monthly,over:over};
-  }
-  function prepareCalcCallback(){
-    var c=calcSnapshot();
-    if(goal)goal.value='Ипотека';
-    var txt='Ипотечный расчёт: стоимость '+fmt(c.cost)+', взнос '+c.downPct+'% ('+fmt(c.down)+'), ставка '+c.rate+'%, срок '+c.years+' лет, кредит '+fmt(c.loan)+', платёж '+fmt(Math.round(c.monthly))+'/мес., переплата '+fmt(Math.round(c.over))+'.';
-    if(calcDetails){calcDetails.textContent=txt;calcDetails.style.display='block';}
-    var modal=$('cbModal');if(modal)modal.dataset.calcRequest=txt;
-  }
-  if(calcBtn)calcBtn.addEventListener('click',prepareCalcCallback);
-  var cbForm=$('cbForm');
-  if(cbForm)cbForm.addEventListener('submit',function(){var modal=$('cbModal');if(modal&&modal.dataset.calcRequest)cbForm.dataset.extra=modal.dataset.calcRequest;},true);
-  document.addEventListener('click',function(e){
-    var submit=e.target.closest&&e.target.closest('#cbForm .ny-submit');if(!submit)return;
-    var modal=$('cbModal');if(!modal||!modal.dataset.calcRequest)return;
-    var g=$('cbGoal');if(!g)return;
-    var old=g.value;
-    g.innerHTML='<option>'+modal.dataset.calcRequest.replace(/</g,'&lt;').replace(/>/g,'&gt;')+'</option>';
-    g.value=modal.dataset.calcRequest;
-    setTimeout(function(){g.innerHTML='<option>Купить недвижимость</option><option>Продать недвижимость</option><option>Снять / сдать</option><option>Ипотека</option><option>Другое</option>';g.value=old||'Ипотека';},100);
-  },true);
-  applyServicePhotos();
-})();
 </script>
 </body>
 </html>
