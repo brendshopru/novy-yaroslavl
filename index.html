@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#0c201a">
+  <title>Новый Ярославль — агентство недвижимости</title>
+  <link rel="stylesheet" href="styles.css?v=2">
+</head>
+<body>
+<header>
+  <div class="nav wrap">
+    <a class="logo" href="#">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a>
+    <nav class="nav-links" aria-label="Основная навигация">
+      <a href="#objects">Объекты</a>
+      <a href="#services">Услуги</a>
+      <a href="#calc">Ипотека</a>
+      <a href="#team">Команда</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <a class="nav-phone" href="tel:+74852933063">+7 (4852) 93-30-63</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="eyebrow">Агентство недвижимости · Ярославль · с 2014 года</div>
+    <h1>Недвижимость в Ярославле — без лишних хлопот</h1>
+    <p>Продажа, покупка, аренда и сопровождение сделок любой сложности. Берём на себя юридическую сторону — вы получаете результат.</p>
+
+    <div class="search-box">
+      <div class="search-tabs" role="tablist">
+        <button class="s-tab on" data-purpose="buy">Купить</button>
+        <button class="s-tab" data-purpose="rent">Снять</button>
+        <button class="s-tab" data-purpose="sell">Продать</button>
+        <button class="s-tab" data-purpose="new">Новостройки</button>
+      </div>
+      <form class="search-grid" id="searchForm">
+        <select id="searchType" aria-label="Тип объекта">
+          <option value="">Тип объекта</option>
+          <option value="Квартира">Квартира</option>
+          <option value="Дом">Дом</option>
+          <option value="Коммерция">Коммерция</option>
+          <option value="Участок">Участок</option>
+        </select>
+        <select id="searchDistrict" aria-label="Район">
+          <option value="">Район</option>
+          <option>Кировский</option>
+          <option>Дзержинский</option>
+          <option>Красноперекопский</option>
+          <option>Заволжский</option>
+        </select>
+        <input id="priceFrom" type="number" min="0" placeholder="Цена от" aria-label="Цена от">
+        <input id="priceTo" type="number" min="0" placeholder="Цена до" aria-label="Цена до">
+        <button class="search-btn" type="submit">Найти</button>
+      </form>
+      <div id="searchMessage" class="search-message" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="sec-head"><div><div class="eyebrow">Что мы делаем</div><h2>Все услуги в одном месте</h2></div></div>
+    <div class="services">
+      <div class="svc"><div class="ic">⌂</div><div class="t">Продажа</div></div>
+      <div class="svc"><div class="ic">→</div><div class="t">Покупка</div></div>
+      <div class="svc"><div class="ic">↕</div><div class="t">Обмен</div></div>
+      <div class="svc"><div class="ic">▤</div><div class="t">Аренда</div></div>
+      <div class="svc"><div class="ic">◷</div><div class="t">Сопровождение</div></div>
+      <div class="svc"><div class="ic">₽</div><div class="t">Ипотека</div></div>
+      <div class="svc"><div class="ic">ϟ</div><div class="t">Срочный выкуп</div></div>
+      <div class="svc"><div class="ic">◎</div><div class="t">Зарубежная недвижимость</div></div>
+      <div class="svc"><div class="ic">⌂</div><div class="t">Новостройки</div></div>
+    </div>
+  </section>
+
+  <section id="objects">
+    <div class="sec-head">
+      <div><div class="eyebrow">Каталог</div><h2>Актуальные объекты</h2></div>
+      <button class="more" id="resetCatalog" type="button">Сбросить фильтры →</button>
+    </div>
+    <div class="grid-props" id="properties"></div>
+    <div id="emptyProperties" class="empty hidden">По заданным параметрам объектов не найдено.</div>
+  </section>
+
+  <section id="calc">
+    <div class="sec-head"><div><div class="eyebrow">Планирование</div><h2>Ипотечный калькулятор</h2></div></div>
+    <div class="calc">
+      <div>
+        <div class="row"><label>Стоимость объекта <span class="val" id="vCost"></span></label><input type="range" id="cost" min="1000000" max="20000000" step="100000" value="6000000"></div>
+        <div class="row"><label>Первоначальный взнос <span class="val" id="vDown"></span></label><input type="range" id="down" min="0" max="80" step="5" value="20"></div>
+        <div class="row"><label>Ставка, % годовых <span class="val" id="vRate"></span></label><input type="range" id="rate" min="5" max="25" step="0.5" value="18"></div>
+        <div class="row"><label>Срок, лет <span class="val" id="vTerm"></span></label><input type="range" id="term" min="1" max="30" step="1" value="20"></div>
+      </div>
+      <div class="calc-result">
+        <div class="lbl">Платёж в месяц</div>
+        <div class="big" id="rMonthly">— ₽</div>
+        <div class="line"><span>Сумма кредита</span><span id="rLoan">—</span></div>
+        <div class="line"><span>Переплата за весь срок</span><span id="rOver">—</span></div>
+        <a class="cta-btn" href="https://wa.me/79201085073" target="_blank" rel="noopener">Получить точный расчёт</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="team">
+    <div class="sec-head"><div><div class="eyebrow">Люди</div><h2>Наша команда</h2></div></div>
+    <div class="team" id="teamList"></div>
+  </section>
+
+  <section id="reviews-sec">
+    <div class="sec-head"><div><div class="eyebrow">Клиенты</div><h2>Отзывы</h2></div></div>
+    <div class="reviews" id="reviews"></div>
+  </section>
+</main>
+
+<footer id="contacts">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <div class="h">Новый Ярославль</div>
+        <div>г. Ярославль, ул. Советская, д. 35, оф. 5</div>
+        <a href="tel:+74852933063">+7 (4852) 93-30-63</a>
+        <a href="https://vk.com/newyar76" target="_blank" rel="noopener">ВКонтакте →</a>
+        <div class="map-stub"><span>Карта офиса</span></div>
+      </div>
+      <div class="foot-col"><div class="h">Услуги</div><a href="#services">Продажа и покупка</a><a href="#services">Аренда</a><a href="#calc">Ипотека</a><a href="#services">Срочный выкуп</a></div>
+      <div class="foot-col"><div class="h">Компания</div><a href="#team">Команда</a><a href="#reviews-sec">Отзывы</a><a href="#objects">Объекты</a><a href="tel:+74852933063">Записаться на консультацию</a></div>
+    </div>
+    <div class="copy">Новый Ярославль © 2026 · агентство недвижимости</div>
+  </div>
+</footer>
+
+<script src="data.js?v=2"></script>
+<script src="app.js?v=2"></script>
+</body>
+</html>

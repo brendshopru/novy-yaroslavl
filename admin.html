@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Админка — Новый Ярославль</title>
+<link rel="stylesheet" href="styles.css?v=2">
+<style>
+.admin{padding:40px 0}.admin-head{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:28px}.admin-head h1{font-size:30px}.admin-note{color:var(--muted);font-size:13px;line-height:1.6;margin:10px 0 25px}.panel{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px;margin-bottom:18px}.panel h2{font-size:19px;margin-bottom:15px}.form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.form-grid input,.form-grid textarea{width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:11px;color:var(--fg)}textarea{min-height:90px;resize:vertical}.wide{grid-column:1/-1}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}.admin-btn{border:0;border-radius:10px;padding:10px 16px;background:var(--gold);color:#17210f;font-weight:700}.admin-btn.secondary{background:var(--line);color:var(--fg)}.item{border-top:1px solid var(--line);padding:14px 0;display:flex;justify-content:space-between;gap:15px}.item:first-child{border-top:0}.item small{color:var(--muted)}@media(max-width:650px){.form-grid{grid-template-columns:1fr}.wide{grid-column:auto}.admin-head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<header><div class="nav wrap"><a class="logo" href="index.html">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a><a class="nav-phone" href="index.html">На сайт →</a></div></header>
+<main class="wrap admin">
+<div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель</h1></div><button class="admin-btn" id="downloadData">Экспорт data.js</button></div>
+<p class="admin-note">Это первая версия админки без сервера: изменения сохраняются в браузере и могут быть экспортированы в data.js. Для настоящей общей админки с авторизацией и сохранением на сервере следующим этапом подключим Supabase или другой backend.</p>
+
+<section class="panel"><h2>Объекты</h2><div id="propertyList"></div>
+<form id="propertyForm" class="form-grid">
+<input name="title" placeholder="Название" required><input name="price" type="number" placeholder="Цена" required>
+<input name="address" placeholder="Адрес" required><input name="type" placeholder="Тип: Квартира / Дом">
+<input name="district" placeholder="Район"><input name="tag" placeholder="Метка: Новостройка">
+<input name="meta" class="wide" placeholder="Параметры через запятую: 2 комнаты, 58 м², 7/12 эт.">
+<div class="actions wide"><button class="admin-btn">Добавить объект</button></div>
+</form></section>
+
+<section class="panel"><h2>Команда</h2><div id="teamListAdmin"></div>
+<form id="teamForm" class="form-grid"><input name="name" placeholder="ФИО" required><input name="role" placeholder="Должность" required><input name="initials" placeholder="Инициалы"><div class="actions wide"><button class="admin-btn">Добавить сотрудника</button></div></form></section>
+
+<section class="panel"><h2>Отзывы</h2><div id="reviewListAdmin"></div>
+<form id="reviewForm" class="form-grid"><input name="who" placeholder="Имя клиента" required><textarea name="text" class="wide" placeholder="Текст отзыва" required></textarea><div class="actions wide"><button class="admin-btn">Добавить отзыв</button></div></form></section>
+</main>
+<script src="data.js?v=2"></script>
+<script>
+const key="ny_admin_data_v1"; let state=JSON.parse(localStorage.getItem(key)||"null")||JSON.parse(JSON.stringify(window.SITE_DATA));
+const save=()=>localStorage.setItem(key,JSON.stringify(state));
+const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+function render(){
+ document.getElementById("propertyList").innerHTML=state.properties.map((p,i)=>`<div class="item"><div><b>${esc(p.title)}</b> · ${Number(p.price).toLocaleString("ru-RU")} ₽<br><small>${esc(p.address)} · ${esc(p.tag||"")}</small></div><button class="admin-btn secondary" onclick="del('properties',${i})">Удалить</button></div>`).join("");
+ document.getElementById("teamListAdmin").innerHTML=state.team.map((m,i)=>`<div class="item"><div><b>${esc(m.name)}</b><br><small>${esc(m.role)}</small></div><button class="admin-btn secondary" onclick="del('team',${i})">Удалить</button></div>`).join("");
+ document.getElementById("reviewListAdmin").innerHTML=state.reviews.map((r,i)=>`<div class="item"><div><b>${esc(r.who)}</b><br><small>${esc(r.text)}</small></div><button class="admin-btn secondary" onclick="del('reviews',${i})">Удалить</button></div>`).join("");
+}
+window.del=(type,i)=>{state[type].splice(i,1);save();render()};
+document.getElementById("propertyForm").addEventListener("submit",e=>{e.preventDefault();let f=new FormData(e.target);state.properties.push({id:Date.now(),title:f.get("title"),price:+f.get("price"),address:f.get("address"),type:f.get("type"),district:f.get("district"),tag:f.get("tag"),meta:String(f.get("meta")).split(",").map(x=>x.trim()).filter(Boolean)});save();e.target.reset();render()});
+document.getElementById("teamForm").addEventListener("submit",e=>{e.preventDefault();let f=new FormData(e.target);state.team.push({id:Date.now(),name:f.get("name"),role:f.get("role"),initials:f.get("initials")||String(f.get("name")).slice(0,2)});save();e.target.reset();render()});
+document.getElementById("reviewForm").addEventListener("submit",e=>{e.preventDefault();let f=new FormData(e.target);state.reviews.push({id:Date.now(),who:f.get("who"),text:f.get("text")});save();e.target.reset();render()});
+document.getElementById("downloadData").addEventListener("click",()=>{const content="window.SITE_DATA = "+JSON.stringify(state,null,2)+";";const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type:"text/javascript"}));a.download="data.js";a.click();URL.revokeObjectURL(a.href)});
+render();
+</script>
+</body>
+</html>

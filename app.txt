@@ -1,0 +1,121 @@
+(() => {
+  "use strict";
+
+  const data = window.SITE_DATA || { properties: [], team: [], reviews: [] };
+  const $ = (id) => document.getElementById(id);
+  const fmt = (n) => Math.round(Number(n) || 0).toLocaleString("ru-RU") + " ₽";
+
+  function init() {
+    const properties = $("properties");
+    const empty = $("emptyProperties");
+    if (!properties) return;
+
+    function renderProperties(list = data.properties) {
+      properties.innerHTML = list.map(p => `
+        <article class="prop">
+          <div class="ph"><span class="tag">${escapeHtml(p.tag || "Объект")}</span>Фото объекта</div>
+          <div class="body">
+            <div class="price">${fmt(p.price)}</div>
+            <div class="addr">${escapeHtml(p.address)}, ${escapeHtml(p.title)}</div>
+            <div class="meta">${(p.meta || []).map(x => `<span>${escapeHtml(x)}</span>`).join("")}</div>
+          </div>
+        </article>`).join("");
+      if (empty) empty.classList.toggle("hidden", list.length !== 0);
+    }
+
+    function renderTeam() {
+      const el = $("teamList");
+      if (!el) return;
+      el.innerHTML = (data.team || []).map(m => `
+        <div class="member">
+          <div class="av">${escapeHtml(m.initials || String(m.name || "").slice(0,2))}</div>
+          <div class="nm">${escapeHtml(m.name)}</div>
+          <div class="role">${escapeHtml(m.role)}</div>
+        </div>`).join("");
+    }
+
+    function renderReviews() {
+      const el = $("reviews");
+      if (!el) return;
+      el.innerHTML = (data.reviews || []).map(r => `
+        <div class="rv"><div class="stars">★★★★★</div>
+        <p>${escapeHtml(r.text)}</p><div class="who">${escapeHtml(r.who)}</div></div>`).join("");
+    }
+
+    function search() {
+      const type = $("searchType")?.value || "";
+      const district = $("searchDistrict")?.value || "";
+      const from = Number($("priceFrom")?.value) || 0;
+      const to = Number($("priceTo")?.value) || Infinity;
+      const list = (data.properties || []).filter(p =>
+        (!type || p.type === type) &&
+        (!district || p.district === district) &&
+        Number(p.price) >= from && Number(p.price) <= to
+      );
+      renderProperties(list);
+      const msg = $("searchMessage");
+      if (msg) msg.textContent = `Найдено объектов: ${list.length}`;
+      $("objects")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    $("searchForm")?.addEventListener("submit", e => {
+      e.preventDefault();
+      search();
+    });
+
+    $("resetCatalog")?.addEventListener("click", () => {
+      ["searchType","searchDistrict","priceFrom","priceTo"].forEach(id => {
+        const el = $(id); if (el) el.value = "";
+      });
+      const msg = $("searchMessage"); if (msg) msg.textContent = "";
+      renderProperties();
+    });
+
+    document.querySelectorAll(".s-tab").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".s-tab").forEach(x => x.classList.remove("on"));
+        btn.classList.add("on");
+      });
+    });
+
+    function calc() {
+      const cost = Number($("cost")?.value) || 0;
+      const down = Number($("down")?.value) || 0;
+      const rate = Number($("rate")?.value) || 0;
+      const years = Number($("term")?.value) || 1;
+
+      if ($("vCost")) $("vCost").textContent = fmt(cost);
+      if ($("vDown")) $("vDown").textContent = down + "%";
+      if ($("vRate")) $("vRate").textContent = rate + "%";
+      if ($("vTerm")) $("vTerm").textContent = years;
+
+      const loan = cost * (1 - down / 100);
+      const r = rate / 100 / 12;
+      const n = years * 12;
+      const monthly = r === 0 ? loan / n : loan * r * Math.pow(1+r,n) / (Math.pow(1+r,n)-1);
+
+      if ($("rMonthly")) $("rMonthly").textContent = fmt(monthly);
+      if ($("rLoan")) $("rLoan").textContent = fmt(loan);
+      if ($("rOver")) $("rOver").textContent = fmt(monthly * n - loan);
+    }
+
+    ["cost","down","rate","term"].forEach(id => $(id)?.addEventListener("input", calc));
+
+    renderProperties();
+    renderTeam();
+    renderReviews();
+    calc();
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, m => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+    }[m]));
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init, { once: true });
+  } else {
+    init();
+  }
+})();
