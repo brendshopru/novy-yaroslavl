@@ -29,13 +29,13 @@ body{padding-bottom:76px;overflow-x:hidden}@media(min-width:701px){body{padding-
 @keyframes introUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 @keyframes scanLine{0%{left:-35%}100%{left:100%}}
 
-/* Hero typography: framed word with light running around the whole border */
+/* Hero typography: whole headline in a frame, light runs around the full border */
 @property --wa{syntax:'<angle>';inherits:false;initial-value:0deg}
-.hero h1{position:relative;isolation:isolate}
-.hero h1 .estate-word{position:relative;display:inline-block;color:var(--fg);padding:.02em .22em .08em;margin:0 .03em;white-space:nowrap;border-radius:.22em;background:linear-gradient(145deg,color-mix(in srgb,var(--site-accent) 16%,transparent),color-mix(in srgb,var(--site-accent) 3%,transparent));box-shadow:0 0 34px color-mix(in srgb,var(--site-accent) 16%,transparent),inset 0 0 22px color-mix(in srgb,var(--site-accent) 7%,transparent)}
-.hero h1 .estate-word:before,.hero h1 .estate-word:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
-.hero h1 .estate-word:before{padding:1px;background:color-mix(in srgb,var(--site-accent) 38%,transparent)}
-.hero h1 .estate-word:after{padding:2px;background:conic-gradient(from var(--wa),transparent 0deg,transparent 270deg,var(--site-accent) 325deg,#fff 352deg,transparent 360deg),conic-gradient(from calc(var(--wa) + 180deg),transparent 0deg,transparent 300deg,var(--site-accent) 340deg,#fff 356deg,transparent 360deg);filter:drop-shadow(0 0 6px var(--site-accent));animation:wordSpin 4s linear infinite}
+.hero h1{position:relative;isolation:isolate;display:block;width:fit-content;max-width:100%;padding:.34em .5em .38em;border-radius:.3em;background:linear-gradient(145deg,color-mix(in srgb,var(--site-accent) 14%,transparent),color-mix(in srgb,var(--site-accent) 2%,transparent));box-shadow:0 0 44px color-mix(in srgb,var(--site-accent) 14%,transparent),inset 0 0 26px color-mix(in srgb,var(--site-accent) 6%,transparent)}
+.hero h1 .estate-word{color:var(--site-accent);white-space:nowrap}
+.hero h1:before,.hero h1:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.hero h1:before{padding:1px;background:color-mix(in srgb,var(--site-accent) 40%,transparent)}
+.hero h1:after{padding:2px;background:conic-gradient(from var(--wa),transparent 0deg,transparent 255deg,var(--site-accent) 320deg,#fff 352deg,transparent 360deg),conic-gradient(from calc(var(--wa) + 180deg),transparent 0deg,transparent 285deg,var(--site-accent) 335deg,#fff 356deg,transparent 360deg);filter:drop-shadow(0 0 7px var(--site-accent));animation:wordSpin 5s linear infinite}
 @keyframes wordSpin{to{--wa:360deg}}
 
 /* Buttons now belong to the same visual system */
@@ -56,8 +56,8 @@ body{padding-bottom:76px;overflow-x:hidden}@media(min-width:701px){body{padding-
 .mobile-contact-bar a{position:relative;overflow:hidden;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;text-decoration:none;color:var(--fg);font-size:12px;font-weight:800;background:rgba(255,255,255,.045);border:1px solid rgba(255,255,255,.07)}
 .mobile-contact-bar a:first-child{background:var(--site-accent);color:#17210f;border-color:transparent}
 @media(min-width:701px){.mobile-contact-bar{display:none}}
-@media(max-width:700px){.contact-actions{grid-template-columns:repeat(2,1fr)}.hero h1 .estate-word{white-space:normal}.intro-title{font-size:clamp(38px,12vw,64px)}}
-@media(prefers-reduced-motion:reduce){.site-intro,.contact-btn,.search-btn,.cta-btn,.more,.s-tab{transition:none}.intro-title,.intro-kicker,.intro-line,.intro-skip{animation:none;opacity:1}.intro-line:after,.hero h1 .estate-word:after{animation:none}}
+@media(max-width:700px){.contact-actions{grid-template-columns:repeat(2,1fr)}.intro-title{font-size:clamp(38px,12vw,64px)}}
+@media(prefers-reduced-motion:reduce){.site-intro,.contact-btn,.search-btn,.cta-btn,.more,.s-tab{transition:none}.intro-title,.intro-kicker,.intro-line,.intro-skip{animation:none;opacity:1}.intro-line:after,.hero h1:after{animation:none}}
 </style>
 </head>
 <body>
