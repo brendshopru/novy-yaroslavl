@@ -96,7 +96,7 @@ body{padding-bottom:92px}
 
 <section class="panel"><h2>Услуги — фото</h2><p class="admin-note">Для каждой услуги можно загрузить своё фото. После выбора нажмите ✂ и сами укажите нужную область кадра: двигайте фото, увеличивайте и поворачивайте.</p><div id="servicesAdmin" class="photos"></div></section>
 
-<section class="panel"><h2>Видимость блоков на сайте</h2><p class="admin-note">Эти кнопки полностью скрывают или возвращают соответствующий блок на главной странице. Никакие данные не удаляются.</p><div class="actions"><button class="admin-btn" type="button" id="toggleCatalog">Каталог: открыт</button><button class="admin-btn" type="button" id="toggleSearch">«Найти»: открыт</button></div></section>
+<section class="panel"><h2>Видимость блоков на сайте</h2><p class="admin-note">Эти кнопки полностью скрывают или возвращают соответствующий блок на главной странице. Никакие данные не удаляются.</p><div class="actions"><button class="admin-btn" type="button" id="toggleServices">Все услуги: открыты</button><button class="admin-btn" type="button" id="toggleCatalog">Актуальные объекты: открыты</button><button class="admin-btn" type="button" id="toggleCalc">Калькулятор: открыт</button><button class="admin-btn" type="button" id="toggleSearch">«Найти»: открыт</button></div></section>
 
 <section class="panel"><h2>Команда</h2><div id="teamListAdmin"></div>
 <form id="teamForm" class="form-grid" style="margin-top:18px">
@@ -133,7 +133,7 @@ const original=JSON.parse(JSON.stringify(window.SITE_DATA||{properties:[],team:[
 let state=null,local=null;
 try{local=JSON.parse(localStorage.getItem(key)||"null")}catch(e){local=null}
 const SERVICE_NAMES=["Продажа","Покупка","Обмен","Аренда","Сопровождение","Ипотека","Срочный выкуп","Зарубежная недвижимость","Новостройки"];
-const norm=d=>{["properties","team","reviews"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});if(!Array.isArray(d.services))d.services=[];SERVICE_NAMES.forEach(title=>{if(!d.services.some(x=>x&&x.title===title))d.services.push({title,photo:""})});d.services=d.services.map(x=>({title:x.title||"",photo:x.photo||""}));if(!d.ui||typeof d.ui!=="object")d.ui={};if(d.ui.catalogVisible===undefined)d.ui.catalogVisible=true;if(d.ui.searchVisible===undefined)d.ui.searchVisible=true;return d};
+const norm=d=>{["properties","team","reviews"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});if(!Array.isArray(d.services))d.services=[];SERVICE_NAMES.forEach(title=>{if(!d.services.some(x=>x&&x.title===title))d.services.push({title,photo:""})});d.services=d.services.map(x=>({title:x.title||"",photo:x.photo||""}));if(!d.ui||typeof d.ui!=="object")d.ui={};if(d.ui.catalogVisible===undefined)d.ui.catalogVisible=true;if(d.ui.searchVisible===undefined)d.ui.searchVisible=true;if(d.ui.servicesVisible===undefined)d.ui.servicesVisible=true;if(d.ui.calcVisible===undefined)d.ui.calcVisible=true;return d};
 const clean=d=>{const c=JSON.parse(JSON.stringify(d));delete c._dirty;return c};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
@@ -271,8 +271,10 @@ function renderServices(){
 }
 window.serviceCrop=async i=>{const out=await cropImage(state.services[i].photo,'service',0);if(out){state.services[i].photo=out;save();renderServices()}};
 window.serviceDel=i=>{state.services[i].photo='';save();renderServices()};
-function renderVisibility(){const c=$("toggleCatalog"),q=$("toggleSearch");if(c)c.textContent='Каталог: '+(state.ui.catalogVisible?'открыт':'скрыт');if(q)q.textContent='«Найти»: '+(state.ui.searchVisible?'открыт':'скрыт')}
+function renderVisibility(){const s=$("toggleServices"),c=$("toggleCatalog"),m=$("toggleCalc"),q=$("toggleSearch");if(s)s.textContent='Все услуги: '+(state.ui.servicesVisible?'открыты':'скрыты');if(c)c.textContent='Актуальные объекты: '+(state.ui.catalogVisible?'открыты':'скрыты');if(m)m.textContent='Калькулятор: '+(state.ui.calcVisible?'открыт':'скрыт');if(q)q.textContent='«Найти»: '+(state.ui.searchVisible?'открыт':'скрыт')}
+$("toggleServices").addEventListener("click",()=>{state.ui.servicesVisible=!state.ui.servicesVisible;save();renderVisibility()});
 $("toggleCatalog").addEventListener("click",()=>{state.ui.catalogVisible=!state.ui.catalogVisible;save();renderVisibility()});
+$("toggleCalc").addEventListener("click",()=>{state.ui.calcVisible=!state.ui.calcVisible;save();renderVisibility()});
 $("toggleSearch").addEventListener("click",()=>{state.ui.searchVisible=!state.ui.searchVisible;save();renderVisibility()});
 
 /* ---------- properties ---------- */
