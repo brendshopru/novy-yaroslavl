@@ -59,7 +59,8 @@ window.SITE_DATA = {
       "id": 2,
       "name": "Алена Андрийчук",
       "role": "Финансовый директор",
-      "initials": "АА"
+      "initials": "АА",
+      "photo": "photos/05293af38ffc82e7.jpg"
     }
   ],
   "reviews": [
