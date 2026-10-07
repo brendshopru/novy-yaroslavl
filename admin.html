@@ -14,6 +14,18 @@
 <div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель</h1></div><button class="admin-btn" id="downloadData">Экспорт data.js</button></div>
 <p class="admin-note">Это первая версия админки без сервера: изменения сохраняются в браузере и могут быть экспортированы в data.js. Для настоящей общей админки с авторизацией и сохранением на сервере следующим этапом подключим Supabase или другой backend.</p>
 
+<section class="panel"><h2>Контакты и соцсети</h2>
+<p class="admin-note">Эти данные используются кнопками «Позвонить», WhatsApp, Telegram и VK на сайте. Номер можно вводить в любом удобном формате.</p>
+<form id="contactsForm" class="form-grid">
+<input name="phone" placeholder="Телефон" value="+7 920 108-50-73" required>
+<input name="whatsapp" placeholder="WhatsApp" value="+7 920 108-50-73" required>
+<input name="telegram" placeholder="Telegram: @username" value="@AndreiAndriichuk" required>
+<input name="vk" placeholder="VK: @id или короткое имя" value="@id420778533" required>
+<div class="actions wide"><button class="admin-btn" type="submit">Сохранить контакты</button><span id="contactsSaved" class="admin-note" style="margin:10px 0 0"></span></div>
+</form></section>
+
+<section class="panel"><h2>Быстрые действия</h2><p class="admin-note">После сохранения контактов можно проверить ссылки прямо здесь.</p><div class="actions"><a id="testPhone" class="admin-btn secondary" href="#">📞 Позвонить</a><a id="testWa" class="admin-btn secondary" href="#" target="_blank" rel="noopener">💬 WhatsApp</a><a id="testTg" class="admin-btn secondary" href="#" target="_blank" rel="noopener">✈️ Telegram</a><a id="testVk" class="admin-btn secondary" href="#" target="_blank" rel="noopener">🔵 VK</a></div></section>
+
 <section class="panel"><h2>Объекты</h2><div id="propertyList"></div>
 <form id="propertyForm" class="form-grid">
 <input name="title" placeholder="Название" required><input name="price" type="number" placeholder="Цена" required>
@@ -34,6 +46,20 @@
 const key="ny_admin_data_v1"; let state=JSON.parse(localStorage.getItem(key)||"null")||JSON.parse(JSON.stringify(window.SITE_DATA));
 const save=()=>localStorage.setItem(key,JSON.stringify(state));
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
+const contactsKey="ny_contacts_v1";
+const defaultContacts={phone:"+7 920 108-50-73",whatsapp:"+7 920 108-50-73",telegram:"@AndreiAndriichuk",vk:"@id420778533"};
+const contacts=JSON.parse(localStorage.getItem(contactsKey)||"null")||defaultContacts;
+const digits=v=>(String(v||"").match(/\d/g)||[]).join("");
+const handle=v=>String(v||"").trim().replace(/^@/,"");
+function renderContacts(){
+ const f=document.getElementById("contactsForm"); if(!f)return;
+ f.phone.value=contacts.phone||"";f.whatsapp.value=contacts.whatsapp||"";f.telegram.value=contacts.telegram||"";f.vk.value=contacts.vk||"";
+ document.getElementById("testPhone").href="tel:"+digits(contacts.phone);
+ document.getElementById("testWa").href="https://wa.me/"+digits(contacts.whatsapp);
+ document.getElementById("testTg").href="https://t.me/"+handle(contacts.telegram);
+ document.getElementById("testVk").href="https://vk.com/"+handle(contacts.vk);
+}
+document.getElementById("contactsForm").addEventListener("submit",e=>{e.preventDefault();const f=new FormData(e.target);contacts.phone=f.get("phone");contacts.whatsapp=f.get("whatsapp");contacts.telegram=f.get("telegram");contacts.vk=f.get("vk");localStorage.setItem(contactsKey,JSON.stringify(contacts));renderContacts();document.getElementById("contactsSaved").textContent="✓ Сохранено";setTimeout(()=>document.getElementById("contactsSaved").textContent="",2000);});
 function render(){
  document.getElementById("propertyList").innerHTML=state.properties.map((p,i)=>`<div class="item"><div><b>${esc(p.title)}</b> · ${Number(p.price).toLocaleString("ru-RU")} ₽<br><small>${esc(p.address)} · ${esc(p.tag||"")}</small></div><button class="admin-btn secondary" onclick="del('properties',${i})">Удалить</button></div>`).join("");
  document.getElementById("teamListAdmin").innerHTML=state.team.map((m,i)=>`<div class="item"><div><b>${esc(m.name)}</b><br><small>${esc(m.role)}</small></div><button class="admin-btn secondary" onclick="del('team',${i})">Удалить</button></div>`).join("");
@@ -44,7 +70,7 @@ document.getElementById("propertyForm").addEventListener("submit",e=>{e.preventD
 document.getElementById("teamForm").addEventListener("submit",e=>{e.preventDefault();let f=new FormData(e.target);state.team.push({id:Date.now(),name:f.get("name"),role:f.get("role"),initials:f.get("initials")||String(f.get("name")).slice(0,2)});save();e.target.reset();render()});
 document.getElementById("reviewForm").addEventListener("submit",e=>{e.preventDefault();let f=new FormData(e.target);state.reviews.push({id:Date.now(),who:f.get("who"),text:f.get("text")});save();e.target.reset();render()});
 document.getElementById("downloadData").addEventListener("click",()=>{const content="window.SITE_DATA = "+JSON.stringify(state,null,2)+";";const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([content],{type:"text/javascript"}));a.download="data.js";a.click();URL.revokeObjectURL(a.href)});
-render();
+renderContacts();render();
 </script>
 </body>
 </html>

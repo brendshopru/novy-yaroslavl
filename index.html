@@ -7,6 +7,12 @@
   <meta name="theme-color" content="#0c201a">
   <title>Новый Ярославль — агентство недвижимости</title>
   <link rel="stylesheet" href="styles.css?v=2">
+
+<style>
+.contact-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.contact-btn{display:flex;align-items:center;justify-content:center;min-height:48px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);color:var(--fg);font-weight:700;text-decoration:none;transition:.2s}.contact-btn:hover{transform:translateY(-1px);border-color:var(--gold)}.contact-btn.call{background:var(--gold);color:#17210f}.contact-btn.whatsapp{border-color:#2f9e44}.contact-btn.telegram{border-color:#2f80ed}.contact-btn.vk{border-color:#2787f5}@media(max-width:700px){.contact-actions{grid-template-columns:repeat(2,1fr)}}
+.mobile-contact-bar{position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:999;display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:7px;background:rgba(12,32,26,.94);border:1px solid var(--line);border-radius:16px;backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(0,0,0,.25)}.mobile-contact-bar a{min-height:42px;display:flex;align-items:center;justify-content:center;border-radius:11px;text-decoration:none;color:var(--fg);font-size:12px;font-weight:800;background:var(--card)}.mobile-contact-bar a:first-child{background:var(--gold);color:#17210f}@media(min-width:701px){.mobile-contact-bar{display:none}}
+body{padding-bottom:76px}@media(min-width:701px){body{padding-bottom:0}}
+</style>
 </head>
 <body>
 <header>
@@ -19,7 +25,7 @@
       <a href="#team">Команда</a>
       <a href="#contacts">Контакты</a>
     </nav>
-    <a class="nav-phone" href="tel:+74852933063">+7 (4852) 93-30-63</a>
+    <a class="nav-phone" data-contact="phone" href="tel:+79201085073">+7 920 108-50-73</a>
   </div>
 </header>
 
@@ -56,6 +62,13 @@
         <button class="search-btn" type="submit">Найти</button>
       </form>
       <div id="searchMessage" class="search-message" aria-live="polite"></div>
+    </div>
+
+    <div class="contact-actions" aria-label="Связаться с агентством">
+      <a class="contact-btn call" data-contact="phone" href="tel:+79201085073">📞 Позвонить</a>
+      <a class="contact-btn whatsapp" data-contact="whatsapp" href="https://wa.me/79201085073" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <a class="contact-btn telegram" data-contact="telegram" href="https://t.me/AndreiAndriichuk" target="_blank" rel="noopener">✈️ Telegram</a>
+      <a class="contact-btn vk" data-contact="vk" href="https://vk.com/id420778533" target="_blank" rel="noopener">🔵 VK</a>
     </div>
   </section>
 
@@ -97,7 +110,7 @@
         <div class="big" id="rMonthly">— ₽</div>
         <div class="line"><span>Сумма кредита</span><span id="rLoan">—</span></div>
         <div class="line"><span>Переплата за весь срок</span><span id="rOver">—</span></div>
-        <a class="cta-btn" href="https://wa.me/79201085073" target="_blank" rel="noopener">Получить точный расчёт</a>
+        <a class="cta-btn" data-contact="whatsapp" href="https://wa.me/79201085073" target="_blank" rel="noopener">Получить точный расчёт</a>
       </div>
     </div>
   </section>
@@ -119,12 +132,14 @@
       <div class="foot-col">
         <div class="h">Новый Ярославль</div>
         <div>г. Ярославль, ул. Советская, д. 35, оф. 5</div>
-        <a href="tel:+74852933063">+7 (4852) 93-30-63</a>
-        <a href="https://vk.com/newyar76" target="_blank" rel="noopener">ВКонтакте →</a>
+        <a data-contact="phone" href="tel:+79201085073">+7 920 108-50-73</a>
+        <a data-contact="whatsapp" href="https://wa.me/79201085073" target="_blank" rel="noopener">WhatsApp →</a>
+        <a data-contact="telegram" href="https://t.me/AndreiAndriichuk" target="_blank" rel="noopener">Telegram →</a>
+        <a data-contact="vk" href="https://vk.com/id420778533" target="_blank" rel="noopener">ВКонтакте →</a>
         <div class="map-stub"><span>Карта офиса</span></div>
       </div>
       <div class="foot-col"><div class="h">Услуги</div><a href="#services">Продажа и покупка</a><a href="#services">Аренда</a><a href="#calc">Ипотека</a><a href="#services">Срочный выкуп</a></div>
-      <div class="foot-col"><div class="h">Компания</div><a href="#team">Команда</a><a href="#reviews-sec">Отзывы</a><a href="#objects">Объекты</a><a href="tel:+74852933063">Записаться на консультацию</a></div>
+      <div class="foot-col"><div class="h">Компания</div><a href="#team">Команда</a><a href="#reviews-sec">Отзывы</a><a href="#objects">Объекты</a><a data-contact="phone" href="tel:+79201085073">Записаться на консультацию</a></div>
     </div>
     <div class="copy">Новый Ярославль © 2026 · агентство недвижимости</div>
   </div>
@@ -132,5 +147,24 @@
 
 <script src="data.js?v=2"></script>
 <script src="app.js?v=2"></script>
+
+<script>
+(function(){
+  const defaults={phone:'+7 920 108-50-73',whatsapp:'+7 920 108-50-73',telegram:'@AndreiAndriichuk',vk:'@id420778533'};
+  const saved=JSON.parse(localStorage.getItem('ny_contacts_v1')||'null')||defaults;
+  const digits=v=>(String(v||'').match(/\d/g)||[]).join('');
+  const cleanHandle=(v)=>String(v||'').trim().replace(/^@/,'');
+  const links={
+    phone:'tel:'+digits(saved.phone),
+    whatsapp:'https://wa.me/'+digits(saved.whatsapp),
+    telegram:'https://t.me/'+cleanHandle(saved.telegram),
+    vk:'https://vk.com/'+cleanHandle(saved.vk)
+  };
+  document.querySelectorAll('[data-contact]').forEach(el=>{const k=el.dataset.contact;if(links[k])el.href=links[k];if(k==='phone')el.textContent=el.textContent.includes('Позвонить')?'📞 Позвонить':saved.phone;});
+  const bar=document.createElement('div');bar.className='mobile-contact-bar';
+  bar.innerHTML='<a data-contact="phone" href="'+links.phone+'">📞 Позвонить</a><a data-contact="whatsapp" href="'+links.whatsapp+'" target="_blank" rel="noopener">💬 WhatsApp</a><a data-contact="telegram" href="'+links.telegram+'" target="_blank" rel="noopener">✈️ Telegram</a>';
+  document.body.appendChild(bar);
+})();
+</script>
 </body>
 </html>
