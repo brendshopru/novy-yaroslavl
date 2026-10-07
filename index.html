@@ -887,6 +887,41 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
   },5000);
 })();
 </script>
+<style id="intro-company-brand-true-final">
+/* One continuous final: original company intro text stays in the same shot and launches from the opened doorway. */
+.intro-brand{
+  position:absolute!important;
+  left:50%!important;top:50%!important;
+  width:min(760px,88vw)!important;
+  z-index:10000!important;
+  visibility:visible!important;
+  display:block!important;
+  opacity:0!important;
+  transform:translate(-50%,-50%) scale(.06)!important;
+  transform-origin:50% 50%!important;
+  filter:blur(18px)!important;
+  animation:companyBrandDoorShot 1.45s cubic-bezier(.08,.92,.04,1) 2.25s forwards!important;
+  pointer-events:none!important;
+}
+.intro-brand small,.intro-brand strong,.intro-brand i{
+  visibility:visible!important;display:block!important;opacity:1!important;
+}
+.intro-brand small{color:var(--site-accent)!important}
+.intro-brand strong{text-shadow:0 8px 45px rgba(0,0,0,.8)!important}
+.intro-brand strong span{color:var(--site-accent)!important}
+@keyframes companyBrandDoorShot{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.035);filter:blur(22px);text-shadow:0 0 100px rgba(199,168,91,1)}
+  12%{opacity:.18;transform:translate(-50%,-50%) scale(.075);filter:blur(15px)}
+  30%{opacity:.58;transform:translate(-50%,-50%) scale(.20);filter:blur(8px);text-shadow:0 0 65px rgba(199,168,91,.8)}
+  52%{opacity:1;transform:translate(-50%,-50%) scale(.62);filter:blur(2px);text-shadow:0 0 42px rgba(199,168,91,.55)}
+  72%{opacity:1;transform:translate(-50%,-50%) scale(1.16);filter:blur(0);text-shadow:0 0 28px rgba(199,168,91,.32)}
+  84%{opacity:1;transform:translate(-50%,-50%) scale(1.03);filter:blur(0)}
+  100%{opacity:1;transform:translate(-50%,-50%) scale(1);filter:blur(0);text-shadow:none}
+}
+/* Do not let the key fade into the background before the door opens. */
+.intro-key{z-index:10001!important;opacity:1!important}
+/* Keep the original intro alive until the company mark has landed. */
+</style>
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
@@ -1089,7 +1124,7 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
   skip.addEventListener('click',close);
   intro.addEventListener('click',e=>{if(e.target===intro)close();});
   window.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
-  setTimeout(close,reduce?250:4300);
+  setTimeout(close,reduce?250:4800);
 })();
 </script>
 <script>
