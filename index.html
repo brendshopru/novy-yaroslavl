@@ -6,7 +6,15 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#0c201a">
   <title>Новый Ярославль — агентство недвижимости</title>
-  <link rel="stylesheet" href="styles.css?v=2">
+  <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta name="ny-build" content="2026-10-07-2">
+  <script>
+  /* Анти-кэш: стили и скрипты подтягиваются заново (версия меняется раз в минуту) */
+  window.__NY_V=Math.floor(Date.now()/60000);
+  document.write('<link rel="stylesheet" href="styles.css?v='+window.__NY_V+'">');
+  </script>
+  <noscript><link rel="stylesheet" href="styles.css"></noscript>
 
 <style>
 /* ===== Premium opening + animated brand accents ===== */
@@ -52,7 +60,7 @@ html,body{overflow-x:clip;overflow-y:visible}
 .search-btn:hover,.cta-btn:hover,.more:hover{transform:translateY(-2px);filter:brightness(1.05);box-shadow:0 12px 28px rgba(0,0,0,.20)}
 .s-tab{transition:color .3s ease,background .3s ease,transform .3s ease}.s-tab:hover{transform:translateY(-1px)}
 
-@media(min-width:701px){@media(max-width:700px){.contact-actions{grid-template-columns:repeat(2,1fr)}.intro-title{font-size:clamp(38px,12vw,64px)}}
+@media(max-width:700px){.contact-actions{grid-template-columns:repeat(2,1fr)}.intro-title{font-size:clamp(38px,12vw,64px)}}
 @media(prefers-reduced-motion:reduce){.site-intro,.contact-btn,.search-btn,.cta-btn,.more,.s-tab{transition:none}.intro-title,.intro-kicker,.intro-line,.intro-skip{animation:none;opacity:1}.intro-line:after,.hero h1:after{animation:none}}
 
 /* ===== Cards move like the social buttons ===== */
@@ -116,6 +124,67 @@ footer:before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;ba
 .f-bottom{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding:20px 0 96px;color:var(--muted);font-size:12.5px}
 .f-bottom a:hover{color:var(--site-accent)}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1!important}.reveal.in{animation:none}.fab:before{animation:none}.svc,.prop,.member,.rv,.cc-row{transition:none}}
+
+/* ===== Fallbacks for older mobile browsers (no color-mix) ===== */
+.hero h1{background:linear-gradient(145deg,rgba(199,168,91,.14),rgba(199,168,91,.02));box-shadow:0 0 44px rgba(199,168,91,.14)}
+.hero h1:before{background:rgba(199,168,91,.4)}
+.contact-btn.call,.fab{background:linear-gradient(135deg,#c7a85b,#e6d9a8)}
+
+/* ===== Stats ===== */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:34px 0 8px}
+.stat{position:relative;overflow:hidden;padding:22px 14px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(160deg,var(--card),#0f241b);text-align:center;transition:transform .35s ease,border-color .35s ease}
+.stat:hover{transform:translateY(-3px);border-color:var(--site-accent)}
+.stat b{display:block;font-size:clamp(28px,7vw,46px);font-weight:800;color:var(--site-accent);letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.stat span{display:block;margin-top:9px;font-size:12.5px;color:var(--muted);line-height:1.35}
+.stat[hidden]{display:none}
+
+/* ===== Favorites ===== */
+.sec-actions{display:flex;gap:8px;flex-wrap:wrap}
+.ny-fav{position:absolute;z-index:4;right:10px;bottom:10px;width:42px;height:42px;border-radius:50%;border:1px solid rgba(255,255,255,.22);background:rgba(7,21,15,.72);color:#fff;font-size:19px;line-height:1;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);display:grid;place-items:center;transition:transform .25s ease,color .25s ease,background .25s ease}
+.ny-fav:hover{transform:scale(1.12)}
+.ny-fav.on{color:#ff6b81;background:rgba(7,21,15,.94);animation:favPop .4s ease}
+@keyframes favPop{40%{transform:scale(1.35)}}
+
+/* ===== Callback modal + toast ===== */
+.ny-modal{position:fixed;inset:0;z-index:7000;display:grid;place-items:center;padding:16px;background:rgba(3,10,7,.8);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;visibility:hidden;transition:opacity .25s ease,visibility .25s}
+.ny-modal.open{opacity:1;visibility:visible}
+.ny-modal-card{position:relative;width:min(420px,100%);max-height:calc(100dvh - 32px);overflow:auto;background:linear-gradient(160deg,var(--card),#0f241b);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:0 30px 80px rgba(0,0,0,.55);transform:translateY(18px) scale(.97);transition:transform .3s ease}
+.ny-modal.open .ny-modal-card{transform:none}
+.ny-modal h3{font-size:20px;font-weight:800;padding-right:34px}
+.ny-modal .sub{font-size:13px;color:var(--muted);line-height:1.5;margin:6px 0 6px}
+.ny-modal input,.ny-modal select{width:100%;margin-top:10px;padding:14px;border-radius:12px;border:1px solid var(--line);background:var(--bg,#07150f);color:var(--fg);font:inherit;font-size:16px}
+.ny-modal input:focus,.ny-modal select:focus{outline:0;border-color:var(--site-accent)}
+.ny-x{position:absolute;top:12px;right:12px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(255,255,255,.08);color:var(--fg);font-size:16px;cursor:pointer}
+.ny-submit{width:100%;margin-top:14px;min-height:52px;border:0;border-radius:14px;background:linear-gradient(135deg,#c7a85b,#e6d9a8);color:#17210f;font:inherit;font-weight:800;font-size:15px;cursor:pointer;transition:transform .3s ease,box-shadow .3s ease}
+.ny-submit:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(0,0,0,.3)}
+.ny-note{font-size:11.5px;color:var(--muted);margin-top:10px;text-align:center}
+.ny-toast{position:fixed;left:50%;bottom:calc(88px + env(safe-area-inset-bottom));transform:translate(-50%,20px);z-index:7500;max-width:min(92vw,420px);padding:12px 18px;border-radius:14px;background:rgba(9,26,19,.97);border:1px solid var(--site-accent);color:var(--fg);font-size:13.5px;box-shadow:0 14px 40px rgba(0,0,0,.5);opacity:0;visibility:hidden;transition:all .3s ease;text-align:center}
+.ny-toast.show{opacity:1;visibility:visible;transform:translate(-50%,0)}
+
+
+/* ===== Team: крупные портреты ===== */
+.team{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(230px,1fr))!important;gap:16px!important}
+.member.has-photo{text-align:center;padding:12px 12px 18px!important}
+.member.has-photo .av{width:100%!important;height:auto!important;aspect-ratio:4/5;border-radius:16px!important;margin:0 0 14px!important;display:block!important;font-size:0!important;overflow:hidden;position:relative;border:1px solid rgba(255,255,255,.1);box-shadow:0 10px 28px rgba(0,0,0,.28)}
+.member.has-photo .av:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,transparent 62%,rgba(7,21,15,.35))}
+.member.has-photo .av img{width:100%;height:100%;object-fit:cover;object-position:50% 22%;display:block;transition:transform .6s ease}
+.member.has-photo:hover .av{transform:none!important;box-shadow:0 14px 34px rgba(0,0,0,.4),0 0 0 2px var(--site-accent)}
+.member.has-photo:hover .av img{transform:scale(1.05)}
+@media(max-width:700px){.team{grid-template-columns:repeat(2,1fr)!important;gap:12px!important}.member.has-photo{padding:8px 8px 14px!important}}
+
+/* ===== Mobile polish ===== */
+@media(max-width:700px){
+  .hero h1{font-size:clamp(26px,8vw,40px);line-height:1.12;padding:.32em .42em .36em}
+  .contact-btn{min-height:50px;padding:11px 8px;font-size:14px}
+  .fab{height:52px;padding:0 18px 0 14px}
+  .fab-sheet{left:12px;right:12px;width:auto;bottom:calc(80px + env(safe-area-inset-bottom));max-height:calc(100dvh - 110px)}
+  .cc-card{padding:16px}.map-card{height:300px}
+  .f-top{padding:34px 0 22px}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .sec-actions{width:100%}
+  img,iframe,video{max-width:100%}
+}
+@media(max-width:380px){.contact-actions{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -185,6 +254,13 @@ footer:before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;ba
     </div>
   </section>
 
+  <section class="stats" id="stats" aria-label="Агентство в цифрах">
+    <div class="stat" data-stat="years"><b>0</b><span></span></div>
+    <div class="stat" data-stat="properties"><b>0</b><span></span></div>
+    <div class="stat" data-stat="team"><b>0</b><span></span></div>
+    <div class="stat" data-stat="reviews"><b>0</b><span></span></div>
+  </section>
+
   <section id="services">
     <div class="sec-head"><div><div class="eyebrow">Что мы делаем</div><h2>Все услуги в одном месте</h2></div></div>
     <div class="services">
@@ -203,7 +279,10 @@ footer:before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;ba
   <section id="objects">
     <div class="sec-head">
       <div><div class="eyebrow">Каталог</div><h2>Актуальные объекты</h2></div>
-      <button class="more" id="resetCatalog" type="button">Сбросить фильтры →</button>
+      <div class="sec-actions">
+        <button class="more" id="favToggle" type="button" aria-pressed="false">♥ Избранное <span id="favCount">0</span></button>
+        <button class="more" id="resetCatalog" type="button">Сбросить фильтры →</button>
+      </div>
     </div>
     <div class="grid-props" id="properties"></div>
     <div id="emptyProperties" class="empty hidden">По заданным параметрам объектов не найдено.</div>
@@ -246,6 +325,7 @@ footer:before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;ba
         <a class="cc-row" data-contact="whatsapp" href="https://wa.me/79201085073" target="_blank" rel="noopener"><i>💬</i><span><b>WhatsApp</b><em data-v="whatsapp">+7 920 108-50-73</em></span></a>
         <a class="cc-row" data-contact="telegram" href="https://t.me/AndreiAndriichuk" target="_blank" rel="noopener"><i>✈️</i><span><b>Telegram</b><em data-v="telegram">@AndreiAndriichuk</em></span></a>
         <a class="cc-row" data-contact="vk" href="https://vk.com/id420778533" target="_blank" rel="noopener"><i>🔵</i><span><b>ВКонтакте</b><em data-v="vk">vk.com/id420778533</em></span></a>
+        <a class="cc-row" href="#" data-open-callback><i>🔔</i><span><b>Заказать обратный звонок</b><em>Перезвоним в рабочее время</em></span></a>
         <div class="map-links">
           <a class="contact-btn" id="mapOpen" href="https://yandex.ru/maps/?text=%D0%AF%D1%80%D0%BE%D1%81%D0%BB%D0%B0%D0%B2%D0%BB%D1%8C%2C%20%D0%A1%D0%BE%D0%B2%D0%B5%D1%82%D1%81%D0%BA%D0%B0%D1%8F%2035" target="_blank" rel="noopener">🧭 Открыть в Яндекс Картах</a>
           <a class="contact-btn" id="mapRoute" href="https://yandex.ru/maps/?rtext=~%D0%AF%D1%80%D0%BE%D1%81%D0%BB%D0%B0%D0%B2%D0%BB%D1%8C%2C%20%D0%A1%D0%BE%D0%B2%D0%B5%D1%82%D1%81%D0%BA%D0%B0%D1%8F%2035&rtt=auto" target="_blank" rel="noopener">🚗 Построить маршрут</a>
@@ -291,6 +371,7 @@ footer:before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;ba
   <a class="cc-row" data-contact="whatsapp" href="https://wa.me/79201085073" target="_blank" rel="noopener"><i>💬</i><span><b>WhatsApp</b><em data-v="whatsapp">+7 920 108-50-73</em></span></a>
   <a class="cc-row" data-contact="telegram" href="https://t.me/AndreiAndriichuk" target="_blank" rel="noopener"><i>✈️</i><span><b>Telegram</b><em data-v="telegram">@AndreiAndriichuk</em></span></a>
   <a class="cc-row" data-contact="vk" href="https://vk.com/id420778533" target="_blank" rel="noopener"><i>🔵</i><span><b>ВКонтакте</b><em data-v="vk">vk.com/id420778533</em></span></a>
+  <a class="cc-row" href="#" data-open-callback><i>🔔</i><span><b>Заказать звонок</b><em>Оставьте номер — перезвоним</em></span></a>
   <a class="cc-row" href="#contacts"><i>📍</i><span><b>Как нас найти</b><em>Адрес и карта</em></span></a>
 </div>
 <button class="fab" id="fab" type="button" aria-expanded="false" aria-controls="fabSheet">
@@ -314,12 +395,15 @@ footer:before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;ba
   setTimeout(close,reduce?250:2600);
 })();
 </script>
-<script src="data.js?v=2"></script>
+<script>
+/* data.js каждый раз берётся свежий; снимок нужен для автообновления */
+document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.__NY_SIG=JSON.stringify(window.SITE_DATA||null)<\/script>');
+</script>
 <script>
 /* Данные, сохранённые в админке этого браузера, имеют приоритет над data.js */
 (function(){try{var d=JSON.parse(localStorage.getItem('ny_admin_data_v1')||'null');if(d&&d._dirty!==false&&Array.isArray(d.properties))window.SITE_DATA=d;}catch(e){}})();
 </script>
-<script src="app.js?v=2"></script>
+<script>document.write('<script src="app.js?v='+window.__NY_V+'"><\/script>');</script>
 <style>
 .ny-photo-count{z-index:2;position:absolute;right:10px;top:10px;background:rgba(7,21,15,.78);color:#fff;font-size:11px;font-weight:700;padding:3px 8px;border-radius:20px;backdrop-filter:blur(6px)}
 .ny-desc{font-size:13px;line-height:1.5;opacity:.75;margin-top:8px}
@@ -381,7 +465,7 @@ footer:before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;ba
       if(!card||card.getAttribute('data-ny'))return;
       card.setAttribute('data-ny','1');
       var av=card.querySelector('.av');if(!av)return;
-      av.textContent='';av.style.overflow='hidden';
+      av.textContent='';av.style.overflow='hidden';av.classList.add('has-photo');card.classList.add('has-photo');
       var img=document.createElement('img');img.src=m.photo;img.alt=m.name||'';
       img.style.cssText='width:100%;height:100%;object-fit:cover;display:block';
       av.appendChild(img);
@@ -465,6 +549,152 @@ footer:before{content:"";position:absolute;left:0;right:0;top:-1px;height:1px;ba
   }
   ['properties','teamList','reviews'].forEach(function(id){var el=$(id);if(el)new MutationObserver(scan).observe(el,{childList:true});});
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',scan);else scan();
+})();
+</script>
+
+<div class="ny-modal" id="cbModal" role="dialog" aria-modal="true" aria-labelledby="cbTitle">
+  <div class="ny-modal-card">
+    <button class="ny-x" id="cbClose" type="button" aria-label="Закрыть">✕</button>
+    <h3 id="cbTitle">Заказать обратный звонок</h3>
+    <div class="sub">Оставьте имя и номер — заявка уйдёт нам в WhatsApp, мы перезвоним в рабочее время.</div>
+    <form id="cbForm" novalidate>
+      <input id="cbName" type="text" placeholder="Ваше имя" autocomplete="name" required>
+      <input id="cbPhone" type="tel" inputmode="tel" placeholder="Телефон" autocomplete="tel" required>
+      <select id="cbGoal" aria-label="Что вас интересует">
+        <option>Купить недвижимость</option><option>Продать недвижимость</option><option>Снять / сдать</option>
+        <option>Ипотека</option><option>Другое</option>
+      </select>
+      <button class="ny-submit" type="submit">Отправить заявку</button>
+      <div class="ny-note" id="cbNote"></div>
+    </form>
+  </div>
+</div>
+<div class="ny-toast" id="nyToast" role="status" aria-live="polite"></div>
+
+<script>
+/* ===== Статистика из реальных данных сайта ===== */
+(function(){
+  function plural(n,f){var a=Math.abs(n)%100,b=a%10;if(a>10&&a<20)return f[2];if(b>1&&b<5)return f[1];if(b===1)return f[0];return f[2];}
+  var forms={years:['год на рынке','года на рынке','лет на рынке'],properties:['объект в каталоге','объекта в каталоге','объектов в каталоге'],team:['специалист в команде','специалиста в команде','специалистов в команде'],reviews:['отзыв клиента','отзыва клиентов','отзывов клиентов']};
+  function values(){var d=window.SITE_DATA||{};return{years:Math.max(1,new Date().getFullYear()-2014),properties:(d.properties||[]).length,team:(d.team||[]).length,reviews:(d.reviews||[]).length};}
+  var els=document.querySelectorAll('[data-stat]');if(!els.length)return;
+  var v=values(),reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function run(el){
+    var k=el.getAttribute('data-stat'),target=v[k],b=el.querySelector('b');
+    if(!target){el.hidden=true;return;}
+    el.querySelector('span').textContent=plural(target,forms[k]);
+    if(reduce){b.textContent=target;return;}
+    var t0=null,dur=1400;
+    function step(ts){if(!t0)t0=ts;var p=Math.min(1,(ts-t0)/dur),e=1-Math.pow(1-p,3);b.textContent=Math.round(target*e);if(p<1)requestAnimationFrame(step);}
+    requestAnimationFrame(step);
+  }
+  els.forEach(function(el){var k=el.getAttribute('data-stat');if(!v[k]){el.hidden=true;return;}el.querySelector('span').textContent=plural(v[k],forms[k]);el.querySelector('b').textContent=v[k];});
+  if(!('IntersectionObserver' in window))return;
+  var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){io.unobserve(en.target);run(en.target);}});},{threshold:.4});
+  els.forEach(function(el){if(!el.hidden)io.observe(el);});
+})();
+
+/* ===== Избранное ===== */
+(function(){
+  var KEY='ny_fav_v1',favs=[],showFav=false;
+  try{favs=JSON.parse(localStorage.getItem(KEY)||'[]')||[];}catch(e){}
+  var box=document.getElementById('properties'),toggle=document.getElementById('favToggle'),cnt=document.getElementById('favCount'),reset=document.getElementById('resetCatalog');
+  if(!box||!toggle)return;
+  function persist(){try{localStorage.setItem(KEY,JSON.stringify(favs));}catch(e){}}
+  function keyOf(p){return String(p.id||((p.address||'')+'|'+(p.title||'')));}
+  function toast(t){var el=document.getElementById('nyToast');if(!el)return;el.textContent=t;el.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(function(){el.classList.remove('show');},2200);}
+  function refresh(){
+    cnt.textContent=favs.length;toggle.setAttribute('aria-pressed',showFav?'true':'false');
+    toggle.style.borderColor=showFav?'var(--site-accent)':'';toggle.style.color=showFav?'var(--site-accent)':'';
+    box.querySelectorAll('.prop').forEach(function(c){
+      var k=c.getAttribute('data-fav-key');
+      c.style.display=(showFav&&favs.indexOf(k)===-1)?'none':'';
+      var h=c.querySelector('.ny-fav');if(h){var on=favs.indexOf(k)!==-1;h.classList.toggle('on',on);h.textContent=on?'♥':'♡';h.setAttribute('aria-pressed',on?'true':'false');}
+    });
+  }
+  function process(){
+    var props=(window.SITE_DATA&&window.SITE_DATA.properties)||[];
+    box.querySelectorAll('.prop').forEach(function(card){
+      if(card.getAttribute('data-fav-key'))return;
+      var found=null,txt=card.textContent;
+      for(var i=0;i<props.length;i++){if(txt.indexOf((props[i].address||'')+', '+(props[i].title||''))!==-1){found=props[i];break;}}
+      var key=found?keyOf(found):'c:'+txt.replace(/\s+/g,' ').trim().slice(0,70);
+      card.setAttribute('data-fav-key',key);
+      var host=card.querySelector('.ph')||card;
+      if(getComputedStyle(host).position==='static')host.style.position='relative';
+      var b=document.createElement('button');b.type='button';b.className='ny-fav';b.setAttribute('aria-label','В избранное');
+      b.addEventListener('click',function(e){
+        e.stopPropagation();e.preventDefault();
+        var i=favs.indexOf(key);
+        if(i===-1){favs.push(key);toast('Добавлено в избранное ♥');}else{favs.splice(i,1);}
+        persist();refresh();
+      });
+      host.appendChild(b);
+    });
+    refresh();
+  }
+  toggle.addEventListener('click',function(){
+    if(!showFav&&!favs.length){toast('Нажмите ♡ на карточке, чтобы сохранить объект');return;}
+    showFav=!showFav;refresh();
+  });
+  if(reset)reset.addEventListener('click',function(){showFav=false;setTimeout(refresh,0);});
+  new MutationObserver(process).observe(box,{childList:true});
+  process();
+})();
+
+/* ===== Заявка на обратный звонок (уходит в WhatsApp) ===== */
+(function(){
+  var modal=document.getElementById('cbModal'),form=document.getElementById('cbForm');if(!modal||!form)return;
+  var name=document.getElementById('cbName'),phone=document.getElementById('cbPhone'),goal=document.getElementById('cbGoal'),note=document.getElementById('cbNote');
+  function open(){modal.classList.add('open');document.body.style.overflow='hidden';note.textContent='';setTimeout(function(){name.focus();},250);}
+  function close(){modal.classList.remove('open');document.body.style.overflow='';}
+  document.addEventListener('click',function(e){
+    var t=e.target.closest&&e.target.closest('[data-open-callback]');
+    if(t){e.preventDefault();open();}
+  });
+  document.getElementById('cbClose').addEventListener('click',close);
+  modal.addEventListener('click',function(e){if(e.target===modal)close();});
+  window.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))close();});
+  form.addEventListener('submit',function(e){
+    e.preventDefault();
+    var n=name.value.trim(),p=phone.value.trim();
+    if(!n||(p.replace(/\D/g,'').length<10)){note.textContent='Укажите имя и корректный номер телефона';return;}
+    var wa=document.querySelector('a[data-contact="whatsapp"]');
+    var base=wa?wa.getAttribute('href'):'https://wa.me/79201085073';
+    var msg='Здравствуйте! Меня зовут '+n+'. Интересует: '+goal.value+'. Мой телефон: '+p+'. Перезвоните, пожалуйста.';
+    window.open(base.split('?')[0]+'?text='+encodeURIComponent(msg),'_blank','noopener');
+    note.textContent='Открываем WhatsApp — нажмите «Отправить» в чате';
+    setTimeout(close,1800);
+  });
+})();
+
+/* ===== Автообновление: сайт сам подтягивает свежую версию ===== */
+(function(){
+  var build=(document.querySelector('meta[name="ny-build"]')||{}).content||'';
+  var sig=window.__NY_SIG,busy=false,reloading=false;
+  function parse(t){try{return new Function('var window={};'+t+';return window.SITE_DATA;')();}catch(e){return null;}}
+  function toast(t){var el=document.getElementById('nyToast');if(!el)return;el.textContent=t;el.classList.add('show');}
+  function reload(){
+    if(reloading)return;reloading=true;
+    if(document.hidden){location.reload();return;}
+    toast('Вышло обновление — обновляем страницу…');setTimeout(function(){location.reload();},1500);
+  }
+  function check(){
+    if(busy||reloading)return;busy=true;var t=Date.now();
+    var p1=fetch('data.js?t='+t,{cache:'no-store'}).then(function(r){return r.ok?r.text():null;}).then(function(txt){
+      if(!txt||sig==null)return false;var d=parse(txt);return !!d&&JSON.stringify(d)!==sig;
+    }).catch(function(){return false;});
+    var p2=fetch('index.html?t='+t,{cache:'no-store'}).then(function(r){return r.ok?r.text():'';}).then(function(txt){
+      var m=txt.match(/name="ny-build"\s+content="([^"]*)"/);return !!(m&&build&&m[1]!==build);
+    }).catch(function(){return false;});
+    Promise.all([p1,p2]).then(function(r){busy=false;if(r[0]||r[1])reload();});
+  }
+  document.addEventListener('visibilitychange',function(){if(!document.hidden)check();});
+  window.addEventListener('focus',check);
+  window.addEventListener('online',check);
+  window.addEventListener('pageshow',function(e){if(e.persisted)check();});   /* возврат из bfcache на телефоне */
+  setInterval(check,90000);
+  setTimeout(check,4000);
 })();
 </script>
 </body>

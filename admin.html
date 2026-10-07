@@ -3,7 +3,9 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Админка — Новый Ярославль</title>
-<link rel="stylesheet" href="styles.css?v=2">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<script>document.write('<link rel="stylesheet" href="styles.css?v='+Math.floor(Date.now()/60000)+'">');</script>
+<noscript><link rel="stylesheet" href="styles.css"></noscript>
 <style>
 .admin{padding:40px 0}.admin-head{display:flex;justify-content:space-between;gap:15px;align-items:center;margin-bottom:28px;flex-wrap:wrap}.admin-head h1{font-size:30px}
 .admin-note{color:var(--muted);font-size:13px;line-height:1.6;margin:10px 0 25px}
@@ -37,13 +39,22 @@ details.panel summary{cursor:pointer;font-weight:700}details.panel ol{margin:12p
 body{padding-bottom:92px}
 .pubdock{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 5vw calc(10px + env(safe-area-inset-bottom));background:rgba(7,21,15,.95);backdrop-filter:blur(14px);border-top:1px solid var(--line);font-size:13px}
 .pubdock .st{display:flex;flex-direction:column;gap:2px;min-width:0}.pubdock .admin-btn{padding:12px 18px;font-size:15px}
+.crop-modal{position:fixed;inset:0;z-index:100;background:rgba(3,10,7,.9);display:none;align-items:center;justify-content:center;padding:12px;overflow:auto}
+.crop-modal.on{display:flex}
+.crop-card{width:min(480px,100%);background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;max-height:100%;overflow:auto}
+.crop-card h2{font-size:18px}
+.crop-stage{display:flex;justify-content:center;margin:6px 0 12px;background:#000;border-radius:12px;overflow:hidden}
+#cropCanvas{display:block;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none}
+#cropCanvas:active{cursor:grabbing}
+.crop-zoom{display:flex;gap:10px;align-items:center;margin:12px 0;color:var(--muted)}.crop-zoom input{flex:1}
+.crop-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
 .ver{font-size:11px;color:var(--muted);margin-left:8px;font-weight:400}
 </style>
 </head>
 <body>
 <header><div class="nav wrap"><a class="logo" href="index.html">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a><a class="nav-phone" href="index.html">На сайт →</a></div></header>
 <main class="wrap admin">
-<div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель<span class="ver">версия 5</span></h1></div>
+<div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель<span class="ver">версия 7</span></h1></div>
 <div class="actions" style="margin:0"><button class="admin-btn" id="publishBtn">🚀 Опубликовать на сайт</button><button class="admin-btn secondary" id="tokenBtn">🔑 Токен</button><button class="admin-btn secondary" id="downloadData">Экспорт</button><button class="admin-btn secondary" id="importBtn">Импорт</button><button class="admin-btn secondary" id="resetData">Сбросить</button><input type="file" id="importFile" accept=".js,.json" hidden></div></div>
 <div class="pubbar"><span id="pubState"></span><span id="pubStatus"></span></div>
 <p class="admin-note">Правки сохраняются как черновик в этом браузере. Чтобы их увидели все посетители сайта, нажмите «Опубликовать на сайт» — данные и фото запишутся прямо в репозиторий GitHub. <span class="storage" id="storageInfo"></span></p>
@@ -76,7 +87,7 @@ body{padding-bottom:92px}
 <input name="tag" placeholder="Метка: Новостройка">
 <input name="meta" class="wide" placeholder="Параметры через запятую: 2 комнаты, 58 м², 7/12 эт.">
 <textarea name="description" class="wide" placeholder="Описание объекта (необязательно)"></textarea>
-<div class="wide"><label class="admin-note" style="display:block;margin:0 0 6px">Фотографии (можно несколько; первая — обложка)</label>
+<div class="wide"><label class="admin-note" style="display:block;margin:0 0 6px">Фотографии (можно несколько; первая — обложка). Кнопка ✂ под фото — выбрать кадр: сдвиг, масштаб, поворот</label>
 <input type="file" id="propFiles" accept="image/*" multiple style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)">
 <div class="photos" id="propPhotos" style="margin-top:10px"></div></div>
 <div class="actions wide"><button class="admin-btn" id="propSubmit">Добавить объект</button><button class="admin-btn secondary" type="button" id="propCancel" hidden>Отмена</button><button class="admin-btn secondary pub-inline" type="button">🚀 Опубликовать на сайт</button></div>
@@ -99,8 +110,18 @@ body{padding-bottom:92px}
 <textarea name="text" class="wide" placeholder="Текст отзыва" required></textarea>
 <div class="actions wide"><button class="admin-btn" id="reviewSubmit">Добавить отзыв</button><button class="admin-btn secondary" type="button" id="reviewCancel" hidden>Отмена</button><button class="admin-btn secondary pub-inline" type="button">🚀 Опубликовать на сайт</button></div></form></section>
 </main>
+<div class="crop-modal" id="cropModal"><div class="crop-card">
+<h2 id="cropTitle">Кадрирование</h2>
+<p class="admin-note" id="cropHint" style="margin:4px 0 10px"></p>
+<div class="crop-stage"><canvas id="cropCanvas"></canvas></div>
+<div class="crop-row" id="cropAspects"></div>
+<div class="crop-zoom"><span>−</span><input type="range" id="cropZoom" min="1" max="5" step="0.01" value="1" aria-label="Масштаб"><span>+</span></div>
+<div class="crop-row"><button type="button" class="admin-btn secondary small" id="cropL">↺ Повернуть</button><button type="button" class="admin-btn secondary small" id="cropR">↻ Повернуть</button><button type="button" class="admin-btn secondary small" id="cropReset">Сбросить</button></div>
+<div class="crop-row" style="justify-content:space-between;margin-top:16px"><button type="button" class="admin-btn secondary" id="cropCancel">Отмена</button><button type="button" class="admin-btn" id="cropOk">✓ Применить</button></div>
+<p class="admin-note" style="margin:12px 0 0;text-align:center">Тяните фото пальцем или мышью, масштаб — ползунком или щипком.</p>
+</div></div>
 <div class="pubdock"><div class="st"><span id="pubState2"></span><span id="pubStatus2"></span></div><button class="admin-btn" id="publishBtn2" type="button">🚀 Опубликовать на сайт</button></div>
-<script src="data.js?v=2"></script>
+<script>document.write('<script src="data.js?t='+Date.now()+'"><\/script>');</script>
 <script>
 const key="ny_admin_data_v1";
 const original=JSON.parse(JSON.stringify(window.SITE_DATA||{properties:[],team:[],reviews:[]}));
@@ -127,6 +148,81 @@ function readImage(file,max=1280,q=.78){
    const x=c.getContext("2d");x.fillStyle="#fff";x.fillRect(0,0,c.width,c.height);x.drawImage(img,0,0,c.width,c.height);
    res(c.toDataURL("image/jpeg",q));};img.src=fr.result;};
   fr.readAsDataURL(file);
+ });
+}
+
+/* ---------- crop editor ---------- */
+const CROP={
+ team:{title:"Фото сотрудника",hint:"Лицо должно быть в верхней части кадра. На сайте фото показывается вертикально.",aspects:[["4:5",4/5],["1:1",1],["3:4",3/4]],out:900,circle:false,cy:.4},
+ review:{title:"Фото клиента",hint:"На сайте фото показывается кругом.",aspects:[["1:1",1]],out:500,circle:true,cy:.4},
+ property:{title:"Кадр объекта",hint:"Выберите пропорции и сдвиньте фото. «Оригинал» — без обрезки (можно только повернуть).",aspects:[["Оригинал",0],["4:3",4/3],["16:9",16/9],["1:1",1]],out:1400,circle:false,cy:.5}
+};
+function cropImage(srcUrl,kind,defIdx){
+ return new Promise(resolve=>{
+  const cfg=CROP[kind],img=new Image();
+  if(!/^data:/.test(srcUrl))img.crossOrigin="anonymous";
+  img.onerror=()=>{alert("Не удалось открыть фото для редактирования");resolve(null)};
+  img.onload=()=>start();
+  img.src=srcUrl;
+  function start(){
+   const m=$("cropModal"),cv=$("cropCanvas"),ctx=cv.getContext("2d"),zoom=$("cropZoom"),asp=$("cropAspects");
+   let rot=0,ai=defIdx||0,z=1,cx=0,cy=0,base=null,A=1,cw=0,ch=0,s0=1,pd=0;
+   const ptrs=new Map();
+   function makeBase(){
+    const odd=rot%2===1,w=odd?img.height:img.width,h=odd?img.width:img.height;
+    const c=document.createElement("canvas");c.width=w;c.height=h;const x=c.getContext("2d");
+    x.translate(w/2,h/2);x.rotate(rot*Math.PI/2);x.drawImage(img,-img.width/2,-img.height/2);base=c;
+   }
+   function clamp(){const sc=s0*z,sw=cw/sc,sh=ch/sc;cx=Math.min(base.width-sw/2,Math.max(sw/2,cx));cy=Math.min(base.height-sh/2,Math.max(sh/2,cy));}
+   function draw(){
+    const sc=s0*z,sw=cw/sc,sh=ch/sc;
+    ctx.clearRect(0,0,cw,ch);ctx.drawImage(base,cx-sw/2,cy-sh/2,sw,sh,0,0,cw,ch);
+    ctx.save();
+    if(cfg.circle){const r=Math.min(cw,ch)/2-2;ctx.fillStyle="rgba(0,0,0,.55)";ctx.beginPath();ctx.rect(0,0,cw,ch);ctx.arc(cw/2,ch/2,r,0,Math.PI*2,true);ctx.fill("evenodd");ctx.strokeStyle="rgba(255,255,255,.85)";ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(cw/2,ch/2,r,0,Math.PI*2);ctx.stroke();}
+    else{ctx.strokeStyle="rgba(255,255,255,.35)";ctx.lineWidth=1;ctx.beginPath();for(let i=1;i<3;i++){ctx.moveTo(cw*i/3,0);ctx.lineTo(cw*i/3,ch);ctx.moveTo(0,ch*i/3);ctx.lineTo(cw,ch*i/3)}ctx.stroke();}
+    ctx.restore();
+   }
+   function layout(){
+    A=cfg.aspects[ai][1]||(base.width/base.height);
+    const maxW=Math.min(440,window.innerWidth-56),maxH=Math.max(220,Math.min(window.innerHeight*.48,460));
+    cw=Math.min(maxW,maxH*A);ch=cw/A;
+    cv.width=Math.round(cw);cv.height=Math.round(ch);cv.style.width=cw+"px";cv.style.height=ch+"px";
+    s0=Math.max(cw/base.width,ch/base.height);clamp();draw();
+   }
+   function setZ(v){z=Math.min(5,Math.max(1,v));zoom.value=z;clamp();draw();}
+   function buildAsp(){asp.innerHTML=cfg.aspects.map((a,i)=>`<button type="button" class="admin-btn small ${i===ai?"":"secondary"}" data-i="${i}">${a[0]}</button>`).join("");asp.style.display=cfg.aspects.length<2?"none":"flex"}
+   function init(){rot=0;ai=defIdx||0;z=1;zoom.value=1;makeBase();cx=base.width/2;cy=base.height*cfg.cy;buildAsp();layout()}
+   function dist(){const p=[...ptrs.values()];return Math.hypot(p[0].x-p[1].x,p[0].y-p[1].y)}
+   function done(v){m.classList.remove("on");document.body.style.overflow="";cv.onpointerdown=cv.onpointermove=cv.onpointerup=cv.onpointercancel=cv.onwheel=null;window.removeEventListener("keydown",key);resolve(v)}
+   function key(e){if(e.key==="Escape")done(null)}
+   cv.onpointerdown=e=>{try{cv.setPointerCapture(e.pointerId)}catch(_){}ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});if(ptrs.size===2)pd=dist()};
+   cv.onpointermove=e=>{const p=ptrs.get(e.pointerId);if(!p)return;
+    if(ptrs.size===1){const sc=s0*z;cx-=(e.clientX-p.x)/sc;cy-=(e.clientY-p.y)/sc}
+    p.x=e.clientX;p.y=e.clientY;
+    if(ptrs.size===2){const d=dist();if(pd)setZ(z*d/pd);pd=d;return}
+    clamp();draw()};
+   cv.onpointerup=cv.onpointercancel=e=>{ptrs.delete(e.pointerId);pd=0};
+   cv.onwheel=e=>{e.preventDefault();setZ(z*(e.deltaY<0?1.08:1/1.08))};
+   asp.onclick=e=>{const b=e.target.closest("button");if(!b)return;ai=+b.dataset.i;buildAsp();layout()};
+   zoom.oninput=()=>setZ(+zoom.value);
+   const rotated=()=>{makeBase();cx=base.width/2;cy=base.height*cfg.cy;z=1;zoom.value=1;layout()};
+   $("cropL").onclick=()=>{rot=(rot+3)%4;rotated()};
+   $("cropR").onclick=()=>{rot=(rot+1)%4;rotated()};
+   $("cropReset").onclick=init;
+   $("cropCancel").onclick=()=>done(null);
+   $("cropOk").onclick=()=>{
+    const sc=s0*z,sw=cw/sc,sh=ch/sc;
+    const ow=Math.max(1,Math.round(Math.min(cfg.out,sw))),oh=Math.max(1,Math.round(ow/A));
+    const c=document.createElement("canvas");c.width=ow;c.height=oh;const x=c.getContext("2d");
+    x.imageSmoothingQuality="high";x.fillStyle="#fff";x.fillRect(0,0,ow,oh);
+    x.drawImage(base,cx-sw/2,cy-sh/2,sw,sh,0,0,ow,oh);
+    let out;try{out=c.toDataURL("image/jpeg",.86)}catch(err){alert("Не удалось сохранить кадр");return}
+    done(out);
+   };
+   $("cropTitle").textContent=cfg.title;$("cropHint").textContent=cfg.hint;
+   m.classList.add("on");document.body.style.overflow="hidden";window.addEventListener("keydown",key);
+   init();
+  }
  });
 }
 
@@ -161,12 +257,13 @@ $("contactsForm").addEventListener("submit",e=>{e.preventDefault();const f=new F
 let propEdit=null, propPhotos=[];
 const pf=$("propertyForm");
 function renderPropPhotos(){
- $("propPhotos").innerHTML=propPhotos.map((src,i)=>`<div class="ph"><img src="${src}" alt="">${i===0?'<span class="cover">Обложка</span>':''}<div class="pb">${i>0?`<button type="button" title="Сделать обложкой" onclick="propCover(${i})">★</button>`:''}<button type="button" title="Удалить" onclick="propDelPhoto(${i})">✕</button></div></div>`).join("");
+ $("propPhotos").innerHTML=propPhotos.map((src,i)=>`<div class="ph"><img src="${src}" alt="">${i===0?'<span class="cover">Обложка</span>':''}<div class="pb">${i>0?`<button type="button" title="Сделать обложкой" onclick="propCover(${i})">★</button>`:''}<button type="button" title="Кадрирование" onclick="propCrop(${i})">✂</button><button type="button" title="Удалить" onclick="propDelPhoto(${i})">✕</button></div></div>`).join("");
 }
 window.propCover=i=>{propPhotos.unshift(propPhotos.splice(i,1)[0]);renderPropPhotos()};
 window.propDelPhoto=i=>{propPhotos.splice(i,1);renderPropPhotos()};
+window.propCrop=async i=>{const out=await cropImage(propPhotos[i],"property",1);if(out){propPhotos[i]=out;renderPropPhotos()}};
 $("propFiles").addEventListener("change",async e=>{
- for(const f of e.target.files){try{propPhotos.push(await readImage(f))}catch(err){alert("Не удалось прочитать файл "+f.name)}}
+ for(const f of e.target.files){try{propPhotos.push(await readImage(f,1400,.82))}catch(err){alert("Не удалось прочитать файл "+f.name)}}
  e.target.value="";renderPropPhotos();
 });
 function resetPropForm(){propEdit=null;propPhotos=[];pf.reset();renderPropPhotos();$("propSubmit").textContent="Добавить объект";$("propCancel").hidden=true;$("propBanner").classList.remove("on");pf.classList.remove("editing")}
@@ -195,9 +292,10 @@ pf.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(pf);
 /* ---------- team ---------- */
 let teamEdit=null, teamPhoto="";
 const tf=$("teamForm");
-function renderTeamPhoto(){$("teamPhoto").innerHTML=teamPhoto?`<div class="ph"><img src="${teamPhoto}" alt=""><div class="pb"><button type="button" onclick="teamPhoto='';renderTeamPhoto()">✕</button></div></div>`:""}
+function renderTeamPhoto(){$("teamPhoto").innerHTML=teamPhoto?`<div class="ph"><img src="${teamPhoto}" alt=""><div class="pb"><button type="button" title="Кадрирование" onclick="teamCrop()">✂</button><button type="button" title="Удалить" onclick="teamPhoto='';renderTeamPhoto()">✕</button></div></div>`:""}
 window.renderTeamPhoto=renderTeamPhoto;
-$("teamFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{teamPhoto=await readImage(f,600,.8)}catch(err){alert("Не удалось прочитать файл")}e.target.value="";renderTeamPhoto()});
+window.teamCrop=async()=>{const out=await cropImage(teamPhoto,"team");if(out){teamPhoto=out;renderTeamPhoto()}};
+$("teamFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{const src=await readImage(f,2000,.9);const out=await cropImage(src,"team");if(out)teamPhoto=out}catch(err){alert("Не удалось прочитать файл")}e.target.value="";renderTeamPhoto()});
 function resetTeamForm(){teamEdit=null;teamPhoto="";tf.reset();renderTeamPhoto();$("teamSubmit").textContent="Добавить сотрудника";$("teamCancel").hidden=true;$("teamBanner").classList.remove("on");tf.classList.remove("editing")}
 window.editTeam=i=>{const m=state.team[i];teamEdit=i;tf.name.value=m.name||"";tf.role.value=m.role||"";tf.initials.value=m.initials||"";teamPhoto=m.photo||"";renderTeamPhoto();
  $("teamSubmit").textContent="Сохранить изменения";$("teamCancel").hidden=false;$("teamBanner").textContent="Редактирование: "+m.name;$("teamBanner").classList.add("on");tf.classList.add("editing");tf.scrollIntoView({behavior:"smooth",block:"center"})};
@@ -212,9 +310,10 @@ tf.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(tf);
 
 /* ---------- reviews ---------- */
 let reviewEdit=null,reviewPhoto="";const rf=$("reviewForm");
-function renderReviewPhoto(){$("reviewPhoto").innerHTML=reviewPhoto?`<div class="ph"><img src="${reviewPhoto}" alt=""><div class="pb"><button type="button" onclick="reviewPhoto='';renderReviewPhoto()">✕</button></div></div>`:""}
+function renderReviewPhoto(){$("reviewPhoto").innerHTML=reviewPhoto?`<div class="ph"><img src="${reviewPhoto}" alt=""><div class="pb"><button type="button" title="Кадрирование" onclick="reviewCrop()">✂</button><button type="button" title="Удалить" onclick="reviewPhoto='';renderReviewPhoto()">✕</button></div></div>`:""}
 window.renderReviewPhoto=renderReviewPhoto;
-$("reviewFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{reviewPhoto=await readImage(f,500,.8)}catch(err){alert("Не удалось прочитать файл")}e.target.value="";renderReviewPhoto()});
+window.reviewCrop=async()=>{const out=await cropImage(reviewPhoto,"review");if(out){reviewPhoto=out;renderReviewPhoto()}};
+$("reviewFile").addEventListener("change",async e=>{const f=e.target.files[0];if(!f)return;try{const src=await readImage(f,1200,.9);const out=await cropImage(src,"review");if(out)reviewPhoto=out}catch(err){alert("Не удалось прочитать файл")}e.target.value="";renderReviewPhoto()});
 function resetReviewForm(){reviewEdit=null;reviewPhoto="";renderReviewPhoto();rf.reset();$("reviewSubmit").textContent="Добавить отзыв";$("reviewCancel").hidden=true;$("reviewBanner").classList.remove("on");rf.classList.remove("editing")}
 window.editReview=i=>{const r=state.reviews[i];reviewEdit=i;rf.who.value=r.who||"";rf.text.value=r.text||"";reviewPhoto=r.photo||"";renderReviewPhoto();
  $("reviewSubmit").textContent="Сохранить изменения";$("reviewCancel").hidden=false;$("reviewBanner").textContent="Редактирование отзыва: "+r.who;$("reviewBanner").classList.add("on");rf.classList.add("editing");rf.scrollIntoView({behavior:"smooth",block:"center"})};
@@ -326,7 +425,7 @@ $("publishBtn").addEventListener("click",async()=>{
   state._dirty=false;
   try{localStorage.setItem(key,JSON.stringify({...out,_dirty:false}))}catch(e){}
   updateStorage();updatePub();
-  setStatus("✓ Опубликовано. Сайт обновится через 1–2 минуты (обновите страницу без кеша).","clean");
+  setStatus("✓ Опубликовано. GitHub Pages соберёт сайт за 1–2 минуты — после этого страница у посетителей обновится сама, кэш чистить не нужно.","clean");
  }catch(err){
   if(/401/.test(err.message)){localStorage.removeItem(tokenKey);localStorage.removeItem("bs_admin_token")}
   setStatus(err.message||"Не удалось опубликовать","err");
