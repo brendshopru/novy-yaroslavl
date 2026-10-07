@@ -570,6 +570,91 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 }
 </style>
 
+
+<style id="intro-wow-continuous-final">
+/* FINAL: one continuous shot — no scene cuts */
+.site-intro{background:#010201!important;perspective:1600px!important}
+.intro-scene{background:radial-gradient(ellipse at 50% 48%,#121b16 0%,#050806 48%,#010201 100%)!important;transform-style:preserve-3d!important}
+.intro-door-wrap{opacity:1!important;animation:doorInFinal .42s cubic-bezier(.16,.9,.08,1) 0s forwards!important;z-index:10!important;will-change:transform}
+.intro-door-frame{transform-origin:50% 50%!important;will-change:transform,opacity!important}
+.intro-door{transform-origin:left center!important;backface-visibility:hidden!important;will-change:transform!important}
+/* The black space behind the door is the same shot; it never becomes a new background. */
+.intro-room{z-index:4!important;opacity:1!important;transform:translate(-50%,-46%) scale(.55)!important;background:radial-gradient(ellipse at 50% 50%,#020302 0%,#000 62%,#000 100%)!important;animation:roomFinal 1.55s cubic-bezier(.06,.9,.03,1) 1.78s forwards!important}
+.intro-room-light{z-index:5!important;animation:lightFinal 1.3s cubic-bezier(.05,.9,.02,1) 1.82s forwards!important}
+/* Key is visible all the way into the lock. It is hidden by the door opening, not faded away. */
+.intro-key{z-index:11!important;animation:keyFinal 1.48s cubic-bezier(.18,.92,.08,1) .08s forwards!important;will-change:left,top,transform,filter}
+.intro-lock{z-index:12!important}
+.intro-lock:after{animation:lockFinal .20s cubic-bezier(.15,.9,.08,1) 1.48s forwards!important}
+.intro-door{animation:doorFinal .78s cubic-bezier(.08,.92,.035,1) 1.67s forwards!important}
+/* Door frame physically rushes past the camera only after the door has opened. */
+.intro-door-frame{animation:frameFinal 1.55s cubic-bezier(.06,.9,.03,1) 1.72s forwards!important}
+.intro-vignette{animation:vignetteFinal 1.55s cubic-bezier(.08,.9,.04,1) 1.72s forwards!important}
+/* IMPORTANT: brand sits BEHIND the door, inside the dark opening. */
+.intro-brand{z-index:6!important;opacity:0!important;transform-origin:50% 50%!important;animation:brandThroughFinal 1.18s cubic-bezier(.03,.94,.02,1) 1.90s forwards!important;will-change:transform,opacity,filter!important}
+
+@keyframes doorInFinal{0%{opacity:0;transform:translate(-50%,-46%) scale(.60)}100%{opacity:1;transform:translate(-50%,-46%) scale(.72)}}
+@keyframes keyFinal{
+  0%{opacity:1;left:10%;top:84%;transform:translate(-50%,-50%) rotate(-52deg) scale(.055);filter:blur(1.5px) drop-shadow(0 12px 24px #000)}
+  18%{opacity:1;left:25%;top:72%;transform:translate(-50%,-50%) rotate(-38deg) scale(.14);filter:blur(0) drop-shadow(0 8px 18px #000)}
+  42%{opacity:1;left:41%;top:57%;transform:translate(-50%,-50%) rotate(-17deg) scale(.30);filter:drop-shadow(0 0 12px rgba(199,168,91,.35))}
+  66%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.45);filter:drop-shadow(0 0 22px rgba(199,168,91,.65)) brightness(1.12)}
+  78%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.45);filter:drop-shadow(0 0 42px rgba(255,225,135,1)) brightness(1.6)}
+  90%{opacity:1;left:calc(50% - 51px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.45);filter:drop-shadow(0 0 34px rgba(255,225,135,.9)) brightness(1.4)}
+  100%{opacity:1;left:calc(50% - 51px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.45);filter:drop-shadow(0 0 25px rgba(255,225,135,.55)) brightness(1.2)}
+}
+@keyframes lockFinal{0%{transform:rotate(0) scale(1)}40%{transform:rotate(90deg) scale(1.2)}100%{transform:rotate(90deg) scale(1)}}
+@keyframes doorFinal{
+  0%{transform:perspective(1100px) rotateY(0) translateZ(0)}
+  28%{transform:perspective(1100px) rotateY(-32deg) translateZ(5px)}
+  58%{transform:perspective(1100px) rotateY(-78deg) translateZ(24px)}
+  82%{transform:perspective(1100px) rotateY(-112deg) translateZ(55px)}
+  100%{transform:perspective(1100px) rotateY(-128deg) translateZ(82px)}
+}
+@keyframes frameFinal{
+  0%{opacity:1;transform:scale(1) translateZ(0)}
+  38%{opacity:1;transform:scale(1.04) translateZ(20px)}
+  72%{opacity:.75;transform:scale(1.28) translateZ(90px)}
+  100%{opacity:0;transform:scale(1.72) translateZ(300px)}
+}
+@keyframes roomFinal{
+  0%{opacity:1;transform:translate(-50%,-46%) scale(.55)}
+  42%{opacity:1;transform:translate(-50%,-46%) scale(.72)}
+  72%{opacity:1;transform:translate(-50%,-46%) scale(1.18)}
+  100%{opacity:1;transform:translate(-50%,-46%) scale(2.35)}
+}
+@keyframes lightFinal{
+  0%{opacity:.02;transform:scale(.18)}
+  45%{opacity:.12;transform:scale(.55)}
+  75%{opacity:.30;transform:scale(1.15)}
+  100%{opacity:.08;transform:scale(2.4)}
+}
+@keyframes vignetteFinal{0%{opacity:1}55%{opacity:.75}100%{opacity:.08}}
+/* The logo starts as a tiny point INSIDE the same doorway, then is sucked through it toward the viewer. */
+@keyframes brandThroughFinal{
+  0%{opacity:0;transform:translate(-50%,-50%) translateZ(-620px) scale(.012);filter:blur(26px);text-shadow:0 0 100px rgba(199,168,91,1)}
+  14%{opacity:.08;transform:translate(-50%,-50%) translateZ(-500px) scale(.028);filter:blur(20px)}
+  34%{opacity:.28;transform:translate(-50%,-50%) translateZ(-300px) scale(.10);filter:blur(12px);text-shadow:0 0 70px rgba(199,168,91,.9)}
+  55%{opacity:.72;transform:translate(-50%,-50%) translateZ(-120px) scale(.38);filter:blur(5px);text-shadow:0 0 55px rgba(199,168,91,.7)}
+  72%{opacity:1;transform:translate(-50%,-50%) translateZ(45px) scale(1.28);filter:blur(0);text-shadow:0 0 38px rgba(199,168,91,.35)}
+  84%{opacity:1;transform:translate(-50%,-50%) translateZ(18px) scale(1.06);filter:blur(0)}
+  100%{opacity:1;transform:translate(-50%,-50%) translateZ(0) scale(1);filter:blur(0);text-shadow:none}
+}
+@media(max-width:700px){
+ .intro-key{animation-name:keyFinalMobile!important}
+ .intro-lock:after{animation-delay:1.48s!important}
+ .intro-brand{animation-name:brandThroughFinal!important}
+}
+@keyframes keyFinalMobile{
+  0%{opacity:1;left:7%;top:84%;transform:translate(-50%,-50%) rotate(-52deg) scale(.05);filter:blur(1px) drop-shadow(0 10px 20px #000)}
+  18%{opacity:1;left:23%;top:72%;transform:translate(-50%,-50%) rotate(-38deg) scale(.12)}
+  42%{opacity:1;left:40%;top:57%;transform:translate(-50%,-50%) rotate(-17deg) scale(.27)}
+  66%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.40);filter:drop-shadow(0 0 22px rgba(199,168,91,.7))}
+  78%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.40);filter:drop-shadow(0 0 40px rgba(255,225,135,1)) brightness(1.6)}
+  90%{opacity:1;left:calc(50% - 59px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40);filter:drop-shadow(0 0 30px rgba(255,225,135,.9))}
+  100%{opacity:1;left:calc(50% - 59px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40);filter:drop-shadow(0 0 22px rgba(255,225,135,.55))}
+}
+</style>
+
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
