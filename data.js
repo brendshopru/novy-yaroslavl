@@ -99,15 +99,15 @@ window.SITE_DATA = {
     },
     {
       "title": "Покупка",
-      "photo": ""
+      "photo": "photos/ed166676132e5023.jpg"
     },
     {
       "title": "Обмен",
-      "photo": ""
+      "photo": "photos/1c0cd507aa4641b6.jpg"
     },
     {
       "title": "Аренда",
-      "photo": ""
+      "photo": "photos/0717964b090b5406.jpg"
     },
     {
       "title": "Сопровождение",
