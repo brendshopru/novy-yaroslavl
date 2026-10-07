@@ -420,6 +420,47 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 @media(max-width:700px){.f-top>.f-col:nth-child(2) a{margin:0 6px 7px 0!important;padding:9px 12px!important;min-height:38px!important;font-size:12px!important}}
 
 </style>
+
+<style id="intro-final-cinematic">
+/* Финальная кинематографичная заставка: один непрерывный проход камеры */
+.site-intro{perspective:1800px}
+.intro-scene{transform-style:preserve-3d}
+.intro-door-wrap{animation:doorRevealFast .32s cubic-bezier(.2,.9,.15,1) .02s forwards;transform-origin:50% 50%;}
+.intro-key{left:50%;top:76%;animation:keyCinematic 1.72s cubic-bezier(.16,.92,.12,1) .03s forwards;opacity:1}
+.intro-lock:after{animation:lockTurnCinematic .22s cubic-bezier(.2,.9,.15,1) 1.53s forwards}
+.intro-door{animation:doorOpenCinematic .58s cubic-bezier(.18,.92,.08,1) 1.70s forwards}
+.intro-room{animation:roomRush 1.05s cubic-bezier(.12,.88,.08,1) 1.82s forwards}
+.intro-room-light{animation:roomLightRush .82s cubic-bezier(.1,.9,.05,1) 1.82s forwards}
+.intro-brand{animation:brandLaunch .9s cubic-bezier(.12,.95,.12,1) 2.02s forwards}
+@keyframes keyCinematic{
+0%{opacity:1;left:18%;top:78%;transform:translate(-50%,-50%) rotate(-48deg) scale(.10);filter:drop-shadow(0 10px 18px rgba(0,0,0,.8)) brightness(.95)}
+18%{opacity:1;left:31%;top:67%;transform:translate(-50%,-50%) rotate(-32deg) scale(.20)}
+43%{opacity:1;left:43%;top:55%;transform:translate(-50%,-50%) rotate(-13deg) scale(.36)}
+67%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.45);filter:drop-shadow(0 0 26px rgba(199,168,91,.55)) brightness(1.15)}
+78%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.45);filter:drop-shadow(0 0 34px rgba(199,168,91,.85)) brightness(1.55)}
+90%{opacity:1;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.45);filter:drop-shadow(0 0 30px rgba(199,168,91,.65)) brightness(1.35)}
+100%{opacity:0;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.45);filter:drop-shadow(0 0 50px rgba(199,168,91,0)) brightness(1.1)}}
+@keyframes keyCinematicMobile{
+0%{opacity:1;left:16%;top:78%;transform:translate(-50%,-50%) rotate(-48deg) scale(.08)}
+20%{opacity:1;left:30%;top:67%;transform:translate(-50%,-50%) rotate(-30deg) scale(.18)}
+46%{opacity:1;left:42%;top:55%;transform:translate(-50%,-50%) rotate(-12deg) scale(.31)}
+68%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.40);filter:drop-shadow(0 0 24px rgba(199,168,91,.65)) brightness(1.2)}
+80%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(0deg) scale(.40);filter:drop-shadow(0 0 30px rgba(199,168,91,.9)) brightness(1.6)}
+91%{opacity:1;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40);filter:drop-shadow(0 0 28px rgba(199,168,91,.7)) brightness(1.35)}
+100%{opacity:0;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotate(90deg) scale(.40)}}
+@keyframes lockTurnCinematic{0%{transform:rotate(0) scale(1)}45%{transform:rotate(90deg) scale(1.12)}100%{transform:rotate(90deg) scale(1)}}
+@keyframes doorOpenCinematic{0%{transform:perspective(1100px) rotateY(0) translateZ(0)}55%{transform:perspective(1100px) rotateY(-72deg) translateZ(20px)}100%{transform:perspective(1100px) rotateY(-102deg) translateZ(55px)}}
+@keyframes roomRush{0%{opacity:0;transform:translate(-50%,-46%) scale(.72)}38%{opacity:1;transform:translate(-50%,-46%) scale(1.05)}100%{opacity:1;transform:translate(-50%,-46%) scale(1.62)}}
+@keyframes roomLightRush{0%{opacity:0;transform:scale(.25)}45%{opacity:1;transform:scale(.9)}100%{opacity:.72;transform:scale(1.8)}}
+@keyframes brandLaunch{0%{opacity:0;transform:translate(-50%,-50%) scale(.28) translateZ(-220px);filter:blur(18px);letter-spacing:.04em}28%{opacity:.25;transform:translate(-50%,-50%) scale(.48) translateZ(-100px);filter:blur(10px)}62%{opacity:1;transform:translate(-50%,-50%) scale(1.16) translateZ(90px);filter:blur(0)}82%{opacity:1;transform:translate(-50%,-50%) scale(1.02) translateZ(40px)}100%{opacity:1;transform:translate(-50%,-50%) scale(1) translateZ(0);filter:blur(0)}}
+@media(max-width:700px){
+.intro-key{animation-name:keyCinematicMobile;animation-duration:1.72s}
+}
+/* Нижняя навигация: настоящие компактные кнопки, без точек и без текстового списка */
+.f-top>.f-col:nth-child(2) a{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:auto!important;margin:0 8px 9px 0!important;padding:9px 15px!important;min-height:36px!important;border:1px solid rgba(199,168,91,.30)!important;border-radius:10px!important;background:linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.018))!important;color:var(--fg)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.06),0 5px 16px rgba(0,0,0,.12)!important;font-size:13px!important;line-height:1!important;text-decoration:none!important;transition:transform .25s ease,border-color .25s ease,background .25s ease,color .25s ease!important}
+.f-top>.f-col:nth-child(2) a:hover{transform:translateY(-2px)!important;border-color:var(--site-accent)!important;color:var(--site-accent)!important;background:rgba(199,168,91,.08)!important}
+@media(max-width:700px){.f-top>.f-col:nth-child(2) a{margin:0 7px 8px 0!important;padding:9px 13px!important;min-height:35px!important;font-size:12.5px!important;border-radius:9px!important}}
+</style>
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
@@ -622,7 +663,7 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
   skip.addEventListener('click',close);
   intro.addEventListener('click',e=>{if(e.target===intro)close();});
   window.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
-  setTimeout(close,reduce?250:4300);
+  setTimeout(close,reduce?250:3900);
 })();
 </script>
 <script>
