@@ -54,7 +54,7 @@ body{padding-bottom:92px}
 <body>
 <header><div class="nav wrap"><a class="logo" href="index.html">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a><a class="nav-phone" href="index.html">На сайт →</a></div></header>
 <main class="wrap admin">
-<div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель<span class="ver">версия 7</span></h1></div>
+<div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель<span class="ver">версия 8</span></h1></div>
 <div class="actions" style="margin:0"><button class="admin-btn" id="publishBtn">🚀 Опубликовать на сайт</button><button class="admin-btn secondary" id="tokenBtn">🔑 Токен</button><button class="admin-btn secondary" id="downloadData">Экспорт</button><button class="admin-btn secondary" id="importBtn">Импорт</button><button class="admin-btn secondary" id="resetData">Сбросить</button><input type="file" id="importFile" accept=".js,.json" hidden></div></div>
 <div class="pubbar"><span id="pubState"></span><span id="pubStatus"></span></div>
 <p class="admin-note">Правки сохраняются как черновик в этом браузере. Чтобы их увидели все посетители сайта, нажмите «Опубликовать на сайт» — данные и фото запишутся прямо в репозиторий GitHub. <span class="storage" id="storageInfo"></span></p>
@@ -89,7 +89,7 @@ body{padding-bottom:92px}
 <textarea name="description" class="wide" placeholder="Описание объекта (необязательно)"></textarea>
 <div class="wide"><label class="admin-note" style="display:block;margin:0 0 6px">Фотографии (можно несколько; первая — обложка). Кнопка ✂ под фото — выбрать кадр: сдвиг, масштаб, поворот</label>
 <input type="file" id="propFiles" accept="image/*" multiple style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)">
-<div class="photos" id="propPhotos" style="margin-top:10px"></div></div>
+<div class="admin-note" id="propUpState" style="margin:8px 0 0"></div><div class="photos" id="propPhotos" style="margin-top:10px"></div></div>
 <div class="actions wide"><button class="admin-btn" id="propSubmit">Добавить объект</button><button class="admin-btn secondary" type="button" id="propCancel" hidden>Отмена</button><button class="admin-btn secondary pub-inline" type="button">🚀 Опубликовать на сайт</button></div>
 </form></section>
 
@@ -133,9 +133,9 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 function save(){
  try{state._dirty=true;localStorage.setItem(key,JSON.stringify(state));updateStorage();updatePub();return true}
- catch(e){alert("Не удалось сохранить: хранилище браузера заполнено. Удалите часть фото или экспортируйте data.js.");return false}
+ catch(e){alert("Не хватило места в браузере для всех фото (лимит около 5 МБ). Нажмите «🚀 Опубликовать на сайт» — фото уйдут на сайт и место освободится, потом добавляйте дальше. Либо добавьте меньше фото за раз.");return false}
 }
-function updateStorage(){const kb=Math.round((localStorage.getItem(key)||"").length/1024);$("storageInfo").textContent="Занято в браузере: "+kb+" КБ из ~5000 КБ.";}
+function updateStorage(){const kb=Math.round((localStorage.getItem(key)||"").length/1024);$("storageInfo").textContent="Занято в браузере: "+kb+" КБ из ~5000 КБ."+(kb>3800?" ⚠ Почти заполнено — опубликуйте изменения, и место освободится.":"");}
 
 /* ---------- image helper: resize + compress to JPEG data URL ---------- */
 function readImage(file,max=1280,q=.78){
@@ -263,8 +263,15 @@ window.propCover=i=>{propPhotos.unshift(propPhotos.splice(i,1)[0]);renderPropPho
 window.propDelPhoto=i=>{propPhotos.splice(i,1);renderPropPhotos()};
 window.propCrop=async i=>{const out=await cropImage(propPhotos[i],"property",1);if(out){propPhotos[i]=out;renderPropPhotos()}};
 $("propFiles").addEventListener("change",async e=>{
- for(const f of e.target.files){try{propPhotos.push(await readImage(f,1400,.82))}catch(err){alert("Не удалось прочитать файл "+f.name)}}
- e.target.value="";renderPropPhotos();
+ const files=[...e.target.files];e.target.value="";
+ if(!files.length)return;
+ const st=$("propUpState");let ok=0;const bad=[];
+ for(let i=0;i<files.length;i++){
+  st.textContent="Обрабатываю фото "+(i+1)+" из "+files.length+"…";
+  try{propPhotos.push(await readImage(files[i],1400,.8));ok++;renderPropPhotos()}catch(err){bad.push(files[i].name||("файл "+(i+1)))}
+ }
+ st.textContent=bad.length?("Добавлено "+ok+" из "+files.length+". Не открылись: "+bad.join(", ")+" (проверьте формат — нужны JPG, PNG или WebP)"):("✓ Добавлено фото: "+ok+". Всего в объекте: "+propPhotos.length);
+ renderPropPhotos();
 });
 function resetPropForm(){propEdit=null;propPhotos=[];pf.reset();renderPropPhotos();$("propSubmit").textContent="Добавить объект";$("propCancel").hidden=true;$("propBanner").classList.remove("on");pf.classList.remove("editing")}
 window.editProp=i=>{
@@ -422,9 +429,9 @@ $("publishBtn").addEventListener("click",async()=>{
   let sha;if(cur.ok){sha=(await cur.json()).sha}else if(cur.status!==404)throw new Error(explain(cur));
   const put=await gh(token,"PUT","data.js",{message:"Обновление данных из админки",content:b64utf8("window.SITE_DATA = "+JSON.stringify(out,null,2)+";\n"),...(sha?{sha}:{})});
   if(!put.ok)throw new Error(explain(put));
-  state._dirty=false;
+  state=out;state._dirty=false;
   try{localStorage.setItem(key,JSON.stringify({...out,_dirty:false}))}catch(e){}
-  updateStorage();updatePub();
+  render();updateStorage();updatePub();
   setStatus("✓ Опубликовано. GitHub Pages соберёт сайт за 1–2 минуты — после этого страница у посетителей обновится сама, кэш чистить не нужно.","clean");
  }catch(err){
   if(/401/.test(err.message)){localStorage.removeItem(tokenKey);localStorage.removeItem("bs_admin_token")}
