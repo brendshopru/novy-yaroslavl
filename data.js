@@ -15,11 +15,11 @@ window.SITE_DATA = {
       ],
       "description": "",
       "photos": [
-        "photos/8f5dadb150813627.jpg",
-        "photos/1f99ebea627d7134.jpg",
-        "photos/e818bb7b3e378b6b.jpg"
+        "photos/24624e590e33e1df.jpg"
       ],
-      "photo": "photos/8f5dadb150813627.jpg"
+      "photo": "photos/24624e590e33e1df.jpg",
+      "status": "",
+      "video": ""
     },
     {
       "id": 2,
@@ -125,7 +125,7 @@ window.SITE_DATA = {
       "title": "Аренда",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/079532840da9f2bd.mp4",
       "visible": true
     },
     {
