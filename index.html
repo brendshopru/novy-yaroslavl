@@ -510,9 +510,15 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 @media(max-width:700px){
   .services{grid-template-columns:1fr!important;gap:14px!important}
   .services .svc{width:100%!important;aspect-ratio:16/9!important;border-radius:18px!important;padding:18px!important}
-  .services .svc .ic{transform:none!important}
+  .services .svc .ic{display:none!important}
+  .services .svc .t{color:var(--site-accent,#c7a85b)!important;text-shadow:0 2px 12px rgba(0,0,0,.72)!important;font-weight:800!important;font-size:clamp(18px,5vw,24px)!important;max-width:90%!important;text-align:center!important}
   .services .svc:hover .ic{transform:none!important}
   .services .svc:hover{transform:none!important}
+}
+@media(min-width:701px){
+  .services .svc .ic{display:none!important}
+  .services .svc .t{color:var(--site-accent,#c7a85b)!important;text-shadow:0 2px 12px rgba(0,0,0,.72)!important;font-weight:800!important;font-size:clamp(18px,1.5vw,25px)!important}
+  .services .svc .svc-video{opacity:.92!important}
 }
 @media(prefers-reduced-motion:reduce){.services .svc{transition:none!important}}
 </style>
@@ -1060,10 +1066,25 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
       var old=card.querySelector('.svc-video');if(old)old.remove();card.classList.remove('has-video');
     }
   });
-  /* Не запускаем все ролики одновременно: играет только видимый ролик. Это заметно легче для телефона и ПК. */
+  /* ПК: видео играет только при наведении мыши. Мобильное поведение не меняем. */
   if(window.__nySvcIO)window.__nySvcIO.disconnect();
+  if(window.__nySvcHoverCleanups){window.__nySvcHoverCleanups.forEach(function(fn){fn()});}
+  window.__nySvcHoverCleanups=[];
+  if(window.matchMedia && window.matchMedia('(min-width:701px)').matches){
+    cards.forEach(function(card){
+      var v=card.querySelector('.svc-video');
+      if(!v)return;
+      v.pause();
+      var enter=function(){v.play().catch(function(){})};
+      var leave=function(){v.pause();};
+      card.addEventListener('mouseenter',enter);
+      card.addEventListener('mouseleave',leave);
+      window.__nySvcHoverCleanups.push(function(){card.removeEventListener('mouseenter',enter);card.removeEventListener('mouseleave',leave);v.pause();});
+    });
+    return;
+  }
   if(!('IntersectionObserver' in window)){
-    cards.forEach(function(card){var v=card.querySelector('.svc-video');if(v){v.autoplay=true;v.play().catch(function(){});}});return;
+    cards.forEach(function(card){var v=card.querySelector('.svc-video');if(v){v.autoplay=true;v.play().catch(function(){})}});return;
   }
   window.__nySvcIO=new IntersectionObserver(function(entries){
     entries.forEach(function(e){var v=e.target.querySelector('.svc-video');if(!v)return;if(e.isIntersecting&&e.intersectionRatio>=.45){v.play().catch(function(){})}else{v.pause();}});
