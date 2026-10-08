@@ -6,6 +6,10 @@
   <meta name="color-scheme" content="dark">
   <meta name="theme-color" content="#0c201a">
   <title>Новый Ярославль — агентство недвижимости</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icon-192.png" sizes="192x192">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta name="ny-build" content="2026-10-07-8">
@@ -545,6 +549,20 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
   .reviews .rv{flex:0 0 100%!important;width:100%!important;height:max-content!important;min-height:0!important;max-height:none!important;align-self:flex-start!important}
 }
 </style>
+
+<style id="pwa-install-ui">
+.nav-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
+.nav-actions .nav-phone{margin-left:0!important}
+.nav-install{appearance:none;border:1px solid rgba(199,168,91,.48);background:rgba(199,168,91,.08);color:var(--fg,#f4f1e8);height:42px;padding:0 16px;border-radius:12px;font:inherit;font-size:13px;letter-spacing:.01em;cursor:pointer;transition:.2s ease;white-space:nowrap}
+.nav-install:hover{border-color:rgba(199,168,91,.82);background:rgba(199,168,91,.14);box-shadow:0 0 20px rgba(199,168,91,.08)}
+.nav-install.is-installed{display:none!important}
+@media(max-width:900px){.nav-install{height:40px;padding:0 13px;font-size:12px}}
+@media(max-width:700px){.nav-actions{gap:7px}.nav-install{height:38px;padding:0 11px;font-size:11px;border-radius:10px}.nav-actions .nav-phone{padding-left:12px!important;padding-right:12px!important}}
+.pwa-modal{position:fixed;inset:0;z-index:7000;display:grid;place-items:center;background:rgba(3,12,9,.72);backdrop-filter:blur(8px);padding:20px}
+.pwa-modal[hidden]{display:none}
+.pwa-modal-card{width:min(430px,92vw);background:#0c201a;color:#f4f1e8;border:1px solid rgba(199,168,91,.3);border-radius:20px;padding:26px;box-shadow:0 24px 80px rgba(0,0,0,.45)}
+.pwa-modal-card h3{margin:0 0 10px;font-size:22px}.pwa-modal-card p{margin:0 0 18px;line-height:1.55;color:rgba(244,241,232,.78);font-size:14px}.pwa-close{width:100%;height:44px;border:1px solid rgba(255,255,255,.12);border-radius:11px;background:rgba(255,255,255,.05);color:inherit;font:inherit;cursor:pointer}
+</style>
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
@@ -566,10 +584,11 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
       <a href="#team">Команда</a>
       <a href="#contacts">Контакты</a>
     </nav>
-    <a class="nav-phone" data-contact="phone" href="tel:+79201085073">Связаться</a>
+    <div class="nav-actions"><button class="nav-install" id="installApp" type="button" aria-label="Установить приложение">Установить</button><a class="nav-phone" data-contact="phone" href="tel:+79201085073">Связаться</a></div>
   </div>
 </header>
 
+<div class="pwa-modal" id="pwaModal" hidden role="dialog" aria-modal="true" aria-labelledby="pwaTitle"><div class="pwa-modal-card"><h3 id="pwaTitle">Установить «Новый Ярославль»</h3><p id="pwaText"></p><button class="pwa-close" id="pwaClose" type="button">Понятно</button></div></div>
 <main class="wrap">
   <section class="hero">
     <div class="eyebrow">Агентство недвижимости · Ярославль · с 2014 года</div>
@@ -1212,6 +1231,29 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
   });
   var o=document.getElementById('objects'),a=o&&o.querySelector('.sec-actions');
   if(a)a.appendChild(mk(o));
+})();
+</script>
+<script id="pwa-install">
+(function(){
+  var btn=document.getElementById('installApp'),modal=document.getElementById('pwaModal'),txt=document.getElementById('pwaText'),close=document.getElementById('pwaClose');
+  if(!btn)return;
+  var deferred=null;
+  function standalone(){return window.matchMedia('(display-mode: standalone)').matches||window.navigator.standalone===true}
+  function hideIfInstalled(){if(standalone())btn.classList.add('is-installed')}
+  hideIfInstalled();
+  window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferred=e;btn.classList.remove('is-installed')});
+  window.addEventListener('appinstalled',function(){deferred=null;btn.classList.add('is-installed')});
+  function show(text){txt.textContent=text;modal.hidden=false}
+  close&&close.addEventListener('click',function(){modal.hidden=true});
+  modal&&modal.addEventListener('click',function(e){if(e.target===modal)modal.hidden=true});
+  btn.addEventListener('click',async function(){
+    if(deferred){deferred.prompt();try{await deferred.userChoice}catch(e){}deferred=null;return}
+    var ios=/iphone|ipad|ipod/i.test(navigator.userAgent)&&!window.MSStream;
+    if(ios){show('Откройте меню «Поделиться» в браузере и выберите «На экран “Домой”». После этого сайт будет открываться как приложение.');return}
+    if(/android/i.test(navigator.userAgent)){show('Откройте меню браузера ⋮ и выберите «Установить приложение» или «Добавить на главный экран».');return}
+    show('В Chrome или Edge откройте меню браузера и выберите «Установить приложение» / «Установить Новый Ярославль». Приложение появится на рабочем столе.');
+  });
+  if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})})}
 })();
 </script>
 </body>
