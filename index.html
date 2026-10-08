@@ -507,6 +507,10 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 .services .svc .t{position:relative!important;z-index:3!important;margin:12px 0 0!important;max-width:90%!important;text-align:center!important;line-height:1.12!important}
 .services .svc .svc-video:not([src=""]){will-change:auto!important}
 @media(max-width:900px){.services{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}}
+@media(min-width:701px){
+  .services .svc{overflow:hidden!important;contain:paint!important;transform:translateZ(0)!important;}
+  .services .svc .svc-video{transform:translate3d(0,0,0) scale(1.002)!important;backface-visibility:hidden!important;-webkit-backface-visibility:hidden!important;outline:1px solid transparent!important;}
+}
 @media(max-width:700px){
   .services{grid-template-columns:1fr!important;gap:14px!important}
   .services .svc{width:100%!important;aspect-ratio:16/9!important;border-radius:18px!important;padding:18px!important}
