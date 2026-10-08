@@ -92,15 +92,15 @@ body{padding-bottom:92px}
 </form>
 <div class="actions"><a id="testPhone" class="admin-btn secondary" href="#">📞 Позвонить</a><a id="testWa" class="admin-btn secondary" href="#" target="_blank" rel="noopener">💬 WhatsApp</a><a id="testTg" class="admin-btn secondary" href="#" target="_blank" rel="noopener">✈️ Telegram</a><a id="testVk" class="admin-btn secondary" href="#" target="_blank" rel="noopener">🔵 VK</a></div></section>
 
-<section class="panel"><h2>Иконка приложения</h2>
+<section class="panel"><h2>Логотип сайта</h2>
 <p class="admin-note">Здесь можно заменить логотип. Лучше использовать PNG или WebP с прозрачным фоном. После публикации логотип сохранится вместе с данными сайта.</p>
 <div class="logo-admin">
-<div id="logoPreview" class="logo-preview empty">Иконка приложения пока не загружена</div>
+<div id="logoPreview" class="logo-preview empty">Логотип пока не загружен</div>
 <div style="flex:1;min-width:240px">
 <input type="file" id="logoFile" accept="image/png,image/webp,image/jpeg,image/svg+xml" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)">
 <div class="actions">
-<button class="admin-btn" type="button" id="logoSave">Сохранить иконку</button>
-<button class="admin-btn secondary" type="button" id="logoDelete">Удалить иконку</button>
+<button class="admin-btn" type="button" id="logoSave">Сохранить логотип</button>
+<button class="admin-btn secondary" type="button" id="logoDelete">Удалить</button>
 <button class="admin-btn secondary pub-inline" type="button">🚀 Опубликовать на сайт</button>
 </div>
 <p class="admin-note" id="logoState" style="margin:8px 0 0"></p>
@@ -161,7 +161,7 @@ const original=JSON.parse(JSON.stringify(window.SITE_DATA||{properties:[],team:[
 let state=null,local=null;
 try{local=JSON.parse(localStorage.getItem(key)||"null")}catch(e){local=null}
 const SERVICE_NAMES=["Продажа","Покупка","Обмен","Аренда","Сопровождение","Ипотека","Срочный выкуп","Зарубежная недвижимость","Новостройки"];
-const norm=d=>{["properties","team","reviews"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});if(!Array.isArray(d.services))d.services=[];SERVICE_NAMES.forEach(title=>{if(!d.services.some(x=>x&&x.title===title))d.services.push({title,photo:""})});d.services=d.services.map(x=>({title:x.title||"",photo:x.photo||""}));if(!d.brand||typeof d.brand!=="object")d.brand={};if(d.brand.appIcon===undefined)d.brand.appIcon="";if(!d.ui||typeof d.ui!=="object")d.ui={};if(d.ui.catalogVisible===undefined)d.ui.catalogVisible=true;if(d.ui.searchVisible===undefined)d.ui.searchVisible=true;if(d.ui.servicesVisible===undefined)d.ui.servicesVisible=true;if(d.ui.calcVisible===undefined)d.ui.calcVisible=true;return d};
+const norm=d=>{["properties","team","reviews"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});if(!Array.isArray(d.services))d.services=[];SERVICE_NAMES.forEach(title=>{if(!d.services.some(x=>x&&x.title===title))d.services.push({title,photo:""})});d.services=d.services.map(x=>({title:x.title||"",photo:x.photo||""}));if(!d.brand||typeof d.brand!=="object")d.brand={};if(d.brand.logo===undefined)d.brand.logo="";if(!d.ui||typeof d.ui!=="object")d.ui={};if(d.ui.catalogVisible===undefined)d.ui.catalogVisible=true;if(d.ui.searchVisible===undefined)d.ui.searchVisible=true;if(d.ui.servicesVisible===undefined)d.ui.servicesVisible=true;if(d.ui.calcVisible===undefined)d.ui.calcVisible=true;return d};
 const clean=d=>{const c=JSON.parse(JSON.stringify(d));delete c._dirty;return c};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
@@ -309,26 +309,26 @@ $("toggleSearch").addEventListener("click",()=>{state.ui.searchVisible=!state.ui
 let pendingLogo="";
 function renderLogo(){
 const box=$("logoPreview"),stateEl=$("logoState");
-if(state.brand&&state.brand.appIcon){box.classList.remove("empty");box.innerHTML=`<img src="${state.brand.appIcon}" alt="Иконка приложения">`}
-else{box.classList.add("empty");box.textContent="Иконка приложения пока не загружена"}
+if(state.brand&&state.brand.logo){box.classList.remove("empty");box.innerHTML=`<img src="${state.brand.logo}" alt="Логотип">`}
+else{box.classList.add("empty");box.textContent="Логотип пока не загружен"}
 if(stateEl)stateEl.textContent="";
 }
 $("logoFile").addEventListener("change",e=>{
 const f=e.target.files[0];e.target.value="";if(!f)return;
 if(f.size>4*1024*1024){alert("Файл слишком большой. Лучше использовать логотип до 4 МБ.");return}
 const reader=new FileReader();
-reader.onload=()=>{pendingLogo=reader.result;$("logoPreview").classList.remove("empty");$("logoPreview").innerHTML=`<img src="${pendingLogo}" alt="Новая иконка приложения">`;$("logoState").textContent="Новая иконка выбрана. Нажмите «Сохранить иконку»."};
+reader.onload=()=>{pendingLogo=reader.result;$("logoPreview").classList.remove("empty");$("logoPreview").innerHTML=`<img src="${pendingLogo}" alt="Новый логотип">`;$("logoState").textContent="Новый логотип выбран. Нажмите «Сохранить логотип»."};
 reader.readAsDataURL(f);
 });
 $("logoSave").addEventListener("click",()=>{
 if(!pendingLogo){alert("Сначала выберите файл логотипа.");return}
-state.brand=state.brand||{};state.brand.appIcon=pendingLogo;pendingLogo="";
-if(save()){renderLogo();$("logoState").textContent="✓ Иконка приложения сохранена в черновике. Теперь опубликуйте изменения на сайт."}
+state.brand=state.brand||{};state.brand.logo=pendingLogo;pendingLogo="";
+if(save()){renderLogo();$("logoState").textContent="✓ Логотип сохранён в черновике. Теперь опубликуйте изменения на сайт."}
 });
 $("logoDelete").addEventListener("click",()=>{
-if(!state.brand||!state.brand.appIcon)return;
+if(!state.brand||!state.brand.logo)return;
 if(!confirm("Удалить логотип из данных сайта?"))return;
-state.brand.appIcon="";pendingLogo="";save();renderLogo();$("logoState").textContent="Иконка приложения удалена из черновика. Не забудьте опубликовать.";
+state.brand.logo="";pendingLogo="";save();renderLogo();$("logoState").textContent="Логотип удалён из черновика. Не забудьте опубликовать.";
 });
 
 /* ---------- properties ---------- */
@@ -485,7 +485,7 @@ $("publishBtn").addEventListener("click",async()=>{
   const out=clean(state);
   const imgs=[];
   const walk=(o,k)=>{const v=o[k];if(typeof v==="string"&&v.startsWith("data:image"))imgs.push([o,k])};
-  out.properties.forEach(p=>{(p.photos||[]).forEach((_,i,a)=>walk(a,i));walk(p,"photo")});out.services.forEach(x=>walk(x,"photo"));if(out.brand)walk(out.brand,"appIcon");
+  out.properties.forEach(p=>{(p.photos||[]).forEach((_,i,a)=>walk(a,i));walk(p,"photo")});out.services.forEach(x=>walk(x,"photo"));if(out.brand)walk(out.brand,"logo");
   out.team.forEach(m=>walk(m,"photo"));out.reviews.forEach(r=>walk(r,"photo"));if(out.contacts)walk(out.contacts,"photo");
   const cache={};let n=0;
   for(const [o,k] of imgs){
