@@ -95,6 +95,26 @@ body{padding-bottom:92px}
 </form>
 <div class="actions"><a id="testPhone" class="admin-btn secondary" href="#">📞 Позвонить</a><a id="testWa" class="admin-btn secondary" href="#" target="_blank" rel="noopener">💬 WhatsApp</a><a id="testTg" class="admin-btn secondary" href="#" target="_blank" rel="noopener">✈️ Telegram</a><a id="testVk" class="admin-btn secondary" href="#" target="_blank" rel="noopener">🔵 VK</a></div></section>
 
+
+<section class="panel" id="appIconPanel">
+<h2>Иконка приложения</h2>
+<p class="admin-note">Здесь меняется только иконка установленного приложения. Логотип сайта, контакты, объекты и другие данные не затрагиваются. После публикации новая иконка получает новую версию, чтобы браузер не использовал старый файл из кэша.</p>
+<div class="form-grid">
+<div>
+<label class="admin-note" style="display:block;margin:0 0 6px">Новая иконка приложения (PNG/JPG/WebP)</label>
+<input type="file" id="appIconFile" accept="image/png,image/jpeg,image/webp" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)">
+</div>
+<div>
+<div class="admin-note" style="margin:0 0 6px">Предпросмотр</div>
+<div id="appIconPreview" style="width:96px;height:96px;border-radius:20px;overflow:hidden;background:#07150f;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted)">Нет иконки</div>
+</div>
+<div class="actions wide">
+<button class="admin-btn secondary" type="button" id="appIconClear">Сбросить выбранную</button>
+<span id="appIconStatus" class="admin-note" style="margin:0"></span>
+</div>
+</div>
+</section>
+
 <section class="panel"><h2>Объекты</h2><div id="propertyList"></div>
 <form id="propertyForm" class="form-grid" style="margin-top:18px">
 <div class="edit-banner wide" id="propBanner"></div>
@@ -417,6 +437,34 @@ async function boot(){
  norm(state);fillContacts();renderContacts();render();updateStorage();updatePub();
 }
 
+
+/* ---------- app icon: only PWA icon files + manifest/SW ---------- */
+let pendingAppIcon="";
+function iconCanvasData(src,size){
+ return new Promise((resolve,reject)=>{
+  const img=new Image();img.onload=()=>{
+   const c=document.createElement("canvas");c.width=size;c.height=size;const x=c.getContext("2d");
+   const k=Math.max(size/img.width,size/img.height),w=img.width*k,h=img.height*k;
+   x.clearRect(0,0,size,size);x.drawImage(img,(size-w)/2,(size-h)/2,w,h);resolve(c.toDataURL("image/png"));
+  };img.onerror=reject;img.src=src;
+ });
+}
+function renderAppIcon(){
+ const box=$("appIconPreview");if(!box)return;
+ if(pendingAppIcon){box.innerHTML=`<img src="${esc(pendingAppIcon)}" alt="" style="width:100%;height:100%;object-fit:cover">`}
+ else {box.textContent="Нет иконки"}
+}
+$("appIconFile")?.addEventListener("change",async e=>{
+ const f=e.target.files[0];e.target.value="";if(!f)return;
+ try{
+  const src=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)});
+  pendingAppIcon=await iconCanvasData(src,512);
+  renderAppIcon();
+  $("appIconStatus").textContent="Иконка выбрана. Нажмите «Опубликовать на сайт».";
+ }catch(err){alert("Не удалось открыть изображение") }
+});
+$("appIconClear")?.addEventListener("click",()=>{pendingAppIcon="";renderAppIcon();$("appIconStatus").textContent="Выбранная иконка сброшена."});
+
 /* ---------- publish to GitHub ---------- */
 const tokenKey="ny_gh_token";
 function repoInfo(){
@@ -459,6 +507,39 @@ $("publishBtn").addEventListener("click",async()=>{
   for(const [o,k] of imgs){const v=o[k];if(!cache[v]){n++;setStatus(`Загружаю фото ${n}…`);const name="photos/"+await sha16(v)+".jpg";const ex=await gh(token,"GET",name);if(ex.status===404){const up=await gh(token,"PUT",name,{message:"Фото из админки",content:v.split(",")[1]});if(!up.ok&&up.status!==422)throw new Error(explain(up));}else if(!ex.ok)throw new Error(explain(ex));cache[v]=name;}o[k]=cache[v];}
   for(const [o,k] of vids){const v=o[k];if(!cache[v]){n++;setStatus(`Загружаю видео ${n}…`);const mime=(v.match(/^data:(video\/[^;]+);/)||[])[1]||"video/mp4";const ext=mime.includes("webm")?"webm":mime.includes("quicktime")?"mov":"mp4";const name="videos/"+await sha16(v)+"."+ext;const ex=await gh(token,"GET",name);if(ex.status===404){const up=await gh(token,"PUT",name,{message:"Видео из админки",content:v.split(",")[1]});if(!up.ok&&up.status!==422)throw new Error(explain(up));}else if(!ex.ok)throw new Error(explain(ex));cache[v]=name;}o[k]=cache[v];}
   out.properties.forEach(p=>{if(Array.isArray(p.photos))p.photo=p.photos[0]||""});
+  if(pendingAppIcon){
+   setStatus("Обновляю иконку приложения…");
+   const icon512=pendingAppIcon;
+   const icon192=await iconCanvasData(icon512,192);
+   const iconHash=await sha16(icon512);
+   const icon192Path="icons/icon-192-"+iconHash+".png";
+   const icon512Path="icons/icon-512-"+iconHash+".png";
+   for(const [path,data] of [[icon192Path,icon192],[icon512Path,icon512]]){
+    const ex=await gh(token,"GET",path);
+    if(ex.status===404){
+     const up=await gh(token,"PUT",path,{message:"Обновление иконки приложения",content:data.split(",")[1]});
+     if(!up.ok&&up.status!==422)throw new Error(explain(up));
+    }else if(!ex.ok)throw new Error(explain(ex));
+   }
+   const manifestResp=await gh(token,"GET","manifest.webmanifest");
+   if(!manifestResp.ok&&manifestResp.status!==404)throw new Error(explain(manifestResp));
+   let manifest={name:"Новый Ярославль — агентство недвижимости",short_name:"Новый Ярославль",lang:"ru",start_url:"./",scope:"./",display:"standalone",background_color:"#07150f",theme_color:"#0c201a",description:"Агентство недвижимости «Новый Ярославль»"};
+   let manifestSha="";
+   if(manifestResp.ok){const mj=await manifestResp.json();manifest=mj.content?JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(mj.content.replace(/\n/g,"")),c=>c.charCodeAt(0)))):manifest;manifestSha=mj.sha||"";}
+   manifest.icons=[{src:icon192Path,sizes:"192x192",type:"image/png",purpose:"any maskable"},{src:icon512Path,sizes:"512x512",type:"image/png",purpose:"any maskable"}];
+   const manifestPut=await gh(token,"PUT","manifest.webmanifest",{message:"Обновление иконки приложения",content:b64utf8(JSON.stringify(manifest,null,2)+"\n"),...(manifestSha?{sha:manifestSha}:{})});
+   if(!manifestPut.ok)throw new Error(explain(manifestPut));
+   const swResp=await gh(token,"GET","sw.js");
+   if(swResp.ok){
+    const sj=await swResp.json();let sw=new TextDecoder().decode(Uint8Array.from(atob(sj.content.replace(/\n/g,"")),c=>c.charCodeAt(0)));
+    sw=sw.replace(/const CACHE='[^']*';/,"const CACHE='ny-shell-"+iconHash+"';");
+    sw=sw.replace(/const STATIC=\[[^\]]*\];/,"const STATIC=['./','./manifest.webmanifest','./"+icon192Path+"','./"+icon512Path+"'];");
+    sw=sw.replace(/if\(u\.pathname\.endsWith\('\/data\.js'\)\|\|u\.pathname\.endsWith\('\/app\.js'\)\|\|u\.pathname\.endsWith\('\/styles\.css'\)\|\|u\.pathname\.endsWith\('\/index\.html'\)\)/, "if(u.pathname.endsWith('/data.js')||u.pathname.endsWith('/app.js')||u.pathname.endsWith('/styles.css')||u.pathname.endsWith('/index.html')||u.pathname.endsWith('/manifest.webmanifest'))");
+    const swPut=await gh(token,"PUT","sw.js",{message:"Обновление кэша иконки приложения",content:b64utf8(sw),sha:sj.sha});
+    if(!swPut.ok)throw new Error(explain(swPut));
+   }
+   pendingAppIcon="";renderAppIcon();$("appIconStatus").textContent="✓ Иконка опубликована. На уже установленных устройствах обновление произойдёт после обновления PWA/проверки манифеста браузером.";
+  }
   setStatus("Записываю данные сайта…");
   const cur=await gh(token,"GET","data.js");
   let sha;if(cur.ok){sha=(await cur.json()).sha}else if(cur.status!==404)throw new Error(explain(cur));
