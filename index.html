@@ -523,6 +523,18 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 @media(prefers-reduced-motion:reduce){.services .svc{transition:none!important}}
 </style>
 
+
+<style id="reviews-consent-polish">
+/* Отзывы: высота только по содержимому, без растягивания на полэкрана */
+.reviews{align-items:flex-start!important}
+.reviews .rv{align-self:flex-start!important;height:auto!important;min-height:0!important;max-height:none!important}
+
+/* Согласие на обработку данных в формах */
+.cb-consent{display:flex;align-items:flex-start;gap:9px;margin:14px 0 2px;color:var(--muted);font-size:12px;line-height:1.45;cursor:pointer}
+.cb-consent input{width:17px;height:17px;min-width:17px;margin:1px 0 0;accent-color:var(--site-accent);cursor:pointer}
+.cb-consent span{display:block}
+.cb-consent a{color:var(--fg);text-decoration:underline;text-underline-offset:2px}
+</style>
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
@@ -811,6 +823,7 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
         <option>Купить недвижимость</option><option>Продать недвижимость</option><option>Снять / сдать</option>
         <option>Ипотека</option><option>Другое</option>
       </select>
+      <label class="cb-consent"><input id="cbConsent" type="checkbox" required><span>Я даю согласие на обработку моих персональных данных.</span></label>
       <button class="ny-submit" type="submit">Отправить заявку</button>
       <div class="ny-note" id="cbNote"></div>
     </form>
@@ -1103,7 +1116,7 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 /* ===== Заявка на обратный звонок (уходит в WhatsApp) ===== */
 (function(){
   var modal=document.getElementById('cbModal'),form=document.getElementById('cbForm');if(!modal||!form)return;
-  var name=document.getElementById('cbName'),phone=document.getElementById('cbPhone'),goal=document.getElementById('cbGoal'),note=document.getElementById('cbNote');
+  var name=document.getElementById('cbName'),phone=document.getElementById('cbPhone'),goal=document.getElementById('cbGoal'),consent=document.getElementById('cbConsent'),note=document.getElementById('cbNote');
   function open(){modal.classList.add('open');document.body.style.overflow='hidden';note.textContent='';nyOverlayPush('callback',closeNow);setTimeout(function(){name.focus();},250);}
   function closeNow(){modal.classList.remove('open');document.body.style.overflow='';}
   function close(){nyOverlayBack('callback',closeNow);}
@@ -1118,6 +1131,7 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
     e.preventDefault();
     var n=name.value.trim(),p=phone.value.trim();
     if(!n||(p.replace(/\D/g,'').length<10)){note.textContent='Укажите имя и корректный номер телефона';return;}
+    if(!consent.checked){note.textContent='Подтвердите согласие на обработку персональных данных';return;}
     var wa=document.querySelector('a[data-contact="whatsapp"]');
     var base=wa?wa.getAttribute('href'):'https://wa.me/79201085073';
     var msg='Здравствуйте! Меня зовут '+n+'. Интересует: '+goal.value+'. Мой телефон: '+p+'. Перезвоните, пожалуйста.';var details=modal.dataset.calcDetails||'';if(details)msg+=' Расчёт: '+details;
