@@ -104,7 +104,7 @@ window.SITE_DATA = {
       "title": "Продажа",
       "photo": "",
       "description": "",
-      "video": "videos/dcb00dd38667e9cb.mp4",
+      "video": "videos/b0d4fdad945dd13c.mp4",
       "visible": true
     },
     {
