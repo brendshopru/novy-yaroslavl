@@ -268,56 +268,56 @@ window.SITE_DATA = {
       "title": "Продажа",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/b0d4fdad945dd13c.mp4",
       "visible": true
     },
     {
       "title": "Покупка",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/cd11d3c692b5befb.mp4",
       "visible": true
     },
     {
       "title": "Обмен",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/33edea71f0ed1879.mp4",
       "visible": true
     },
     {
       "title": "Аренда",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/079532840da9f2bd.mp4",
       "visible": true
     },
     {
       "title": "Сопровождение",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/067b6d8715315dbd.mp4",
       "visible": true
     },
     {
       "title": "Ипотека",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/dfc011b208b9360d.mp4",
       "visible": true
     },
     {
       "title": "Срочный выкуп",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/80c086f418db1d1c.mp4",
       "visible": true
     },
     {
       "title": "Зарубежная недвижимость",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/881950c3e75ade4f.mp4",
       "visible": true
     },
     {
