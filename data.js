@@ -102,19 +102,19 @@ window.SITE_DATA = {
   "services": [
     {
       "title": "Продажа",
-      "photo": "photos/87dc4dbe8b1a3756.jpg"
+      "photo": ""
     },
     {
       "title": "Покупка",
-      "photo": "photos/ed166676132e5023.jpg"
+      "photo": ""
     },
     {
       "title": "Обмен",
-      "photo": "photos/1c0cd507aa4641b6.jpg"
+      "photo": ""
     },
     {
       "title": "Аренда",
-      "photo": "photos/0717964b090b5406.jpg"
+      "photo": ""
     },
     {
       "title": "Сопровождение",
