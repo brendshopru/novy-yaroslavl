@@ -15,7 +15,9 @@ window.SITE_DATA = {
       ],
       "description": "",
       "photos": [
-        "photos/24624e590e33e1df.jpg"
+        "photos/24624e590e33e1df.jpg",
+        "photos/8ec89075213fa248.jpg",
+        "photos/f42bf947ef0b33c5.jpg"
       ],
       "photo": "photos/24624e590e33e1df.jpg",
       "status": "",
