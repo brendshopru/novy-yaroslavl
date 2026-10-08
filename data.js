@@ -118,7 +118,7 @@ window.SITE_DATA = {
       "title": "Обмен",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/33edea71f0ed1879.mp4",
       "visible": true
     },
     {
