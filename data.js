@@ -139,7 +139,7 @@ window.SITE_DATA = {
       "title": "Ипотека",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/dfc011b208b9360d.mp4",
       "visible": true
     },
     {
