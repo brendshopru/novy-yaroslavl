@@ -125,14 +125,14 @@ window.SITE_DATA = {
       "title": "Аренда",
       "photo": "",
       "description": "",
-      "video": "videos/067b6d8715315dbd.mp4",
+      "video": "",
       "visible": true
     },
     {
       "title": "Сопровождение",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/067b6d8715315dbd.mp4",
       "visible": true
     },
     {
