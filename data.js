@@ -266,39 +266,66 @@ window.SITE_DATA = {
   "services": [
     {
       "title": "Продажа",
-      "photo": ""
+      "photo": "",
+      "description": "",
+      "video": "",
+      "visible": true
     },
     {
       "title": "Покупка",
-      "photo": ""
+      "photo": "",
+      "description": "",
+      "video": "",
+      "visible": true
     },
     {
       "title": "Обмен",
-      "photo": ""
+      "photo": "",
+      "description": "",
+      "video": "",
+      "visible": true
     },
     {
       "title": "Аренда",
-      "photo": ""
+      "photo": "",
+      "description": "",
+      "video": "",
+      "visible": true
     },
     {
       "title": "Сопровождение",
-      "photo": ""
+      "photo": "",
+      "description": "",
+      "video": "",
+      "visible": true
     },
     {
       "title": "Ипотека",
-      "photo": ""
+      "photo": "",
+      "description": "",
+      "video": "",
+      "visible": true
     },
     {
       "title": "Срочный выкуп",
-      "photo": ""
+      "photo": "",
+      "description": "",
+      "video": "",
+      "visible": true
     },
     {
       "title": "Зарубежная недвижимость",
-      "photo": ""
+      "photo": "",
+      "description": "",
+      "video": "",
+      "visible": true
     },
     {
       "title": "Новостройки",
-      "photo": ""
+      "photo": "",
+      "description": "",
+      "video": "",
+      "visible": true
     }
   ],
   "ui": {
