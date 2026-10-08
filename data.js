@@ -146,7 +146,7 @@ window.SITE_DATA = {
       "title": "Срочный выкуп",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/80c086f418db1d1c.mp4",
       "visible": true
     },
     {
