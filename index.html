@@ -550,30 +550,6 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 }
 </style>
 
-<style id="site-header-brand-upgrade">
-/* Верхний бренд: обновлённый знак без изменения навигации и функционала */
-header .nav>.logo.site-brand{display:flex!important;align-items:center!important;gap:12px!important;width:auto!important;min-width:0!important;text-decoration:none!important;color:var(--fg,#f4f1e8)!important;line-height:1!important}
-header .site-brand-mark{width:48px!important;height:48px!important;display:block!important;flex:0 0 48px!important;overflow:visible!important}
-header .site-brand-copy{display:flex!important;flex-direction:column!important;justify-content:center!important;gap:2px!important;white-space:nowrap!important}
-header .site-brand-name{display:flex!important;align-items:baseline!important;gap:7px!important;font-family:Georgia,'Times New Roman',serif!important;font-size:21px!important;line-height:.92!important;letter-spacing:.055em!important;font-weight:500!important;color:#f4f1e8!important}
-header .site-brand-name b{font-weight:500!important;color:#f4f1e8!important}
-header .site-brand-sub{font-size:8px!important;line-height:1!important;letter-spacing:.24em!important;text-transform:uppercase!important;color:var(--site-accent,#c7a85b)!important;margin-top:3px!important}
-header .site-brand-rule{display:block!important;width:34px!important;height:1px!important;background:linear-gradient(90deg,var(--site-accent,#c7a85b),transparent)!important;margin-top:2px!important}
-header .nav{align-items:center!important}
-@media(max-width:900px){
-  header .site-brand-mark{width:43px!important;height:43px!important;flex-basis:43px!important}
-  header .site-brand-name{font-size:18px!important;letter-spacing:.045em!important}
-  header .site-brand-sub{font-size:7px!important;letter-spacing:.18em!important}
-}
-@media(max-width:700px){
-  header .nav>.logo.site-brand{gap:8px!important}
-  header .site-brand-mark{width:38px!important;height:38px!important;flex-basis:38px!important}
-  header .site-brand-name{font-size:15px!important;gap:5px!important;letter-spacing:.035em!important}
-  header .site-brand-sub{font-size:6px!important;letter-spacing:.13em!important}
-  header .site-brand-rule{width:25px!important}
-}
-</style>
-
 <style id="pwa-install-ui">
 .nav-actions{display:flex;align-items:center;gap:10px;margin-left:auto}
 .nav-actions .nav-phone{margin-left:0!important}
@@ -600,29 +576,7 @@ header .nav{align-items:center!important}
 </div>
 <header>
   <div class="nav wrap">
-    <a class="logo site-brand" href="#" aria-label="Новый Ярославль — агентство недвижимости">
-      <svg class="site-brand-mark" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-        <defs>
-          <linearGradient id="nyGold" x1="18" y1="18" x2="82" y2="82" gradientUnits="userSpaceOnUse">
-            <stop offset="0" stop-color="#f4ddb0"/>
-            <stop offset=".48" stop-color="#c7a85b"/>
-            <stop offset="1" stop-color="#efd18a"/>
-          </linearGradient>
-        </defs>
-        <g fill="none" stroke="url(#nyGold)" stroke-width="3.5" stroke-linejoin="round">
-          <path d="M20 75V50l10-7v32"/>
-          <path d="M34 75V37l10-8v46"/>
-          <path d="M48 75V19l13-10v66"/>
-          <path d="M65 75V34l13 9v32"/>
-        </g>
-        <path d="M12 75c24 1 53-6 76-22 8-6 11-12 7-15-3-2-8-2-14 0 10-7 20-6 22 0 3 9-12 22-30 30-21 9-44 12-61 10z" fill="url(#nyGold)"/>
-      </svg>
-      <span class="site-brand-copy">
-        <span class="site-brand-name"><span>НОВЫЙ</span><b>ЯРОСЛАВЛЬ</b></span>
-        <span class="site-brand-sub">Агентство недвижимости</span>
-        <span class="site-brand-rule"></span>
-      </span>
-    </a>
+    <a class="logo" href="#">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a>
     <nav class="nav-links" aria-label="Основная навигация">
       <a href="#objects">Объекты</a>
       <a href="#services">Услуги</a>
