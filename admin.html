@@ -49,11 +49,6 @@ body{padding-bottom:92px}
 .crop-zoom{display:flex;gap:10px;align-items:center;margin:12px 0;color:var(--muted)}.crop-zoom input{flex:1}
 .crop-row{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}
 .ver{font-size:11px;color:var(--muted);margin-left:8px;font-weight:400}
-.logo-admin{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
-.logo-preview{width:220px;height:110px;border:1px solid var(--line);border-radius:14px;background:var(--bg);display:flex;align-items:center;justify-content:center;padding:14px;overflow:hidden}
-.logo-preview img{max-width:100%;max-height:82px;object-fit:contain}
-.logo-preview.empty{color:var(--muted);font-size:13px;text-align:center}
-
 </style>
 <style>
 /* ===== Точечная полировка панели видимости ===== */
@@ -64,14 +59,22 @@ body{padding-bottom:92px}
 @media(max-width:700px){#siteVisibilityPanel .actions{grid-template-columns:1fr}}
 </style>
 </style>
+
+<style id="admin-v12">
+.admin-hero{display:flex;justify-content:space-between;gap:24px;align-items:center;padding:26px 28px;margin:0 0 16px;background:linear-gradient(135deg,rgba(199,168,91,.13),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:22px}.admin-hero h2{font-size:28px;margin:5px 0 8px}.admin-hero p{max-width:720px;color:var(--muted);margin:0;line-height:1.6}.hero-status{display:flex;gap:10px;align-items:center;white-space:nowrap}.hero-status span{font-size:12px;color:#7ddc9a}.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.dash-card{padding:18px 20px;background:var(--card);border:1px solid var(--line);border-radius:16px}.dash-card b{display:block;font-size:27px}.dash-card span{color:var(--muted);font-size:12px}.section-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.service-manager{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.service-card{border:1px solid var(--line);background:var(--bg);border-radius:16px;padding:14px}.service-card .svc-photo{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:11px;background:var(--card);margin-bottom:10px}.service-card input,.service-card textarea{width:100%;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:9px;color:var(--fg);font:inherit;margin-top:7px}.service-card textarea{min-height:70px}.service-meta{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}.service-meta button,.service-meta label{font-size:11px;padding:7px 9px;border-radius:8px;background:var(--line);color:var(--fg);cursor:pointer}.token-gate{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at 50% 30%,rgba(199,168,91,.12),transparent 35%),#07150f;display:flex;align-items:center;justify-content:center;padding:20px}.token-card{width:min(430px,100%);padding:32px;background:rgba(20,35,27,.96);border:1px solid rgba(255,255,255,.12);border-radius:24px;box-shadow:0 30px 90px rgba(0,0,0,.45)}.token-mark{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--gold);color:#17210f;font-weight:900;margin-bottom:24px}.token-card h2{font-size:30px;margin:6px 0 10px}.token-card p{color:var(--muted);line-height:1.6;font-size:13px}.token-card input{width:100%;box-sizing:border-box;background:#07150f;border:1px solid var(--line);border-radius:11px;padding:13px;color:var(--fg);font:inherit;margin:10px 0}.token-card .admin-btn{width:100%;margin-top:4px}.gate-error{color:#ff8a8a;font-size:12px;margin-top:10px;min-height:16px}.token-gate[hidden]{display:none}.service-card.dragging{opacity:.5}.service-card .svc-toggle{accent-color:var(--gold)}.service-video-row{display:flex;gap:7px;align-items:center;margin-top:8px;flex-wrap:wrap}.service-video-row button{font-size:11px;padding:7px 9px;border-radius:8px;background:var(--line);color:var(--fg);border:0;cursor:pointer}.service-video-row label{display:none}.svc-video-preview{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:11px;background:#000;margin:-2px 0 10px}
+@media(max-width:850px){.dash-grid{grid-template-columns:repeat(2,1fr)}.service-manager{grid-template-columns:1fr 1fr}.admin-hero{align-items:flex-start;flex-direction:column}}
+@media(max-width:600px){.service-manager{grid-template-columns:1fr}.dash-card{padding:14px}.admin-hero{padding:20px}.admin-hero h2{font-size:24px}}
+</style>
 </head>
 <body>
 <header><div class="nav wrap"><a class="logo" href="index.html">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a><a class="nav-phone" href="index.html">На сайт →</a></div></header>
 <main class="wrap admin">
-<div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель<span class="ver">версия 11</span></h1></div>
+<div class="admin-head"><div><div class="eyebrow">Управление сайтом</div><h1>Админ-панель<span class="ver">версия 12 · новая</span></h1></div>
 <div class="actions" style="margin:0"><button class="admin-btn" id="publishBtn">🚀 Опубликовать на сайт</button><button class="admin-btn secondary" id="tokenBtn">🔑 Токен</button><button class="admin-btn secondary" id="downloadData">Экспорт</button><button class="admin-btn secondary" id="importBtn">Импорт</button><button class="admin-btn secondary" id="resetData">Сбросить</button><input type="file" id="importFile" accept=".js,.json" hidden></div></div>
 <div class="pubbar"><span id="pubState"></span><span id="pubStatus"></span></div>
-<p class="admin-note">Правки сохраняются как черновик в этом браузере. Чтобы их увидели все посетители сайта, нажмите «Опубликовать на сайт» — данные и фото запишутся прямо в репозиторий GitHub. <span class="storage" id="storageInfo"></span></p>
+<div class="admin-hero"><div><div class="eyebrow">Новый Ярославль</div><h2>Управление сайтом</h2><p>Здесь можно менять контент, объекты, услуги, фото и настройки видимости. Изменения сначала сохраняются как черновик, затем одной кнопкой публикуются на сайт.</p></div><div class="hero-status"><span id="authState">Токен сохранён</span><button class="admin-btn secondary small" id="logoutToken" type="button">Выйти</button></div></div>
+<div class="dash-grid"><div class="dash-card"><b id="dashObjects">0</b><span>объектов</span></div><div class="dash-card"><b id="dashServices">0</b><span>услуг</span></div><div class="dash-card"><b id="dashTeam">0</b><span>сотрудников</span></div><div class="dash-card"><b id="dashReviews">0</b><span>отзывов</span></div></div>
+<p class="admin-note">Черновик хранится в этом браузере. Публикация отправляет данные и изображения в GitHub. <span class="storage" id="storageInfo"></span></p>
 <details class="panel"><summary>Как включить публикацию (один раз)</summary>
 <ol><li>GitHub → Settings → Developer settings → Personal access tokens → <b>Fine-grained tokens</b> → Generate new token.</li>
 <li>Repository access: <b>Only select repositories</b> → выберите репозиторий сайта.</li>
@@ -92,20 +95,6 @@ body{padding-bottom:92px}
 </form>
 <div class="actions"><a id="testPhone" class="admin-btn secondary" href="#">📞 Позвонить</a><a id="testWa" class="admin-btn secondary" href="#" target="_blank" rel="noopener">💬 WhatsApp</a><a id="testTg" class="admin-btn secondary" href="#" target="_blank" rel="noopener">✈️ Telegram</a><a id="testVk" class="admin-btn secondary" href="#" target="_blank" rel="noopener">🔵 VK</a></div></section>
 
-<section class="panel"><h2>Логотип сайта</h2>
-<p class="admin-note">Здесь можно заменить логотип. Лучше использовать PNG или WebP с прозрачным фоном. После публикации логотип сохранится вместе с данными сайта.</p>
-<div class="logo-admin">
-<div id="logoPreview" class="logo-preview empty">Логотип пока не загружен</div>
-<div style="flex:1;min-width:240px">
-<input type="file" id="logoFile" accept="image/png,image/webp,image/jpeg,image/svg+xml" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)">
-<div class="actions">
-<button class="admin-btn" type="button" id="logoSave">Сохранить логотип</button>
-<button class="admin-btn secondary" type="button" id="logoDelete">Удалить</button>
-<button class="admin-btn secondary pub-inline" type="button">🚀 Опубликовать на сайт</button>
-</div>
-<p class="admin-note" id="logoState" style="margin:8px 0 0"></p>
-</div></div></section>
-
 <section class="panel"><h2>Объекты</h2><div id="propertyList"></div>
 <form id="propertyForm" class="form-grid" style="margin-top:18px">
 <div class="edit-banner wide" id="propBanner"></div>
@@ -113,16 +102,17 @@ body{padding-bottom:92px}
 <input name="address" placeholder="Адрес" required>
 <select name="type"><option value="">Тип объекта</option><option>Квартира</option><option>Дом</option><option>Коммерция</option><option>Участок</option></select>
 <select name="district"><option value="">Район</option><option>Кировский</option><option>Дзержинский</option><option>Красноперекопский</option><option>Заволжский</option></select>
-<input name="tag" placeholder="Метка: Новостройка">
+<input name="tag" placeholder="Метка: Новостройка"><select name="status"><option value="">Статус объекта</option><option>В продаже</option><option>Продано</option><option>Скрыт</option></select>
 <input name="meta" class="wide" placeholder="Параметры через запятую: 2 комнаты, 58 м², 7/12 эт.">
 <textarea name="description" class="wide" placeholder="Описание объекта (необязательно)"></textarea>
+<input name="video" class="wide" placeholder="Ссылка на видео объекта (YouTube / Rutube / MP4 URL, необязательно)">
 <div class="wide"><label class="admin-note" style="display:block;margin:0 0 6px">Фотографии (можно несколько; первая — обложка). Кнопка ✂ под фото — выбрать кадр: сдвиг, масштаб, поворот</label>
 <input type="file" id="propFiles" accept="image/*" multiple style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)">
 <div class="admin-note" id="propUpState" style="margin:8px 0 0"></div><div class="photos" id="propPhotos" style="margin-top:10px"></div></div>
 <div class="actions wide"><button class="admin-btn" id="propSubmit">Добавить объект</button><button class="admin-btn secondary" type="button" id="propCancel" hidden>Отмена</button><button class="admin-btn secondary pub-inline" type="button">🚀 Опубликовать на сайт</button></div>
 </form></section>
 
-<section class="panel"><h2>Услуги — фото</h2><p class="admin-note">Для каждой услуги можно загрузить своё фото. После выбора нажмите ✂ и сами укажите нужную область кадра: двигайте фото, увеличивайте и поворачивайте.</p><div id="servicesAdmin" class="photos"></div></section>
+<section class="panel"><div class="section-head"><div><h2>Услуги</h2><p class="admin-note">Для каждой услуги теперь можно задать название, описание, фото и видео. Порядок карточек сохраняется.</p></div><button class="admin-btn secondary small" type="button" id="addServiceBtn">+ Добавить услугу</button></div><div id="servicesAdmin" class="service-manager"></div></section>
 
 <section class="panel" id="siteVisibilityPanel"><h2>Видимость блоков на сайте</h2><p class="admin-note">Эти кнопки полностью скрывают или возвращают соответствующий блок на главной странице. Никакие данные не удаляются.</p><div class="actions"><button class="admin-btn" type="button" id="toggleServices">Все услуги: открыты</button><button class="admin-btn" type="button" id="toggleCatalog">Актуальные объекты: открыты</button><button class="admin-btn" type="button" id="toggleCalc">Калькулятор: открыт</button><button class="admin-btn" type="button" id="toggleSearch">«Найти»: открыт</button></div><p class="admin-note section-visibility-hint">Нажмите кнопку ещё раз, чтобы скрыть раздел. Данные и объекты при этом не удаляются.</p></section>
 
@@ -153,6 +143,7 @@ body{padding-bottom:92px}
 <div class="crop-row" style="justify-content:space-between;margin-top:16px"><button type="button" class="admin-btn secondary" id="cropCancel">Отмена</button><button type="button" class="admin-btn" id="cropOk">✓ Применить</button></div>
 <p class="admin-note" style="margin:12px 0 0;text-align:center">Тяните фото пальцем или мышью, масштаб — ползунком или щипком.</p>
 </div></div>
+<div id="tokenGate" class="token-gate"><div class="token-card"><div class="token-mark">NY</div><div class="eyebrow">Новый Ярославль</div><h2>Вход в админку</h2><p>Вставь GitHub-токен. Он сохранится в этом браузере, поэтому каждый день вводить его не придётся.</p><input id="gateToken" type="password" autocomplete="current-password" placeholder="github_pat_…"><button class="admin-btn" id="gateEnter" type="button">Войти</button><div id="gateError" class="gate-error"></div></div></div>
 <div class="pubdock"><div class="st"><span id="pubState2"></span><span id="pubStatus2"></span></div><button class="admin-btn" id="publishBtn2" type="button">🚀 Опубликовать на сайт</button></div>
 <script>document.write('<script src="data.js?t='+Date.now()+'"><\/script>');</script>
 <script>
@@ -161,7 +152,7 @@ const original=JSON.parse(JSON.stringify(window.SITE_DATA||{properties:[],team:[
 let state=null,local=null;
 try{local=JSON.parse(localStorage.getItem(key)||"null")}catch(e){local=null}
 const SERVICE_NAMES=["Продажа","Покупка","Обмен","Аренда","Сопровождение","Ипотека","Срочный выкуп","Зарубежная недвижимость","Новостройки"];
-const norm=d=>{["properties","team","reviews"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});if(!Array.isArray(d.services))d.services=[];SERVICE_NAMES.forEach(title=>{if(!d.services.some(x=>x&&x.title===title))d.services.push({title,photo:""})});d.services=d.services.map(x=>({title:x.title||"",photo:x.photo||""}));if(!d.brand||typeof d.brand!=="object")d.brand={};if(d.brand.logo===undefined)d.brand.logo="";if(!d.ui||typeof d.ui!=="object")d.ui={};if(d.ui.catalogVisible===undefined)d.ui.catalogVisible=true;if(d.ui.searchVisible===undefined)d.ui.searchVisible=true;if(d.ui.servicesVisible===undefined)d.ui.servicesVisible=true;if(d.ui.calcVisible===undefined)d.ui.calcVisible=true;return d};
+const norm=d=>{["properties","team","reviews"].forEach(k=>{if(!Array.isArray(d[k]))d[k]=[]});if(!Array.isArray(d.services))d.services=[];SERVICE_NAMES.forEach(title=>{if(!d.services.some(x=>x&&x.title===title))d.services.push({title,photo:""})});d.services=d.services.map(x=>({title:x.title||"",photo:x.photo||"",description:x.description||"",video:x.video||"",visible:x.visible!==false}));if(!d.ui||typeof d.ui!=="object")d.ui={};if(d.ui.catalogVisible===undefined)d.ui.catalogVisible=true;if(d.ui.searchVisible===undefined)d.ui.searchVisible=true;if(d.ui.servicesVisible===undefined)d.ui.servicesVisible=true;if(d.ui.calcVisible===undefined)d.ui.calcVisible=true;return d};
 const clean=d=>{const c=JSON.parse(JSON.stringify(d));delete c._dirty;return c};
 const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
@@ -192,6 +183,8 @@ const CROP={
  property:{title:"Кадр объекта",hint:"Выберите пропорции и сдвиньте фото. «Оригинал» — без обрезки (можно только повернуть).",aspects:[["Оригинал",0],["4:3",4/3],["16:9",16/9],["1:1",1]],out:1400,circle:false,cy:.5},
  service:{title:"Кадр услуги",hint:"Выберите именно ту область фото, которую хотите видеть на карточке услуги.",aspects:[["1:1",1],["4:3",4/3],["16:9",16/9]],out:1200,circle:false,cy:.5}
 };
+function readVideo(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
+
 function cropImage(srcUrl,kind,defIdx){
  return new Promise(resolve=>{
   const cfg=CROP[kind],img=new Image();
@@ -305,32 +298,6 @@ $("toggleCatalog").addEventListener("click",()=>{state.ui.catalogVisible=!state.
 $("toggleCalc").addEventListener("click",()=>{state.ui.calcVisible=!state.ui.calcVisible;save();renderVisibility()});
 $("toggleSearch").addEventListener("click",()=>{state.ui.searchVisible=!state.ui.searchVisible;save();renderVisibility()});
 
-/* ---------- logo / brand ---------- */
-let pendingLogo="";
-function renderLogo(){
-const box=$("logoPreview"),stateEl=$("logoState");
-if(state.brand&&state.brand.logo){box.classList.remove("empty");box.innerHTML=`<img src="${state.brand.logo}" alt="Логотип">`}
-else{box.classList.add("empty");box.textContent="Логотип пока не загружен"}
-if(stateEl)stateEl.textContent="";
-}
-$("logoFile").addEventListener("change",e=>{
-const f=e.target.files[0];e.target.value="";if(!f)return;
-if(f.size>4*1024*1024){alert("Файл слишком большой. Лучше использовать логотип до 4 МБ.");return}
-const reader=new FileReader();
-reader.onload=()=>{pendingLogo=reader.result;$("logoPreview").classList.remove("empty");$("logoPreview").innerHTML=`<img src="${pendingLogo}" alt="Новый логотип">`;$("logoState").textContent="Новый логотип выбран. Нажмите «Сохранить логотип»."};
-reader.readAsDataURL(f);
-});
-$("logoSave").addEventListener("click",()=>{
-if(!pendingLogo){alert("Сначала выберите файл логотипа.");return}
-state.brand=state.brand||{};state.brand.logo=pendingLogo;pendingLogo="";
-if(save()){renderLogo();$("logoState").textContent="✓ Логотип сохранён в черновике. Теперь опубликуйте изменения на сайт."}
-});
-$("logoDelete").addEventListener("click",()=>{
-if(!state.brand||!state.brand.logo)return;
-if(!confirm("Удалить логотип из данных сайта?"))return;
-state.brand.logo="";pendingLogo="";save();renderLogo();$("logoState").textContent="Логотип удалён из черновика. Не забудьте опубликовать.";
-});
-
 /* ---------- properties ---------- */
 let propEdit=null, propPhotos=[];
 const pf=$("propertyForm");
@@ -366,7 +333,7 @@ function setSelect(sel,val){val=val||"";if(val&&![...sel.options].some(o=>o.valu
 $("propCancel").addEventListener("click",resetPropForm);
 pf.addEventListener("submit",e=>{e.preventDefault();const f=new FormData(pf);
  const data={title:f.get("title"),price:+f.get("price"),address:f.get("address"),type:f.get("type"),district:f.get("district"),tag:f.get("tag"),description:f.get("description"),
-  meta:String(f.get("meta")).split(",").map(x=>x.trim()).filter(Boolean),photos:propPhotos.slice(),photo:propPhotos[0]||""};
+  meta:String(f.get("meta")).split(",").map(x=>x.trim()).filter(Boolean),status:f.get("status")||"",video:f.get("video")||"",photos:propPhotos.slice(),photo:propPhotos[0]||""};
  const backup=JSON.stringify(state);
  if(propEdit===null)state.properties.push({id:Date.now(),...data});
  else state.properties[propEdit]={...state.properties[propEdit],...data};
@@ -417,7 +384,7 @@ window.del=(type,i)=>{if(!confirm("Удалить?"))return;state[type].splice(i
  if(type==="properties")resetPropForm();if(type==="team")resetTeamForm();if(type==="reviews")resetReviewForm();render()};
 const btns=(t,i,edit)=>`<div class="btns"><button class="admin-btn secondary small" onclick="move('${t}',${i},-1)" title="Выше">↑</button><button class="admin-btn secondary small" onclick="move('${t}',${i},1)" title="Ниже">↓</button><button class="admin-btn small" onclick="${edit}(${i})">Изменить</button><button class="admin-btn danger small" onclick="del('${t}',${i})">Удалить</button></div>`;
 function render(){
- renderServices();renderVisibility();renderLogo();
+ renderServices();renderVisibility();
  $("propertyList").innerHTML=state.properties.map((p,i)=>{const ph=(p.photos&&p.photos[0])||p.photo||"";
   return `<div class="item"><div class="info">${ph?`<img class="thumb" src="${ph}" alt="">`:`<div class="thumb"></div>`}<div><b>${esc(p.title)}</b> · ${Number(p.price).toLocaleString("ru-RU")} ₽<br><small>${esc(p.address)} · ${esc(p.tag||"")}${p.photos&&p.photos.length?" · 📷 "+p.photos.length:""}</small></div></div>${btns("properties",i,"editProp")}</div>`}).join("")||'<p class="admin-note">Объектов пока нет.</p>';
  $("teamListAdmin").innerHTML=state.team.map((m,i)=>`<div class="item"><div class="info">${m.photo?`<img class="thumb round" src="${m.photo}" alt="">`:`<div class="thumb round"></div>`}<div><b>${esc(m.name)}</b><br><small>${esc(m.role)}</small></div></div>${btns("team",i,"editTeam")}</div>`).join("")||'<p class="admin-note">Сотрудников пока нет.</p>';
@@ -468,7 +435,7 @@ function askToken(force){
 $("tokenBtn").addEventListener("click",()=>{const t=askToken(true);setStatus(t?"Токен сохранён в этом браузере":"Токен удалён",t?"clean":"")});
 async function gh(token,method,path,body){
  const {owner,repo}=repoInfo();
- return fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`,{method,headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28",...(body?{"Content-Type":"application/json"}:{})},body:body?JSON.stringify(body):undefined});
+ return fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`,{method,headers:{Authorization:"token "+token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28",...(body?{"Content-Type":"application/json"}:{})},body:body?JSON.stringify(body):undefined});
 }
 function b64utf8(str){const bytes=new TextEncoder().encode(str);let bin="";for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(bin)}
 async function sha16(str){const h=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(str));return[...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join("").slice(0,16)}
@@ -483,25 +450,14 @@ $("publishBtn").addEventListener("click",async()=>{
  const btn=$("publishBtn");btn.disabled=true;$("publishBtn2").disabled=true;
  try{
   const out=clean(state);
-  const imgs=[];
+  const imgs=[]; const vids=[];
   const walk=(o,k)=>{const v=o[k];if(typeof v==="string"&&v.startsWith("data:image"))imgs.push([o,k])};
-  out.properties.forEach(p=>{(p.photos||[]).forEach((_,i,a)=>walk(a,i));walk(p,"photo")});out.services.forEach(x=>walk(x,"photo"));if(out.brand)walk(out.brand,"logo");
+  const walkVideo=(o,k)=>{const v=o[k];if(typeof v==="string"&&v.startsWith("data:video/"))vids.push([o,k])};
+  out.properties.forEach(p=>{(p.photos||[]).forEach((_,i,a)=>walk(a,i));walk(p,"photo");walkVideo(p,"video")});out.services.forEach(x=>{walk(x,"photo");walkVideo(x,"video")});
   out.team.forEach(m=>walk(m,"photo"));out.reviews.forEach(r=>walk(r,"photo"));if(out.contacts)walk(out.contacts,"photo");
   const cache={};let n=0;
-  for(const [o,k] of imgs){
-   const v=o[k];
-   if(!cache[v]){
-    n++;setStatus(`Загружаю фото ${n} из ${new Set(imgs.map(x=>x[0][x[1]])).size}…`);
-    const name="photos/"+await sha16(v)+".jpg";
-    const ex=await gh(token,"GET",name);
-    if(ex.status===404){
-     const up=await gh(token,"PUT",name,{message:"Фото из админки",content:v.split(",")[1]});
-     if(!up.ok&&up.status!==422)throw new Error(explain(up));
-    }else if(!ex.ok)throw new Error(explain(ex));
-    cache[v]=name;
-   }
-   o[k]=cache[v];
-  }
+  for(const [o,k] of imgs){const v=o[k];if(!cache[v]){n++;setStatus(`Загружаю фото ${n}…`);const name="photos/"+await sha16(v)+".jpg";const ex=await gh(token,"GET",name);if(ex.status===404){const up=await gh(token,"PUT",name,{message:"Фото из админки",content:v.split(",")[1]});if(!up.ok&&up.status!==422)throw new Error(explain(up));}else if(!ex.ok)throw new Error(explain(ex));cache[v]=name;}o[k]=cache[v];}
+  for(const [o,k] of vids){const v=o[k];if(!cache[v]){n++;setStatus(`Загружаю видео ${n}…`);const mime=(v.match(/^data:(video\/[^;]+);/)||[])[1]||"video/mp4";const ext=mime.includes("webm")?"webm":mime.includes("quicktime")?"mov":"mp4";const name="videos/"+await sha16(v)+"."+ext;const ex=await gh(token,"GET",name);if(ex.status===404){const up=await gh(token,"PUT",name,{message:"Видео из админки",content:v.split(",")[1]});if(!up.ok&&up.status!==422)throw new Error(explain(up));}else if(!ex.ok)throw new Error(explain(ex));cache[v]=name;}o[k]=cache[v];}
   out.properties.forEach(p=>{if(Array.isArray(p.photos))p.photo=p.photos[0]||""});
   setStatus("Записываю данные сайта…");
   const cur=await gh(token,"GET","data.js");
@@ -513,13 +469,66 @@ $("publishBtn").addEventListener("click",async()=>{
   render();updateStorage();updatePub();
   setStatus("✓ Опубликовано. GitHub Pages соберёт сайт за 1–2 минуты — после этого страница у посетителей обновится сама, кэш чистить не нужно.","clean");
  }catch(err){
-  if(/401/.test(err.message)){localStorage.removeItem(tokenKey);localStorage.removeItem("bs_admin_token")}
-  setStatus(err.message||"Не удалось опубликовать","err");
+  if(/401/.test(err.message)){
+    setStatus("Токен GitHub отклонён. Проверьте токен и права Contents: Read and write. Сохранённый токен не удалён.","err");
+  } else {
+    setStatus(err.message||"Не удалось опубликовать","err");
+  }
  }finally{btn.disabled=false;$("publishBtn2").disabled=false}
 });
 document.querySelectorAll(".pub-inline").forEach(b=>b.addEventListener("click",()=>$("publishBtn").click()));
 $("publishBtn2").addEventListener("click",()=>$("publishBtn").click());
 boot();
+
+/* ===== ADMIN V12: token gate + dashboard + expanded services ===== */
+(function(){
+ const TK="ny_gh_token";
+ const gate=$("tokenGate"), inp=$("gateToken"), err=$("gateError");
+ function hasToken(){return !!(localStorage.getItem(TK)||localStorage.getItem("bs_admin_token"));}
+ function show(){gate.hidden=false;setTimeout(()=>inp&&inp.focus(),50)}
+ function hide(){gate.hidden=true}
+ async function enter(){
+  const t=(inp.value||"").trim();
+  if(!t){err.textContent="Вставь токен GitHub.";return}
+  localStorage.setItem(TK,t);
+  localStorage.setItem("bs_admin_token",t);
+  err.textContent="";hide();
+  if(typeof setStatus==="function")setStatus("Токен сохранён в этом браузере. Проверка прав произойдёт при публикации.","clean");
+ }
+ $("gateEnter").addEventListener("click",enter);inp.addEventListener("keydown",e=>{if(e.key==="Enter")enter()});
+ $("logoutToken").addEventListener("click",()=>{if(confirm("Забыть сохранённый токен на этом устройстве?")){localStorage.removeItem(TK);localStorage.removeItem("bs_admin_token");show()}});
+ if(hasToken())hide();else show();
+ window.__adminAuthReady=true;
+})();
+function updateDashboard(){
+ if(!state)return;
+ $("dashObjects").textContent=state.properties?.length||0;$("dashServices").textContent=state.services?.length||0;$("dashTeam").textContent=state.team?.length||0;$("dashReviews").textContent=state.reviews?.length||0;
+}
+const _oldRender=render;
+render=function(){_oldRender();updateDashboard();renderServicesV12()};
+function renderServicesV12(){
+ const box=$("servicesAdmin");if(!box||!state)return;
+ box.innerHTML=state.services.map((x,i)=>`<article class="service-card" draggable="true" data-si="${i}">
+ ${x.photo?`<img class="svc-photo" src="${esc(x.photo)}" alt="">`:`<div class="svc-photo"></div>`}
+ <input data-sv="title" data-i="${i}" value="${esc(x.title||"")}" placeholder="Название услуги">
+ <textarea data-sv="desc" data-i="${i}" placeholder="Короткое описание">${esc(x.description||"")}</textarea>
+ ${x.video?`<video class="svc-video-preview" src="${esc(x.video)}" controls playsinline preload="metadata"></video>`:''}
+ <div class="service-video-row"><label>Видео <input type="file" accept="video/mp4,video/webm,video/quicktime" data-video="${i}" hidden></label><button type="button" data-videopick="${i}">${x.video?'Заменить видео':'Загрузить видео'}</button><button type="button" data-delvideo="${i}" ${x.video?'':'disabled'}>Удалить видео</button></div>
+ <div class="service-meta"><label>Фото <input type="file" accept="image/*" data-photo="${i}" hidden></label><button type="button" data-crop="${i}" ${x.photo?'':'disabled'}>✂ Кадр</button><button type="button" data-delphoto="${i}" ${x.photo?'':'disabled'}>Удалить фото</button><label><input class="svc-toggle" type="checkbox" data-visible="${i}" ${x.visible!==false?'checked':''}> Показывать</label><button type="button" data-delservice="${i}">Удалить услугу</button></div></article>`).join("");
+ box.querySelectorAll('[data-sv]').forEach(el=>el.addEventListener('input',()=>{const i=+el.dataset.i;state.services[i][el.dataset.sv]=el.value;save()}));
+ box.querySelectorAll('[data-visible]').forEach(el=>el.addEventListener('change',()=>{state.services[+el.dataset.visible].visible=el.checked;save()}));
+ box.querySelectorAll('[data-photo]').forEach(el=>el.addEventListener('change',async e=>{const i=+e.target.dataset.photo,f=e.target.files[0];e.target.value='';if(!f)return;try{const src=await readImage(f,1800,.9);const out=await cropImage(src,'service',0);if(out){state.services[i].photo=out;save();renderServicesV12()}}catch(err){alert('Не удалось открыть фото')}}));
+ box.querySelectorAll('[data-videopick]').forEach(btn=>btn.addEventListener('click',()=>box.querySelector('[data-video="'+btn.dataset.videopick+'"]')?.click()));
+ box.querySelectorAll('[data-video]').forEach(el=>el.addEventListener('change',async e=>{const i=+e.target.dataset.video,f=e.target.files[0];e.target.value='';if(!f)return;if(!/^video\/(mp4|webm|quicktime)$/.test(f.type)){alert('Выберите MP4, WebM или MOV.');return}if(f.size>50*1024*1024){alert('Видео должно быть не больше 50 МБ.');return}try{state.services[i].video=await readVideo(f);save();renderServicesV12()}catch(err){alert('Не удалось загрузить видео.')}}));
+ box.querySelectorAll('[data-delvideo]').forEach(el=>el.addEventListener('click',()=>{state.services[+el.dataset.delvideo].video='';save();renderServicesV12()}));
+ box.querySelectorAll('[data-crop]').forEach(el=>el.addEventListener('click',async()=>{const i=+el.dataset.crop;const out=await cropImage(state.services[i].photo,'service',0);if(out){state.services[i].photo=out;save();renderServicesV12()}}));
+ box.querySelectorAll('[data-delphoto]').forEach(el=>el.addEventListener('click',()=>{state.services[+el.dataset.delphoto].photo='';save();renderServicesV12()}));
+ box.querySelectorAll('[data-delservice]').forEach(el=>el.addEventListener('click',()=>{const i=+el.dataset.delservice;if(confirm('Удалить услугу?')){state.services.splice(i,1);save();renderServicesV12();updateDashboard()}}));
+ box.querySelectorAll('.service-card').forEach(card=>{card.addEventListener('dragstart',()=>card.classList.add('dragging'));card.addEventListener('dragend',()=>{card.classList.remove('dragging');const from=+card.dataset.si;const cards=[...box.querySelectorAll('.service-card')];const to=cards.indexOf(card);if(from!==to&&to>=0){const item=state.services.splice(from,1)[0];state.services.splice(to,0,item);save();renderServicesV12()}})});
+}
+$("addServiceBtn").addEventListener("click",()=>{state.services.push({title:"Новая услуга",description:"",photo:"",video:"",visible:true});save();renderServicesV12();updateDashboard();setTimeout(()=>document.querySelector('.service-card:last-child input')?.focus(),50)});
+
+(function(){const pf2=$("propertyForm");if(!pf2)return;const oldSubmit=pf2.onsubmit;/* handled by existing listener; add fields through a second listener */pf2.addEventListener("submit",()=>{setTimeout(()=>{if(typeof propEdit!=="undefined"){const idx=propEdit;/* edit is reset after save, so no reliable index here */} },0)});})();
 </script>
 </body>
 </html>
