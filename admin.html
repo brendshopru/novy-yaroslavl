@@ -469,8 +469,11 @@ $("publishBtn").addEventListener("click",async()=>{
   render();updateStorage();updatePub();
   setStatus("✓ Опубликовано. GitHub Pages соберёт сайт за 1–2 минуты — после этого страница у посетителей обновится сама, кэш чистить не нужно.","clean");
  }catch(err){
-  if(/401/.test(err.message)){localStorage.removeItem(tokenKey);localStorage.removeItem("bs_admin_token")}
-  setStatus(err.message||"Не удалось опубликовать","err");
+  if(/401/.test(err.message)){
+    setStatus("Токен GitHub отклонён. Проверьте токен и права Contents: Read and write. Сохранённый токен не удалён.","err");
+  } else {
+    setStatus(err.message||"Не удалось опубликовать","err");
+  }
  }finally{btn.disabled=false;$("publishBtn2").disabled=false}
 });
 document.querySelectorAll(".pub-inline").forEach(b=>b.addEventListener("click",()=>$("publishBtn").click()));
@@ -484,7 +487,20 @@ boot();
  function hasToken(){return !!(localStorage.getItem(TK)||localStorage.getItem("bs_admin_token"));}
  function show(){gate.hidden=false;setTimeout(()=>inp&&inp.focus(),50)}
  function hide(){gate.hidden=true}
- function enter(){const t=(inp.value||"").trim();if(!t){err.textContent="Вставь токен GitHub.";return}localStorage.setItem(TK,t);err.textContent="";hide();if(typeof setStatus==="function")setStatus("Токен сохранён в этом браузере","clean")}
+ async function enter(){
+  const t=(inp.value||"").trim();
+  if(!t){err.textContent="Вставь токен GitHub.";return}
+  err.textContent="Проверяю токен…";
+  try{
+    const r=await gh(t,"GET","data.js");
+    if(r.status===401){err.textContent="Токен GitHub не принят. Проверь его и права Contents: Read and write.";return}
+    if(r.status===403){err.textContent="Токен принят, но нет прав на репозиторий. Нужны Contents: Read and write.";return}
+    if(r.status!==200 && r.status!==404){err.textContent="GitHub вернул ошибку "+r.status+".";return}
+    localStorage.setItem(TK,t);
+    err.textContent="";hide();
+    if(typeof setStatus==="function")setStatus("Токен сохранён в этом браузере","clean");
+  }catch(e){err.textContent="Не удалось связаться с GitHub. Проверь интернет и попробуй ещё раз."}
+ }
  $("gateEnter").addEventListener("click",enter);inp.addEventListener("keydown",e=>{if(e.key==="Enter")enter()});
  $("logoutToken").addEventListener("click",()=>{if(confirm("Забыть сохранённый токен на этом устройстве?")){localStorage.removeItem(TK);localStorage.removeItem("bs_admin_token");show()}});
  if(hasToken())hide();else show();
