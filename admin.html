@@ -435,7 +435,7 @@ function askToken(force){
 $("tokenBtn").addEventListener("click",()=>{const t=askToken(true);setStatus(t?"Токен сохранён в этом браузере":"Токен удалён",t?"clean":"")});
 async function gh(token,method,path,body){
  const {owner,repo}=repoInfo();
- return fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`,{method,headers:{Authorization:"Bearer "+token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28",...(body?{"Content-Type":"application/json"}:{})},body:body?JSON.stringify(body):undefined});
+ return fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${path}`,{method,headers:{Authorization:"token "+token,Accept:"application/vnd.github+json","X-GitHub-Api-Version":"2022-11-28",...(body?{"Content-Type":"application/json"}:{})},body:body?JSON.stringify(body):undefined});
 }
 function b64utf8(str){const bytes=new TextEncoder().encode(str);let bin="";for(let i=0;i<bytes.length;i+=0x8000)bin+=String.fromCharCode.apply(null,bytes.subarray(i,i+0x8000));return btoa(bin)}
 async function sha16(str){const h=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(str));return[...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join("").slice(0,16)}
@@ -490,16 +490,10 @@ boot();
  async function enter(){
   const t=(inp.value||"").trim();
   if(!t){err.textContent="Вставь токен GitHub.";return}
-  err.textContent="Проверяю токен…";
-  try{
-    const r=await gh(t,"GET","data.js");
-    if(r.status===401){err.textContent="Токен GitHub не принят. Проверь его и права Contents: Read and write.";return}
-    if(r.status===403){err.textContent="Токен принят, но нет прав на репозиторий. Нужны Contents: Read and write.";return}
-    if(r.status!==200 && r.status!==404){err.textContent="GitHub вернул ошибку "+r.status+".";return}
-    localStorage.setItem(TK,t);
-    err.textContent="";hide();
-    if(typeof setStatus==="function")setStatus("Токен сохранён в этом браузере","clean");
-  }catch(e){err.textContent="Не удалось связаться с GitHub. Проверь интернет и попробуй ещё раз."}
+  localStorage.setItem(TK,t);
+  localStorage.setItem("bs_admin_token",t);
+  err.textContent="";hide();
+  if(typeof setStatus==="function")setStatus("Токен сохранён в этом браузере. Проверка прав произойдёт при публикации.","clean");
  }
  $("gateEnter").addEventListener("click",enter);inp.addEventListener("keydown",e=>{if(e.key==="Enter")enter()});
  $("logoutToken").addEventListener("click",()=>{if(confirm("Забыть сохранённый токен на этом устройстве?")){localStorage.removeItem(TK);localStorage.removeItem("bs_admin_token");show()}});
@@ -525,7 +519,7 @@ function renderServicesV12(){
  box.querySelectorAll('[data-visible]').forEach(el=>el.addEventListener('change',()=>{state.services[+el.dataset.visible].visible=el.checked;save()}));
  box.querySelectorAll('[data-photo]').forEach(el=>el.addEventListener('change',async e=>{const i=+e.target.dataset.photo,f=e.target.files[0];e.target.value='';if(!f)return;try{const src=await readImage(f,1800,.9);const out=await cropImage(src,'service',0);if(out){state.services[i].photo=out;save();renderServicesV12()}}catch(err){alert('Не удалось открыть фото')}}));
  box.querySelectorAll('[data-videopick]').forEach(btn=>btn.addEventListener('click',()=>box.querySelector('[data-video="'+btn.dataset.videopick+'"]')?.click()));
- box.querySelectorAll('[data-video]').forEach(el=>el.addEventListener('change',async e=>{const i=+e.target.dataset.video,f=e.target.files[0];e.target.value='';if(!f)return;if(!/^video\/(mp4|webm|quicktime)$/.test(f.type)){alert('Выберите MP4, WebM или MOV.');return}if(f.size>25*1024*1024){alert('Видео должно быть не больше 25 МБ.');return}try{state.services[i].video=await readVideo(f);save();renderServicesV12()}catch(err){alert('Не удалось загрузить видео.')}}));
+ box.querySelectorAll('[data-video]').forEach(el=>el.addEventListener('change',async e=>{const i=+e.target.dataset.video,f=e.target.files[0];e.target.value='';if(!f)return;if(!/^video\/(mp4|webm|quicktime)$/.test(f.type)){alert('Выберите MP4, WebM или MOV.');return}if(f.size>50*1024*1024){alert('Видео должно быть не больше 50 МБ.');return}try{state.services[i].video=await readVideo(f);save();renderServicesV12()}catch(err){alert('Не удалось загрузить видео.')}}));
  box.querySelectorAll('[data-delvideo]').forEach(el=>el.addEventListener('click',()=>{state.services[+el.dataset.delvideo].video='';save();renderServicesV12()}));
  box.querySelectorAll('[data-crop]').forEach(el=>el.addEventListener('click',async()=>{const i=+el.dataset.crop;const out=await cropImage(state.services[i].photo,'service',0);if(out){state.services[i].photo=out;save();renderServicesV12()}}));
  box.querySelectorAll('[data-delphoto]').forEach(el=>el.addEventListener('click',()=>{state.services[+el.dataset.delphoto].photo='';save();renderServicesV12()}));
