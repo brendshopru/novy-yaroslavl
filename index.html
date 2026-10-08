@@ -1042,6 +1042,106 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 .f-top>.f-col:nth-child(2) a:hover:after{opacity:1;transform:translate(0,0)}
 @media(max-width:700px){.f-top>.f-col:nth-child(2) a{padding:10px 0!important;font-size:13px!important}.f-top>.f-col:nth-child(2) a:hover{padding-left:6px!important}}
 </style>
+
+<style id="intro-authoritative-final">
+/* FINAL AUTHORITATIVE INTRO — overrides every previous intro animation */
+.site-intro{perspective:1800px!important;background:#020403!important;overflow:hidden!important}
+.intro-scene{transform-style:preserve-3d!important;background:radial-gradient(ellipse at 50% 48%,#17251e 0%,#07100c 43%,#010201 100%)!important}
+/* ORIGINAL OPENING COPY: visible first, then disappears before the key reaches the lock */
+.intro-opening-copy{position:absolute!important;z-index:34!important;left:50%!important;top:50%!important;width:min(760px,88vw)!important;text-align:center!important;transform:translate(-50%,-50%)!important;pointer-events:none!important;animation:openingCopy 2.05s ease-in-out forwards!important}
+.opening-kicker{font-size:10px!important;letter-spacing:.34em!important;text-transform:uppercase!important;color:var(--site-accent)!important;opacity:0!important;animation:openingKicker .65s cubic-bezier(.15,.8,.15,1) .12s forwards!important}
+.opening-title{margin:16px 0 22px!important;font-size:clamp(38px,8vw,88px)!important;line-height:.92!important;letter-spacing:-.045em!important;font-weight:800!important;opacity:0!important;transform:translateY(22px) scale(.94)!important;animation:openingTitle .8s cubic-bezier(.12,.85,.12,1) .28s forwards!important;text-shadow:0 10px 40px rgba(0,0,0,.55)!important}
+.opening-title span{display:block!important;color:var(--site-accent)!important}
+.opening-line{width:90px!important;height:1px!important;margin:0 auto!important;background:var(--site-accent)!important;box-shadow:0 0 18px var(--site-accent)!important;opacity:0!important;animation:openingLine .5s ease .78s forwards!important}
+@keyframes openingKicker{from{opacity:0;transform:translateY(12px);filter:blur(5px)}to{opacity:1;transform:none;filter:none}}
+@keyframes openingTitle{from{opacity:0;transform:translateY(22px) scale(.94);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+@keyframes openingLine{to{opacity:1}}
+@keyframes openingCopy{0%,68%{opacity:1}100%{opacity:0}}
+
+/* KEY: shorter, heavier, natural 3D arc; it arrives at the real lock and visibly turns */
+.intro-key{z-index:38!important;animation:key3D 1.58s cubic-bezier(.16,.86,.08,1) .72s forwards!important;opacity:0!important;transform-style:preserve-3d!important;will-change:left,top,transform,filter}
+.intro-lock:after{animation:lock3D .24s cubic-bezier(.1,.9,.05,1) 2.06s forwards!important}
+@keyframes key3D{
+0%{opacity:0;left:8%;top:82%;transform:translate(-50%,-50%) rotateZ(-62deg) rotateY(55deg) rotateX(18deg) scale(.07);filter:blur(2px) drop-shadow(0 20px 25px #000)}
+12%{opacity:1;left:19%;top:74%;transform:translate(-50%,-50%) rotateZ(-45deg) rotateY(38deg) rotateX(12deg) scale(.15);filter:drop-shadow(0 14px 20px #000)}
+32%{left:34%;top:62%;transform:translate(-50%,-50%) rotateZ(-24deg) rotateY(22deg) rotateX(7deg) scale(.28);filter:drop-shadow(0 10px 16px #000)}
+54%{left:45%;top:53%;transform:translate(-50%,-50%) rotateZ(-8deg) rotateY(9deg) rotateX(3deg) scale(.39);filter:drop-shadow(0 6px 12px #000)}
+70%{left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotateZ(0) rotateY(0) rotateX(0) scale(.45);filter:drop-shadow(0 0 18px rgba(255,225,135,.65)) brightness(1.15)}
+82%{left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotateZ(0) rotateY(0) rotateX(0) scale(.45);filter:drop-shadow(0 0 40px rgba(255,225,135,1)) brightness(1.5)}
+93%{left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotateZ(90deg) rotateY(0) scale(.45);filter:drop-shadow(0 0 25px rgba(255,225,135,.8)) brightness(1.25)}
+100%{opacity:0;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) rotateZ(90deg) scale(.45)}
+}
+@keyframes lock3D{0%{transform:rotate(0) scale(1)}45%{transform:rotate(90deg) scale(1.24)}100%{transform:rotate(90deg) scale(1)}}
+
+/* DOOR + CAMERA */
+.intro-door-wrap{z-index:20!important;opacity:1!important;animation:none!important;transform:translate(-50%,-46%) scale(1)!important}
+.intro-door-frame{z-index:21!important;transform-origin:50% 50%!important;animation:frame3D .82s cubic-bezier(.08,.9,.04,1) 2.30s forwards!important}
+.intro-door{z-index:22!important;transform-origin:left center!important;animation:door3D .78s cubic-bezier(.06,.94,.04,1) 2.28s forwards!important}
+.intro-room{z-index:5!important;opacity:1!important;transform:translate(-50%,-46%) scale(.34)!important;background:radial-gradient(ellipse at 50% 46%,#1b2a22 0%,#09100c 42%,#010201 78%)!important;animation:camera3D 1.65s cubic-bezier(.05,.9,.02,1) 2.28s forwards!important;transform-style:preserve-3d!important}
+.intro-room-light{animation:roomGlow3D 1.5s cubic-bezier(.05,.9,.02,1) 2.30s forwards!important}
+.intro-vignette{z-index:40!important;animation:vignette3D 1.6s ease-out 2.28s forwards!important}
+@keyframes door3D{0%{transform:perspective(1300px) rotateY(0) translateZ(0)}55%{transform:perspective(1300px) rotateY(-64deg) translateZ(12px)}100%{transform:perspective(1300px) rotateY(-112deg) translateZ(78px)}}
+@keyframes frame3D{0%{opacity:1;transform:scale(1) translateZ(0)}58%{opacity:1;transform:scale(1.1) translateZ(75px)}100%{opacity:0;transform:scale(1.55) translateZ(280px)}}
+@keyframes camera3D{0%{opacity:.05;transform:translate(-50%,-46%) scale(.34)}34%{opacity:.72;transform:translate(-50%,-46%) scale(.52)}70%{opacity:1;transform:translate(-50%,-46%) scale(1.3)}100%{opacity:1;transform:translate(-50%,-46%) scale(2.5)}}
+@keyframes roomGlow3D{0%{opacity:0;transform:scale(.12)}55%{opacity:.2;transform:scale(.72)}100%{opacity:.44;transform:scale(1.7)}}
+@keyframes vignette3D{0%{opacity:1}60%{opacity:.48}100%{opacity:.08}}
+
+/* THIS IS THE TEXT THAT MUST APPEAR AFTER THE KEY: starts inside the doorway and shoots toward camera */
+.intro-door-copy{position:absolute!important;z-index:19!important;left:50%!important;top:50%!important;width:min(760px,88vw)!important;text-align:center!important;pointer-events:none!important;opacity:0!important;visibility:visible!important;transform-origin:50% 50%!important;animation:doorText3D 1.42s cubic-bezier(.035,.94,.02,1) 3.02s forwards!important;will-change:transform,opacity,filter!important}
+.intro-door-copy small{display:block!important;font-size:10px!important;letter-spacing:.30em!important;text-transform:uppercase!important;color:var(--site-accent)!important;margin-bottom:18px!important}
+.intro-door-copy strong{display:block!important;font-size:clamp(42px,8vw,88px)!important;line-height:.9!important;letter-spacing:-.055em!important;font-weight:850!important;text-shadow:0 10px 45px rgba(0,0,0,.72)!important}
+.intro-door-copy strong span{color:var(--site-accent)!important}
+.intro-door-copy i{display:block!important;width:90px!important;height:1px!important;margin:25px auto 0!important;background:var(--site-accent)!important;box-shadow:0 0 18px var(--site-accent)!important}
+@keyframes doorText3D{
+0%{opacity:0;transform:translate(-50%,-50%) translateY(30px) scale(.035);filter:blur(18px);text-shadow:0 0 100px rgba(199,168,91,1)}
+12%{opacity:.18;transform:translate(-50%,-50%) translateY(18px) scale(.07);filter:blur(13px)}
+30%{opacity:.55;transform:translate(-50%,-50%) translateY(10px) scale(.19);filter:blur(7px)}
+52%{opacity:.9;transform:translate(-50%,-50%) translateY(3px) scale(.52);filter:blur(3px)}
+70%{opacity:1;transform:translate(-50%,-50%) translateY(0) scale(1.08);filter:blur(0);text-shadow:0 0 40px rgba(199,168,91,.42)}
+84%{opacity:1;transform:translate(-50%,-50%) scale(.99);filter:none}
+100%{opacity:1;transform:translate(-50%,-50%) scale(1);filter:none;text-shadow:none}
+}
+
+/* PREMIUM FOOTER NAV — no pills, no dots; mobile is a clean 2-column editorial grid */
+.f-top>.f-col:nth-child(2) a:before{display:none!important;content:none!important}
+.f-top>.f-col:nth-child(2){display:block!important}
+.f-top>.f-col:nth-child(2) a{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;width:auto!important;margin:0!important;padding:13px 0!important;min-height:0!important;border:0!important;border-bottom:1px solid rgba(255,255,255,.10)!important;border-radius:0!important;background:transparent!important;color:rgba(244,241,232,.76)!important;font-size:13px!important;line-height:1.2!important;letter-spacing:.02em!important;box-shadow:none!important;position:relative!important;transition:color .3s ease,border-color .3s ease,padding-left .3s ease!important}
+.f-top>.f-col:nth-child(2) a:after{content:"↗"!important;font-size:12px!important;color:var(--site-accent)!important;opacity:.55!important;transform:translate(0,0)!important;transition:opacity .25s ease,transform .25s ease!important}
+.f-top>.f-col:nth-child(2) a:hover{transform:none!important;color:var(--fg)!important;padding-left:7px!important;border-bottom-color:rgba(199,168,91,.48)!important;background:linear-gradient(90deg,rgba(199,168,91,.07),transparent)!important;box-shadow:none!important}
+.f-top>.f-col:nth-child(2) a:hover:after{opacity:1!important;transform:translate(3px,-2px)!important}
+@media(max-width:700px){
+  .intro-opening-copy{width:90vw!important}
+  .opening-kicker{font-size:8px!important;letter-spacing:.24em!important;margin-bottom:12px!important}
+  .opening-title{font-size:clamp(36px,12vw,60px)!important;margin:10px 0 18px!important}
+  .intro-key{animation-name:key3DMobile!important}
+  @keyframes key3DMobile{
+   0%{opacity:0;left:6%;top:83%;transform:translate(-50%,-50%) rotateZ(-62deg) rotateY(55deg) scale(.045)}
+   14%{opacity:1;left:19%;top:73%;transform:translate(-50%,-50%) rotateZ(-45deg) rotateY(35deg) scale(.12)}
+   34%{left:34%;top:62%;transform:translate(-50%,-50%) rotateZ(-24deg) rotateY(20deg) scale(.25)}
+   55%{left:44%;top:53%;transform:translate(-50%,-50%) rotateZ(-8deg) rotateY(8deg) scale(.34)}
+   70%{left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotateZ(0) rotateY(0) scale(.40)}
+   82%{left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotateZ(0) scale(.40);filter:drop-shadow(0 0 36px rgba(255,225,135,1)) brightness(1.5)}
+   93%{left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotateZ(90deg) scale(.40)}
+   100%{opacity:0;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) rotateZ(90deg) scale(.40)}
+  }
+  .intro-door-copy{width:92vw!important;animation-name:doorText3DMobile!important}
+  .intro-door-copy strong{font-size:clamp(36px,12vw,62px)!important}
+  @keyframes doorText3DMobile{
+   0%{opacity:0;transform:translate(-50%,-50%) translateY(24px) scale(.045);filter:blur(15px)}
+   16%{opacity:.18;transform:translate(-50%,-50%) translateY(14px) scale(.08);filter:blur(11px)}
+   36%{opacity:.58;transform:translate(-50%,-50%) translateY(7px) scale(.24);filter:blur(6px)}
+   56%{opacity:.92;transform:translate(-50%,-50%) scale(.60);filter:blur(2px)}
+   72%{opacity:1;transform:translate(-50%,-50%) scale(1.08);filter:none}
+   86%{opacity:1;transform:translate(-50%,-50%) scale(.99);filter:none}
+   100%{opacity:1;transform:translate(-50%,-50%) scale(1);filter:none}
+  }
+  .f-top>.f-col:nth-child(2){display:grid!important;grid-template-columns:1fr 1fr!important;column-gap:24px!important;row-gap:0!important}
+  .f-top>.f-col:nth-child(2) h4{grid-column:1/-1!important;margin-bottom:6px!important}
+  .f-top>.f-col:nth-child(2) a{padding:12px 0!important;font-size:12px!important;min-height:42px!important}
+  .f-top>.f-col:nth-child(2) a:after{font-size:11px!important}
+}
+</style>
+
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
@@ -1054,7 +1154,8 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
     <div class="intro-dust"></div>
     <div class="intro-key" aria-hidden="true"><svg viewBox="0 0 500 220" role="presentation"><defs><linearGradient id="keyMetal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff4c9"/><stop offset=".18" stop-color="#d8b96b"/><stop offset=".45" stop-color="#765c28"/><stop offset=".7" stop-color="#f1d889"/><stop offset="1" stop-color="#59431e"/></linearGradient><linearGradient id="keyEdge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff9df"/><stop offset=".35" stop-color="#b48c3e"/><stop offset="1" stop-color="#2d210f"/></linearGradient><filter id="keyGlow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g class="intro-key-shine" filter="url(#keyGlow)"><circle cx="82" cy="110" r="48" fill="url(#keyMetal)" stroke="url(#keyEdge)" stroke-width="7"/><circle cx="82" cy="110" r="18" fill="#070705" stroke="#d8b96b" stroke-width="5"/><path d="M120 93 H370 L392 72 H425 V96 H454 V124 H425 V148 H393 L370 127 H120 Z" fill="url(#keyMetal)" stroke="url(#keyEdge)" stroke-width="7" stroke-linejoin="round"/></g></svg></div>
     <div class="intro-door-wrap" aria-hidden="true"><div class="intro-door-frame"><div class="intro-door"><div class="intro-lock"></div></div></div></div>
-    <div class="intro-room" aria-hidden="true"><div class="intro-room-light"></div><div class="intro-brand"><small>Новый Ярославль · Агентство недвижимости</small><strong>Ваше новое<br><span>пространство</span></strong><i></i></div></div>
+    <div class="intro-room" aria-hidden="true"><div class="intro-room-light"></div></div>
+    <div class="intro-door-copy" aria-hidden="true"><small>Новый Ярославль · Агентство недвижимости</small><strong>Ваше новое<br><span>пространство</span></strong><i></i></div>
     <div class="intro-vignette"></div>
     <button class="intro-skip" id="introSkip" type="button">Пропустить</button>
   </div>
