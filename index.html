@@ -474,6 +474,49 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
   footer .f-top>.f-col:nth-child(2) a{min-height:48px!important;font-size:15px!important;padding:12px 4px!important}
 }
 </style>
+
+<style id="ny-services-v14">
+/* ===== Услуги v14: 16:9, центр, видео без плеера, щадящее воспроизведение ===== */
+.services{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px!important;align-items:start!important}
+.services .svc{
+  position:relative!important;
+  min-width:0!important;
+  min-height:0!important;
+  aspect-ratio:16/9!important;
+  height:auto!important;
+  padding:20px!important;
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:center!important;
+  justify-content:center!important;
+  text-align:center!important;
+  overflow:hidden!important;
+  isolation:isolate!important;
+  border-radius:18px!important;
+}
+.services .svc .svc-video{
+  position:absolute!important;inset:0!important;width:100%!important;height:100%!important;
+  margin:0!important;display:block!important;object-fit:cover!important;object-position:center!important;
+  border:0!important;border-radius:0!important;background:#000!important;z-index:0!important;
+  pointer-events:none!important;
+}
+.services .svc .svc-photo{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;object-fit:cover!important;z-index:0!important}
+.services .svc.has-video .svc-photo{display:none!important}
+.services .svc:after{z-index:1!important;background:linear-gradient(180deg,rgba(0,0,0,.18),rgba(0,0,0,.58))!important}
+.services .svc .ic{position:relative!important;z-index:3!important;align-self:center!important;margin:0!important;flex:0 0 auto!important}
+.services .svc .t{position:relative!important;z-index:3!important;margin:12px 0 0!important;max-width:90%!important;text-align:center!important;line-height:1.12!important}
+.services .svc .svc-video:not([src=""]){will-change:auto!important}
+@media(max-width:900px){.services{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:12px!important}}
+@media(max-width:700px){
+  .services{grid-template-columns:1fr!important;gap:14px!important}
+  .services .svc{width:100%!important;aspect-ratio:16/9!important;border-radius:18px!important;padding:18px!important}
+  .services .svc .ic{transform:none!important}
+  .services .svc:hover .ic{transform:none!important}
+  .services .svc:hover{transform:none!important}
+}
+@media(prefers-reduced-motion:reduce){.services .svc{transition:none!important}}
+</style>
+
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
@@ -996,7 +1039,37 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 (function(){
  function d(){return window.SITE_DATA||{}}
  function visibility(){var u=d().ui||{};var q=document.querySelector('.search-box'),svc=document.getElementById('services'),c=document.getElementById('objects'),calc=document.getElementById('calc');if(q)q.style.display=u.searchVisible===false?'none':'';if(svc)svc.style.display=u.servicesVisible===false?'none':'';if(c)c.style.display=u.catalogVisible===false?'none':'';if(calc)calc.style.display=u.calcVisible===false?'none':'';var map={'#services':u.servicesVisible!==false,'#objects':u.catalogVisible!==false,'#calc':u.calcVisible!==false};document.querySelectorAll('a[href="#services"],a[href="#objects"],a[href="#calc"]').forEach(function(a){var ok=map[a.getAttribute('href')];a.style.display=ok?'':'none';});}
- function services(){var list=d().services||[];document.querySelectorAll('#services .svc').forEach(function(card){var title=((card.querySelector('.t')||{}).textContent||'').trim();var x=list.find(function(v){return v&&v.title===title});if(!x)return;if(x.photo&&!card.querySelector('.svc-photo')){var im=document.createElement('img');im.className='svc-photo';im.src=x.photo;im.alt='';im.loading='lazy';card.prepend(im)}if(x.video&&!card.querySelector('.svc-video')){var v=document.createElement('video');v.className='svc-video';v.src=x.video;v.autoplay=true;v.muted=true;v.loop=true;v.playsInline=true;v.preload='auto';v.setAttribute('aria-hidden','true');card.appendChild(v);v.play().catch(function(){})}})}
+ function services(){
+  var list=d().services||[], cards=[];
+  document.querySelectorAll('#services .svc').forEach(function(card){
+    var title=((card.querySelector('.t')||{}).textContent||'').trim();
+    var x=list.find(function(v){return v&&v.title===title});
+    if(!x)return;
+    cards.push(card);
+    if(x.photo&&!card.querySelector('.svc-photo')){
+      var im=document.createElement('img');im.className='svc-photo';im.src=x.photo;im.alt='';im.loading='lazy';card.prepend(im);
+    }
+    if(x.video){
+      var v=card.querySelector('.svc-video');
+      if(!v){
+        v=document.createElement('video');v.className='svc-video';v.muted=true;v.loop=true;v.playsInline=true;v.preload='metadata';v.setAttribute('muted','');v.setAttribute('playsinline','');v.setAttribute('aria-hidden','true');card.appendChild(v);
+      }
+      if(v.getAttribute('src')!==x.video){v.src=x.video;v.load();}
+      card.classList.add('has-video');
+    }else{
+      var old=card.querySelector('.svc-video');if(old)old.remove();card.classList.remove('has-video');
+    }
+  });
+  /* Не запускаем все ролики одновременно: играет только видимый ролик. Это заметно легче для телефона и ПК. */
+  if(window.__nySvcIO)window.__nySvcIO.disconnect();
+  if(!('IntersectionObserver' in window)){
+    cards.forEach(function(card){var v=card.querySelector('.svc-video');if(v){v.autoplay=true;v.play().catch(function(){});}});return;
+  }
+  window.__nySvcIO=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){var v=e.target.querySelector('.svc-video');if(!v)return;if(e.isIntersecting&&e.intersectionRatio>=.45){v.play().catch(function(){})}else{v.pause();}});
+  },{threshold:[0,.45,.8],rootMargin:'80px 0px 80px 0px'});
+  cards.forEach(function(card){if(card.querySelector('.svc-video'))window.__nySvcIO.observe(card);});
+ }
  function reviews(){var box=document.getElementById('reviews'),prev=document.getElementById('reviewsPrev'),next=document.getElementById('reviewsNext');if(!box||!prev||!next)return;if(box.dataset.navReady)return;box.dataset.navReady='1';function move(n){var card=box.querySelector('.rv');if(card)box.scrollBy({left:n*(card.getBoundingClientRect().width+(parseFloat(getComputedStyle(box).gap)||14)),behavior:'smooth'})}prev.onclick=function(){move(-1)};next.onclick=function(){move(1)};}
  function catalog(){var box=document.getElementById('properties'),prev=document.getElementById('catalogPrev'),next=document.getElementById('catalogNext');if(!box||!prev||!next)return;if(box.dataset.navReady)return;box.dataset.navReady='1';function move(n){var card=box.querySelector('.prop');if(card)box.scrollBy({left:n*(card.getBoundingClientRect().width+(parseFloat(getComputedStyle(box).gap)||18)),behavior:'smooth'})}prev.onclick=function(){move(-1)};next.onclick=function(){move(1)};}
  function calc(){var b=document.getElementById('calcCallback');if(!b||b.dataset.ready)return;b.dataset.ready='1';b.addEventListener('click',function(){var modal=document.getElementById('cbModal'),goal=document.getElementById('cbGoal'),cost=+(document.getElementById('cost')||{}).value||0,down=+(document.getElementById('down')||{}).value||0,term=+(document.getElementById('term')||{}).value||0,rate=+(document.getElementById('rate')||{}).value||0,loan=cost*(1-down/100),m=rate/1200,n=term*12,p=m?loan*m*Math.pow(1+m,n)/(Math.pow(1+m,n)-1):loan/n;if(goal)goal.value='Ипотека';if(modal)modal.dataset.calcDetails='Стоимость объекта: '+cost.toLocaleString('ru-RU')+' ₽; первоначальный взнос: '+(cost*down/100).toLocaleString('ru-RU')+' ₽; срок: '+term+' лет; ориентировочный платёж: '+Math.round(p||0).toLocaleString('ru-RU')+' ₽.'})}
