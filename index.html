@@ -535,6 +535,16 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 .cb-consent span{display:block}
 .cb-consent a{color:var(--fg);text-decoration:underline;text-underline-offset:2px}
 </style>
+
+<style id="reviews-height-fix-v2">
+/* Отзывы: каждая карточка только по своему содержимому, без пустой высоты */
+.reviews{align-items:flex-start!important;height:auto!important}
+.reviews .rv{align-self:flex-start!important;flex-grow:0!important;height:max-content!important;min-height:0!important;max-height:none!important;box-sizing:border-box!important}
+@media(max-width:700px){
+  .reviews{align-items:flex-start!important;height:auto!important}
+  .reviews .rv{flex:0 0 100%!important;width:100%!important;height:max-content!important;min-height:0!important;max-height:none!important;align-self:flex-start!important}
+}
+</style>
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
@@ -1104,7 +1114,7 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
   },{threshold:[0,.45,.8],rootMargin:'80px 0px 80px 0px'});
   cards.forEach(function(card){if(card.querySelector('.svc-video'))window.__nySvcIO.observe(card);});
  }
- function reviews(){var box=document.getElementById('reviews'),prev=document.getElementById('reviewsPrev'),next=document.getElementById('reviewsNext');if(!box||!prev||!next)return;if(box.dataset.navReady)return;box.dataset.navReady='1';function move(n){var card=box.querySelector('.rv');if(card)box.scrollBy({left:n*(card.getBoundingClientRect().width+(parseFloat(getComputedStyle(box).gap)||14)),behavior:'smooth'})}prev.onclick=function(){move(-1)};next.onclick=function(){move(1)};}
+ function reviews(){var box=document.getElementById('reviews'),prev=document.getElementById('reviewsPrev'),next=document.getElementById('reviewsNext');if(!box||!prev||!next)return;if(box.dataset.navReady)return;box.dataset.navReady='1';function move(n){var card=box.querySelector('.rv');if(card)box.scrollBy({left:n*(card.getBoundingClientRect().width+(parseFloat(getComputedStyle(box).gap)||14)),behavior:'smooth'})}prev.onclick=function(){move(-1)};next.onclick=function(){move(1)};if(window.matchMedia&&window.matchMedia('(min-width:701px)').matches){box.addEventListener('wheel',function(e){if(Math.abs(e.deltaY)>=Math.abs(e.deltaX)){e.preventDefault();box.scrollBy({left:e.deltaY,behavior:'smooth'})}},{passive:false})}}
  function catalog(){var box=document.getElementById('properties'),prev=document.getElementById('catalogPrev'),next=document.getElementById('catalogNext');if(!box||!prev||!next)return;if(box.dataset.navReady)return;box.dataset.navReady='1';function move(n){var card=box.querySelector('.prop');if(card)box.scrollBy({left:n*(card.getBoundingClientRect().width+(parseFloat(getComputedStyle(box).gap)||18)),behavior:'smooth'})}prev.onclick=function(){move(-1)};next.onclick=function(){move(1)};}
  function calc(){var b=document.getElementById('calcCallback');if(!b||b.dataset.ready)return;b.dataset.ready='1';b.addEventListener('click',function(){var modal=document.getElementById('cbModal'),goal=document.getElementById('cbGoal'),cost=+(document.getElementById('cost')||{}).value||0,down=+(document.getElementById('down')||{}).value||0,term=+(document.getElementById('term')||{}).value||0,rate=+(document.getElementById('rate')||{}).value||0,loan=cost*(1-down/100),m=rate/1200,n=term*12,p=m?loan*m*Math.pow(1+m,n)/(Math.pow(1+m,n)-1):loan/n;if(goal)goal.value='Ипотека';if(modal)modal.dataset.calcDetails='Стоимость объекта: '+cost.toLocaleString('ru-RU')+' ₽; первоначальный взнос: '+(cost*down/100).toLocaleString('ru-RU')+' ₽; срок: '+term+' лет; ориентировочный платёж: '+Math.round(p||0).toLocaleString('ru-RU')+' ₽.'})}
  function init(){visibility();services();reviews();catalog();calc()}
