@@ -408,6 +408,62 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
   .f-top>.f-col:nth-child(2) h4{grid-column:1/-1!important}
   .f-top>.f-col:nth-child(2) a{padding:14px 0!important;font-size:14px!important;min-height:46px!important}
 }
+
+/* ===== Финальный дизайн навигации футера ===== */
+.f-top>.f-col:nth-child(2){
+  min-width:0!important;
+}
+.f-top>.f-col:nth-child(2) h4{
+  margin:0 0 22px!important;
+  font-size:11px!important;
+  letter-spacing:.18em!important;
+}
+.f-top>.f-col:nth-child(2) a{
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  width:100%!important;
+  min-height:0!important;
+  margin:0!important;
+  padding:13px 0!important;
+  border:0!important;
+  border-bottom:1px solid rgba(255,255,255,.10)!important;
+  border-radius:0!important;
+  background:none!important;
+  color:rgba(244,241,232,.72)!important;
+  font-size:15px!important;
+  line-height:1.25!important;
+  letter-spacing:.01em!important;
+  transform:none!important;
+  box-shadow:none!important;
+}
+.f-top>.f-col:nth-child(2) a::after{
+  content:'↗'!important;
+  display:block!important;
+  margin-left:18px!important;
+  color:var(--site-accent,#c7a85b)!important;
+  font-size:13px!important;
+  opacity:.8!important;
+  transition:transform .25s ease,opacity .25s ease!important;
+}
+.f-top>.f-col:nth-child(2) a:hover{
+  color:var(--fg,#f4f1e8)!important;
+  transform:none!important;
+  border-color:rgba(199,168,91,.45)!important;
+}
+.f-top>.f-col:nth-child(2) a:hover::after{transform:translate(3px,-3px)!important;opacity:1!important}
+@media(min-width:800px){
+  .f-top{grid-template-columns:1.05fr 1.95fr!important;gap:90px!important;align-items:start!important;padding:58px 0 46px!important}
+  .f-top>.f-col:nth-child(2){display:grid!important;grid-template-columns:repeat(3,minmax(130px,1fr))!important;column-gap:46px!important;row-gap:0!important;align-content:start!important}
+  .f-top>.f-col:nth-child(2) h4{grid-column:1/-1!important}
+  .f-top>.f-col:nth-child(2) a{padding:15px 0!important;font-size:15px!important}
+}
+@media(max-width:799px){
+  .f-top{gap:34px!important;padding:40px 0 28px!important}
+  .f-top>.f-col:nth-child(2){display:grid!important;grid-template-columns:1fr 1fr!important;column-gap:26px!important;row-gap:0!important}
+  .f-top>.f-col:nth-child(2) h4{grid-column:1/-1!important;margin-bottom:14px!important}
+  .f-top>.f-col:nth-child(2) a{padding:15px 0!important;font-size:15px!important;min-height:52px!important}
+}
 </style>
 </head>
 <body>
@@ -567,7 +623,6 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
       <div class="f-col"><h4>Навигация</h4><a href="#objects">Объекты</a><a href="#services">Услуги</a><a href="#calc">Ипотека</a><a href="#team">Команда</a><a href="#reviews-sec">Отзывы</a><a href="#contacts">Контакты</a></div>
 
     </div>
-    <div class="f-bottom"><span>Новый Ярославль © 2026 · агентство недвижимости</span><a href="#">↑ Наверх</a></div>
   </div>
 </footer>
 
