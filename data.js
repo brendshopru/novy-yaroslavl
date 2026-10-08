@@ -153,7 +153,7 @@ window.SITE_DATA = {
       "title": "Зарубежная недвижимость",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/881950c3e75ade4f.mp4",
       "visible": true
     },
     {
