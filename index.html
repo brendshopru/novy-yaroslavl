@@ -415,7 +415,6 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 /* ===== Нижняя навигация: компактные премиальные кнопки ===== */
 .f-top>.f-col:nth-child(2){display:block!important}
 .f-top>.f-col:nth-child(2) a{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:auto!important;margin:0 8px 9px 0!important;padding:9px 14px!important;min-height:40px!important;border:1px solid rgba(199,168,91,.28)!important;border-radius:10px!important;background:linear-gradient(145deg,rgba(199,168,91,.10),rgba(255,255,255,.025))!important;color:var(--fg)!important;font-size:12.5px!important;line-height:1.1!important;white-space:nowrap!important;position:relative!important;transition:transform .22s ease,border-color .22s ease,background .22s ease,box-shadow .22s ease!important;box-shadow:0 5px 18px rgba(0,0,0,.12)!important}
-.f-top>.f-col:nth-child(2) a:before{content:"";width:4px;height:4px;border-radius:50%;background:var(--site-accent);margin-right:8px;opacity:.75;box-shadow:0 0 8px rgba(199,168,91,.45)}
 .f-top>.f-col:nth-child(2) a:hover{transform:translateY(-2px)!important;border-color:rgba(199,168,91,.72)!important;background:linear-gradient(145deg,rgba(199,168,91,.16),rgba(255,255,255,.035))!important;box-shadow:0 9px 24px rgba(0,0,0,.2),0 0 18px rgba(199,168,91,.08)!important;color:var(--fg)!important}
 @media(max-width:700px){.f-top>.f-col:nth-child(2) a{margin:0 6px 7px 0!important;padding:9px 12px!important;min-height:38px!important;font-size:12px!important}}
 
@@ -996,10 +995,62 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 @media(prefers-reduced-motion:reduce){.intro-room .intro-brand{opacity:1!important;transform:translate(-50%,-50%)!important;filter:none!important}.intro-door,.intro-door-frame{animation:none!important}.intro-room{animation:none!important;opacity:1!important;transform:translate(-50%,-46%) scale(1)!important}}
 </style>
 
+
+<style id="intro-premium-final">
+/* FINAL PREMIUM INTRO — opening copy first, then key/door, then copy flies from the doorway */
+.intro-opening-copy{position:absolute;z-index:11;left:50%;top:50%;width:min(820px,90vw);transform:translate(-50%,-50%);text-align:center;pointer-events:none;opacity:0;animation:openingCopyIn .62s cubic-bezier(.16,.9,.08,1) .05s forwards,openingCopyOut .32s ease 1.18s forwards}
+.opening-kicker{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--site-accent);margin-bottom:18px;text-shadow:0 0 22px rgba(199,168,91,.35)}
+.opening-title{font-size:clamp(42px,8vw,88px);line-height:.9;letter-spacing:-.055em;font-weight:850;text-shadow:0 14px 45px rgba(0,0,0,.72)}
+.opening-title span{color:var(--site-accent)}
+.opening-line{width:86px;height:1px;margin:24px auto 0;background:var(--site-accent);box-shadow:0 0 18px var(--site-accent)}
+@keyframes openingCopyIn{0%{opacity:0;transform:translate(-50%,-50%) translateZ(-260px) scale(.72);filter:blur(10px)}100%{opacity:1;transform:translate(-50%,-50%) translateZ(0) scale(1);filter:blur(0)}}
+@keyframes openingCopyOut{0%{opacity:1;transform:translate(-50%,-50%) scale(1);filter:blur(0)}100%{opacity:0;transform:translate(-50%,-50%) translateZ(90px) scale(1.06);filter:blur(7px)}}
+
+/* More physical 3D key movement: arc + perspective + changing rotation */
+.intro-key{perspective:900px;transform-style:preserve-3d!important;animation-name:premiumKeyFlight!important;animation-duration:1.72s!important;animation-delay:.22s!important;animation-timing-function:cubic-bezier(.12,.88,.08,1)!important}
+@keyframes premiumKeyFlight{
+0%{opacity:0;left:4%;top:87%;transform:translate(-50%,-50%) perspective(700px) rotateX(28deg) rotateY(-58deg) rotateZ(-48deg) scale(.035);filter:blur(2px) drop-shadow(0 18px 28px #000)}
+12%{opacity:1;left:14%;top:79%;transform:translate(-50%,-50%) perspective(700px) rotateX(18deg) rotateY(-44deg) rotateZ(-42deg) scale(.11);filter:drop-shadow(0 12px 20px #000)}
+31%{left:29%;top:66%;transform:translate(-50%,-50%) perspective(700px) rotateX(12deg) rotateY(-27deg) rotateZ(-25deg) scale(.22);filter:drop-shadow(0 10px 16px #000)}
+50%{left:43%;top:55%;transform:translate(-50%,-50%) perspective(700px) rotateX(6deg) rotateY(-10deg) rotateZ(-9deg) scale(.35);filter:drop-shadow(0 8px 15px rgba(0,0,0,.8))}
+67%{left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) perspective(700px) rotateX(0) rotateY(0) rotateZ(0) scale(.45);filter:drop-shadow(0 0 22px rgba(255,225,135,.65)) brightness(1.15)}
+76%{left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) perspective(700px) rotateX(-3deg) rotateY(7deg) rotateZ(2deg) scale(.45);filter:drop-shadow(0 0 38px rgba(255,225,135,1)) brightness(1.45)}
+87%{left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) perspective(700px) rotateX(0) rotateY(0) rotateZ(90deg) scale(.45);filter:drop-shadow(0 0 30px rgba(255,225,135,.9)) brightness(1.3)}
+100%{opacity:0;left:calc(50% - 57px);top:50%;transform:translate(-50%,-50%) perspective(700px) rotateX(0) rotateY(0) rotateZ(90deg) scale(.45);filter:drop-shadow(0 0 18px rgba(255,225,135,.4))}
+}
+@media(max-width:700px){
+.intro-opening-copy{width:92vw;animation-duration:.52s,.28s;animation-delay:.03s,1.03s}
+.opening-kicker{font-size:8px;letter-spacing:.25em;margin-bottom:14px}.opening-title{font-size:clamp(38px,13vw,64px)}.opening-line{margin-top:18px;width:68px}
+.intro-key{animation-name:premiumKeyFlightMobile!important;animation-duration:1.68s!important;animation-delay:.18s!important}
+@keyframes premiumKeyFlightMobile{
+0%{opacity:0;left:3%;top:88%;transform:translate(-50%,-50%) perspective(650px) rotateX(28deg) rotateY(-58deg) rotateZ(-50deg) scale(.04)}
+13%{opacity:1;left:14%;top:78%;transform:translate(-50%,-50%) perspective(650px) rotateX(18deg) rotateY(-42deg) rotateZ(-40deg) scale(.10)}
+32%{left:29%;top:65%;transform:translate(-50%,-50%) perspective(650px) rotateX(10deg) rotateY(-24deg) rotateZ(-24deg) scale(.20)}
+52%{left:44%;top:55%;transform:translate(-50%,-50%) perspective(650px) rotateX(5deg) rotateY(-8deg) rotateZ(-7deg) scale(.31)}
+68%{left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) perspective(650px) rotateX(0) rotateY(0) rotateZ(0) scale(.40);filter:drop-shadow(0 0 22px rgba(255,225,135,.75))}
+78%{left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) perspective(650px) rotateX(-3deg) rotateY(6deg) rotateZ(2deg) scale(.40);filter:drop-shadow(0 0 38px rgba(255,225,135,1)) brightness(1.45)}
+89%{left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) perspective(650px) rotateZ(90deg) scale(.40)}
+100%{opacity:0;left:calc(50% - 65px);top:50%;transform:translate(-50%,-50%) perspective(650px) rotateZ(90deg) scale(.40)}
+}
+}
+
+/* Footer navigation: premium editorial links, not generic pills and no dots */
+.f-top>.f-col:nth-child(2) a:before{display:none!important;content:none!important}
+.f-top>.f-col:nth-child(2) a{display:flex!important;align-items:center!important;justify-content:space-between!important;width:100%!important;margin:0!important;padding:11px 2px 11px 0!important;min-height:0!important;border:0!important;border-bottom:1px solid rgba(255,255,255,.10)!important;border-radius:0!important;background:transparent!important;color:rgba(244,241,232,.78)!important;font-size:13px!important;line-height:1.2!important;letter-spacing:.015em!important;box-shadow:none!important;position:relative!important;transition:color .3s ease,padding-left .3s ease,border-color .3s ease!important}
+.f-top>.f-col:nth-child(2) a:after{content:"↗";font-size:13px;color:rgba(199,168,91,.65);opacity:0;transform:translate(-5px,4px);transition:opacity .3s ease,transform .3s ease;color:var(--site-accent)!important}
+.f-top>.f-col:nth-child(2) a:hover{transform:none!important;color:var(--fg)!important;padding-left:8px!important;border-bottom-color:rgba(199,168,91,.48)!important;background:linear-gradient(90deg,rgba(199,168,91,.07),transparent)!important;box-shadow:none!important}
+.f-top>.f-col:nth-child(2) a:hover:after{opacity:1;transform:translate(0,0)}
+@media(max-width:700px){.f-top>.f-col:nth-child(2) a{padding:10px 0!important;font-size:13px!important}.f-top>.f-col:nth-child(2) a:hover{padding-left:6px!important}}
+</style>
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
   <div class="intro-scene">
+    <div class="intro-opening-copy" aria-hidden="true">
+      <div class="opening-kicker">Новый Ярославль · Агентство недвижимости</div>
+      <div class="opening-title">Ваше новое<br><span>пространство</span></div>
+      <div class="opening-line"></div>
+    </div>
     <div class="intro-dust"></div>
     <div class="intro-key" aria-hidden="true"><svg viewBox="0 0 500 220" role="presentation"><defs><linearGradient id="keyMetal" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff4c9"/><stop offset=".18" stop-color="#d8b96b"/><stop offset=".45" stop-color="#765c28"/><stop offset=".7" stop-color="#f1d889"/><stop offset="1" stop-color="#59431e"/></linearGradient><linearGradient id="keyEdge" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fff9df"/><stop offset=".35" stop-color="#b48c3e"/><stop offset="1" stop-color="#2d210f"/></linearGradient><filter id="keyGlow"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><g class="intro-key-shine" filter="url(#keyGlow)"><circle cx="82" cy="110" r="48" fill="url(#keyMetal)" stroke="url(#keyEdge)" stroke-width="7"/><circle cx="82" cy="110" r="18" fill="#070705" stroke="#d8b96b" stroke-width="5"/><path d="M120 93 H370 L392 72 H425 V96 H454 V124 H425 V148 H393 L370 127 H120 Z" fill="url(#keyMetal)" stroke="url(#keyEdge)" stroke-width="7" stroke-linejoin="round"/></g></svg></div>
     <div class="intro-door-wrap" aria-hidden="true"><div class="intro-door-frame"><div class="intro-door"><div class="intro-lock"></div></div></div></div>
