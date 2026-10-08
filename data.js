@@ -266,66 +266,39 @@ window.SITE_DATA = {
   "services": [
     {
       "title": "Продажа",
-      "photo": "",
-      "description": "",
-      "video": "videos/b0d4fdad945dd13c.mp4",
-      "visible": true
+      "photo": ""
     },
     {
       "title": "Покупка",
-      "photo": "",
-      "description": "",
-      "video": "videos/cd11d3c692b5befb.mp4",
-      "visible": true
+      "photo": ""
     },
     {
       "title": "Обмен",
-      "photo": "",
-      "description": "",
-      "video": "videos/33edea71f0ed1879.mp4",
-      "visible": true
+      "photo": ""
     },
     {
       "title": "Аренда",
-      "photo": "",
-      "description": "",
-      "video": "videos/079532840da9f2bd.mp4",
-      "visible": true
+      "photo": ""
     },
     {
       "title": "Сопровождение",
-      "photo": "",
-      "description": "",
-      "video": "videos/067b6d8715315dbd.mp4",
-      "visible": true
+      "photo": ""
     },
     {
       "title": "Ипотека",
-      "photo": "",
-      "description": "",
-      "video": "videos/dfc011b208b9360d.mp4",
-      "visible": true
+      "photo": ""
     },
     {
       "title": "Срочный выкуп",
-      "photo": "",
-      "description": "",
-      "video": "videos/80c086f418db1d1c.mp4",
-      "visible": true
+      "photo": ""
     },
     {
       "title": "Зарубежная недвижимость",
-      "photo": "",
-      "description": "",
-      "video": "videos/881950c3e75ade4f.mp4",
-      "visible": true
+      "photo": ""
     },
     {
       "title": "Новостройки",
-      "photo": "",
-      "description": "",
-      "video": "brendshopru/brendshop",
-      "visible": true
+      "photo": ""
     }
   ],
   "ui": {
@@ -333,5 +306,8 @@ window.SITE_DATA = {
     "searchVisible": true,
     "servicesVisible": true,
     "calcVisible": true
+  },
+  "brand": {
+    "appIcon": "photos/5ef717c6ab8cfce9.jpg"
   }
 };
