@@ -111,7 +111,7 @@ window.SITE_DATA = {
       "title": "Покупка",
       "photo": "",
       "description": "",
-      "video": "",
+      "video": "videos/cd11d3c692b5befb.mp4",
       "visible": true
     },
     {
