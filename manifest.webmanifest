@@ -10,13 +10,13 @@
   "description": "Агентство недвижимости «Новый Ярославль»",
   "icons": [
     {
-      "src": "icons/icon-192-c0475626e7a41512.png",
+      "src": "icons/icon-192-ccae5fae8aefc07f.png",
       "sizes": "192x192",
       "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "icons/icon-512-c0475626e7a41512.png",
+      "src": "icons/icon-512-ccae5fae8aefc07f.png",
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "any maskable"
