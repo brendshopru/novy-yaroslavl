@@ -2278,6 +2278,93 @@ var r=document.getElementById('reviews');if(r){new MutationObserver(stars).obser
 stars();setTimeout(stars,800);setTimeout(stars,2500);
 var b=document.getElementById('rMonthly');if(b){new MutationObserver(function(){b.classList.remove('ny-pop');void b.offsetWidth;b.classList.add('ny-pop');}).observe(b,{childList:true,characterData:true,subtree:true});}
 })();</script>
+
+
+<style id="ny-safe-polish-20261010">
+/* Только точечные правки по просьбе владельца. Содержимое и обработчики не трогаем. */
+/* 1. Шапка больше не прилипает и не движется вслед за прокруткой. */
+html[data-theme] body header{
+  position:relative !important;
+  top:auto !important;
+  inset-block-start:auto !important;
+  transform:none !important;
+  animation:none !important;
+}
+html[data-theme] body header .nav.wrap{transform:none !important}
+
+/* 2. Светлая тема: читаемый заголовок и подписи поверх фотографии дома. */
+html[data-theme="light"] body main.wrap>section.hero{
+  background-image:
+    linear-gradient(90deg,rgba(246,248,245,.97) 0%,rgba(246,248,245,.91) 34%,rgba(246,248,245,.72) 62%,rgba(246,248,245,.30) 100%),
+    linear-gradient(0deg,rgba(246,248,245,.78) 0%,rgba(246,248,245,0) 56%),
+    url('./hero-house.webp') !important;
+  background-size:cover !important;
+  background-position:center 43% !important;
+}
+html[data-theme="light"] body main.wrap>section.hero .eyebrow,
+html[data-theme="light"] body main.wrap>section.hero>p{
+  color:#263d34 !important;
+  text-shadow:0 1px 0 rgba(255,255,255,.88),0 0 12px rgba(255,255,255,.45) !important;
+}
+html[data-theme="light"] body main.wrap>section.hero h1{
+  color:#203b30 !important;
+  background:linear-gradient(100deg,rgba(255,255,255,.58),rgba(255,255,255,.20)) !important;
+  text-shadow:0 1px 0 rgba(255,255,255,.95),0 2px 12px rgba(255,255,255,.55) !important;
+  border:1px solid rgba(71,123,103,.20) !important;
+  box-shadow:0 8px 28px rgba(31,58,45,.08),inset 0 1px 0 rgba(255,255,255,.8) !important;
+}
+html[data-theme="light"] body main.wrap>section.hero h1 .estate-word{
+  color:#397b62 !important;
+  -webkit-text-fill-color:#397b62 !important;
+  text-shadow:0 1px 0 rgba(255,255,255,.95),0 0 14px rgba(255,255,255,.6) !important;
+}
+html[data-theme="light"] body main.wrap>section.hero .search-box,
+html[data-theme="light"] body main.wrap>section.hero .contact-actions{
+  position:relative;z-index:1;
+}
+@media(max-width:700px){
+  html[data-theme="light"] body main.wrap>section.hero{
+    background-image:linear-gradient(180deg,rgba(246,248,245,.96) 0%,rgba(246,248,245,.86) 52%,rgba(246,248,245,.58) 100%),url('./hero-house.webp') !important;
+    background-position:center 43% !important;
+  }
+}
+
+/* 3. Калькулятор: эффект остаётся тем же по смыслу, но становится заметнее в светлой теме. */
+html[data-theme="light"] #calc .calc{
+  border:1px solid rgba(71,123,103,.28) !important;
+  box-shadow:0 14px 38px rgba(44,92,70,.12),inset 0 1px 0 rgba(255,255,255,.95) !important;
+}
+html[data-theme="light"] #calc .calc::before{
+  background:radial-gradient(circle,rgba(86,171,133,.38) 0%,rgba(183,229,209,.25) 34%,transparent 70%) !important;
+  opacity:1 !important;
+}
+html[data-theme="light"] #calc .calc-result{
+  border:1px solid rgba(71,123,103,.34) !important;
+  background:linear-gradient(135deg,rgba(183,229,209,.34),rgba(255,255,255,.94) 58%,rgba(226,243,234,.78)) !important;
+  box-shadow:0 10px 28px rgba(48,111,81,.14),inset 0 1px 0 #fff !important;
+}
+html[data-theme="light"] #calc .calc-result::after{
+  background:linear-gradient(115deg,transparent 24%,rgba(87,173,134,.07) 38%,rgba(255,255,255,.88) 50%,rgba(123,201,163,.24) 56%,transparent 72%) !important;
+  filter:drop-shadow(0 0 7px rgba(87,173,134,.22));
+}
+html[data-theme="light"] #calc .calc .big{
+  background:linear-gradient(90deg,#28644d 0%,#54a982 48%,#244f3e 100%) !important;
+  -webkit-background-clip:text !important;background-clip:text !important;
+  -webkit-text-fill-color:transparent !important;
+  filter:drop-shadow(0 2px 5px rgba(63,133,99,.17));
+}
+html[data-theme="light"] #calc input[type="range"]{
+  filter:drop-shadow(0 0 4px rgba(71,123,103,.34)) drop-shadow(0 0 9px rgba(183,229,209,.45)) !important;
+}
+html[data-theme="light"] #calc input[type="range"]:active{
+  filter:drop-shadow(0 0 7px rgba(71,123,103,.52)) drop-shadow(0 0 13px rgba(183,229,209,.75)) !important;
+}
+@media(prefers-reduced-motion:reduce){
+  html[data-theme="light"] #calc .calc::before,
+  html[data-theme="light"] #calc .calc-result::after{animation:none !important}
+}
+</style>
+
 </body>
 </html>
 
