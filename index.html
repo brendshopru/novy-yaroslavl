@@ -1338,17 +1338,95 @@ html[data-theme="dark"] body #services .services .svc .t:hover {
 </style>
 
 
-<style id="ny-mint-accent-preview">
-/* Вариант фирменного акцента: приглушённая мята вместо золота. */
-:root { --gold: #B9DCCF; --site-accent: #B9DCCF; }
-html[data-theme="dark"] { --gold: #B9DCCF; --site-accent: #B9DCCF; }
-html[data-theme="light"] { --gold: #789F91; --site-accent: #789F91; }
-/* Убираем остаточное золотое свечение у надписей услуг в обеих темах. */
+<style id="ny-premium-estate-direction">
+/* Новый визуальный курс: архитектурная редакционная подача, без неона и барного свечения. */
+:root {
+  --gold: #6F9484;
+  --site-accent: #6F9484;
+  --site-green: #14251E;
+  --bg: #111A16;
+  --card: #19251F;
+  --card2: #202E26;
+  --fg: #F5F4EF;
+  --muted: #B1BDB5;
+  --line: #33443A;
+}
+html[data-theme="dark"] {
+  --gold: #9CB8A9;
+  --site-accent: #9CB8A9;
+  --bg: #111A16;
+  --card: #19251F;
+  --card2: #202E26;
+  --fg: #F5F4EF;
+  --muted: #B1BDB5;
+  --line: #33443A;
+}
+html[data-theme="light"] {
+  --gold: #355E4F;
+  --site-accent: #355E4F;
+  --bg: #F7F6F1;
+  --card: #FFFFFF;
+  --card2: #EEEFE8;
+  --fg: #202C25;
+  --muted: #68766D;
+  --line: #DCE2DA;
+}
+html[data-theme="light"] header { background: rgba(247,246,241,.94); }
+html[data-theme="light"] .hero h1,
+html[data-theme="dark"] .hero h1 {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+.hero h1:before, .hero h1:after { content: none !important; animation: none !important; }
+.hero h1 .estate-word { color: var(--site-accent) !important; }
+.site-intro {
+  background: radial-gradient(circle at 50% 40%,rgba(111,148,132,.09),transparent 38%),var(--bg) !important;
+}
+.intro-house { opacity: .07 !important; }
+.intro-house:before,.intro-house:after { border-color: var(--site-accent) !important; }
+.intro-line:after {
+  background: linear-gradient(90deg,transparent,var(--site-accent),rgba(255,255,255,.7),var(--site-accent),transparent) !important;
+  box-shadow: none !important;
+}
+.contact-btn.call,.fab,#calcCallback,.f-cta {
+  background: var(--site-accent) !important;
+  color: #fff !important;
+  box-shadow: 0 8px 22px rgba(0,0,0,.16) !important;
+  animation: none !important;
+}
+html[data-theme="light"] .contact-btn.call,
+html[data-theme="light"] .fab,
+html[data-theme="light"] #calcCallback,
+html[data-theme="light"] .f-cta { color: #fff !important; }
+.svc:hover,.prop:hover,.member:hover,.rv:hover {
+  box-shadow: 0 12px 28px rgba(0,0,0,.16) !important;
+}
+.svc:before,.prop:before,.member:before,.rv:before { opacity: .42; }
+.progress { height: 2px; background: var(--site-accent) !important; }
+.fab:before { animation-duration: 3.4s; opacity: .45; }
+html[data-theme="light"] .cc-i,html[data-theme="light"] .cc-row i {
+  background: rgba(53,94,79,.09) !important;
+}
+html[data-theme="light"] .s-tab.on,
+html[data-theme="light"] .search-btn,
+html[data-theme="light"] .cta-btn,
+html[data-theme="light"] .prop .tag {
+  background: #355E4F !important; color: #fff !important;
+}
+html[data-theme="light"] .services .svc:after {
+  background: linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.48)) !important;
+}
+/* Keep service labels legible and neutral in both themes. */
 #services .services .svc .t,
 #services .services .svc .t:hover {
-  color: #fff !important;
-  -webkit-text-stroke: 0 !important;
-  text-shadow: 0 1px 3px rgba(0,0,0,.95), 0 2px 12px rgba(0,0,0,.82) !important;
+  color: #fff !important; -webkit-text-stroke: 0 !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.78),0 2px 10px rgba(0,0,0,.55) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .svc,.prop,.member,.rv,.contact-btn,.search-btn,.cta-btn,.more,.s-tab { transition: none !important; }
+  .intro-line:after,.fab:before { animation: none !important; }
 }
 </style>
 
