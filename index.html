@@ -1321,5 +1321,36 @@ html[data-theme="light"] body #services .services .svc .t:after {
 }
 </style>
 
+
+<style id="ny-services-dark-theme-label-fix">
+/* Тёмная тема: нейтральные белые надписи без жёлтого оттенка и свечения. */
+html[data-theme="dark"] body #services .services .svc .t,
+html[data-theme="dark"] body #services .services .svc .t:hover {
+  color: #fff !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  -webkit-text-stroke: 0 !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.95), 0 2px 12px rgba(0,0,0,.82) !important;
+  letter-spacing: normal !important;
+}
+</style>
+
+
+<style id="ny-mint-accent-preview">
+/* Вариант фирменного акцента: приглушённая мята вместо золота. */
+:root { --gold: #B9DCCF; --site-accent: #B9DCCF; }
+html[data-theme="dark"] { --gold: #B9DCCF; --site-accent: #B9DCCF; }
+html[data-theme="light"] { --gold: #789F91; --site-accent: #789F91; }
+/* Убираем остаточное золотое свечение у надписей услуг в обеих темах. */
+#services .services .svc .t,
+#services .services .svc .t:hover {
+  color: #fff !important;
+  -webkit-text-stroke: 0 !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.95), 0 2px 12px rgba(0,0,0,.82) !important;
+}
+</style>
+
 </body>
 </html>
