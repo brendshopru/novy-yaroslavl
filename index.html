@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
-  <meta name="ny-build" content="2026-10-10-theme-toggle-1">
+  <meta name="ny-build" content="2026-10-10-architectural-reference-1">
   <script>
   (function(){try{var t=localStorage.getItem('ny_theme_v1');if(t==='light')document.documentElement.setAttribute('data-theme','light');else document.documentElement.setAttribute('data-theme','dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
   </script>
@@ -1448,36 +1448,62 @@ html[data-theme="light"] .services .svc:after {
 
 
 <style id="ny-premium-real-estate-pass">
-:root{--site-accent:#a9d9c3;--gold:#a9d9c3}
-html[data-theme="dark"]{--site-accent:#a9d9c3;--gold:#a9d9c3;--bg:#0c1419;--card:#121e25;--card2:#1a2930;--fg:#f6f7f4;--muted:#b3c0c4;--line:#33434a}
-html[data-theme="light"]{--site-accent:#477b67;--gold:#477b67;--bg:#f7f7f3;--card:#fff;--card2:#edf1ed;--fg:#202c28;--muted:#697770;--line:#dce3de}
-/* Architectural atmosphere and slow living movement, without replacing the existing hero content. */
-.hero{position:relative;isolation:isolate;overflow:hidden;border-radius:24px;padding:clamp(24px,4vw,48px)!important;background:radial-gradient(ellipse at 78% 18%,rgba(169,217,195,.13),transparent 35%),linear-gradient(115deg,rgba(9,19,24,.96),rgba(9,19,24,.73) 58%,rgba(9,19,24,.35))!important}
-.hero:before{content:"";position:absolute;z-index:-1;inset:-4%;pointer-events:none;background:radial-gradient(ellipse at 78% 28%,rgba(169,217,195,.14),transparent 28%),radial-gradient(ellipse at 70% 70%,rgba(220,232,224,.07),transparent 35%);animation:estateAtmosphere 18s ease-in-out infinite alternate}
-@keyframes estateAtmosphere{from{transform:scale(1) translate3d(-1%,0,0)}to{transform:scale(1.08) translate3d(1%,-1%,0)}}
-.hero h1{background:linear-gradient(145deg,rgba(169,217,195,.09),rgba(255,255,255,.015))!important;box-shadow:0 0 34px rgba(169,217,195,.08)!important}
-.hero h1:after{animation:wordSpin 8s linear infinite!important;filter:drop-shadow(0 0 4px color-mix(in srgb,var(--site-accent) 35%,transparent))!important}
-.hero h1 .estate-word{color:var(--site-accent)!important}
-.contact-actions{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;margin-top:22px!important}
-.contact-btn{min-width:0;gap:11px!important;justify-content:flex-start!important;padding:12px 15px!important;border-radius:15px!important;font-weight:600!important;letter-spacing:0!important;background:rgba(255,255,255,.035)!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)!important}
-.contact-btn.call{background:var(--site-accent)!important;color:#10211a!important}
-.brand-icon{width:38px;height:38px;min-width:38px;display:grid;place-items:center;border-radius:12px;background:rgba(255,255,255,.08);color:currentColor}
-.brand-icon svg{width:23px;height:23px;display:block;fill:currentColor}
-.whatsapp-icon{background:#20b96b;color:#fff}.telegram-icon{background:#229ed9;color:#fff}.vk-icon{background:#0077ff;color:#fff}.phone-icon{background:rgba(16,33,26,.12);color:#10211a}
-.contact-btn.whatsapp,.contact-btn.telegram,.contact-btn.vk{border-color:var(--line)!important}
-.contact-btn:hover{transform:translateY(-2px)!important;border-color:var(--site-accent)!important;box-shadow:0 12px 24px rgba(0,0,0,.12)!important}
-#services .sec-head h2{letter-spacing:-.035em}
-#services .services .svc{border-radius:16px!important;border-color:var(--line)!important;box-shadow:0 10px 26px rgba(0,0,0,.09)!important}
-#services .services .svc .t{color:#fff!important;text-shadow:0 2px 9px rgba(0,0,0,.8)!important;font-weight:650!important;letter-spacing:-.02em}
-html[data-theme="light"] header{background:rgba(247,247,243,.92)!important;backdrop-filter:blur(18px)}
-html[data-theme="light"] .hero{background:radial-gradient(ellipse at 78% 18%,rgba(71,123,103,.11),transparent 35%),linear-gradient(115deg,#f4f5f0,#e9eee8)!important}
-html[data-theme="light"] .hero:before{opacity:.35}
-html[data-theme="light"] .hero h1{background:linear-gradient(145deg,rgba(71,123,103,.07),rgba(255,255,255,.1))!important}
-html[data-theme="light"] .contact-btn{background:#fff!important;color:#26342d!important}
-html[data-theme="light"] .contact-btn.call{background:var(--site-accent)!important;color:#fff!important}
-html[data-theme="light"] .phone-icon{color:#244b3d;background:rgba(71,123,103,.12)}
-@media(max-width:700px){.contact-actions{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}.contact-btn{padding:10px!important;gap:8px!important;font-size:13px!important;min-height:54px!important}.brand-icon{width:34px;height:34px;min-width:34px;border-radius:10px}.hero{border-radius:18px!important;padding:22px 16px!important}}
-@media(prefers-reduced-motion:reduce){.hero:before,.hero h1:after{animation:none!important}}
+/* Premium architectural direction based on the approved reference. Keep existing copy, controls and handlers. */
+:root{--site-accent:#b7e5d1;--gold:#b7e5d1;--bg:#0b1217;--card:#111d23;--card2:#1a2930;--fg:#f7f8f6;--muted:#b9c3c6;--line:#35434a}
+html[data-theme="dark"]{--site-accent:#b7e5d1;--gold:#b7e5d1;--bg:#0b1217;--card:#111d23;--card2:#1a2930;--fg:#f7f8f6;--muted:#b9c3c6;--line:#35434a}
+html[data-theme="light"]{--site-accent:#477b67;--gold:#477b67;--bg:#f6f7f4;--card:#fff;--card2:#edf1ed;--fg:#202b28;--muted:#66746d;--line:#d9e0db}
+body{background-color:var(--bg)!important}
+header{position:sticky!important;top:0!important;z-index:1000!important;background:rgba(9,17,22,.76)!important;backdrop-filter:blur(20px)!important;border-bottom:1px solid rgba(255,255,255,.1)!important}
+.nav{min-height:76px!important}
+.hero{position:relative!important;isolation:isolate!important;overflow:hidden!important;border:0!important;border-radius:0!important;margin-top:0!important;padding:clamp(30px,4vw,58px) clamp(18px,3.5vw,48px) 26px!important;background-image:linear-gradient(90deg,rgba(7,15,20,.94) 0%,rgba(7,15,20,.82) 30%,rgba(7,15,20,.3) 67%,rgba(7,15,20,.12) 100%),linear-gradient(0deg,rgba(7,15,20,.94) 0%,transparent 38%),url('hero-house.webp')!important;background-size:cover!important;background-position:center 43%!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)!important}
+.hero:before{content:""!important;position:absolute!important;inset:0!important;z-index:-1!important;pointer-events:none!important;background:linear-gradient(110deg,transparent 25%,rgba(183,229,209,.07) 45%,transparent 64%)!important;animation:estateLightSweep 16s ease-in-out infinite alternate!important}
+@keyframes estateLightSweep{from{transform:translateX(-3%) scale(1)}to{transform:translateX(3%) scale(1.04)}}
+.hero .eyebrow{color:#d8e9e1!important;letter-spacing:.18em!important;font-size:11px!important;text-transform:uppercase!important}
+.hero h1{width:min(760px,100%)!important;max-width:760px!important;margin:18px 0 18px!important;padding:.24em .32em .28em!important;border-radius:12px!important;background:linear-gradient(100deg,rgba(7,16,20,.18),rgba(7,16,20,.02))!important;box-shadow:none!important;color:#f8f9f7!important;font-weight:500!important;letter-spacing:-.045em!important;line-height:1.04!important;text-wrap:balance!important}
+.hero h1 .estate-word{color:#fff!important;white-space:normal!important}
+.hero h1:before{padding:1px!important;background:linear-gradient(110deg,rgba(183,229,209,.62),rgba(255,255,255,.06),rgba(183,229,209,.18))!important;border-radius:inherit!important}
+.hero h1:after{padding:2px!important;background:conic-gradient(from var(--wa),transparent 0deg,transparent 278deg,#b7e5d1 326deg,#fff 350deg,transparent 360deg)!important;filter:drop-shadow(0 0 4px rgba(183,229,209,.35))!important;animation:wordSpin 8s linear infinite!important}
+.hero>p{max-width:590px!important;color:rgba(250,252,250,.92)!important;font-size:clamp(15px,1.35vw,19px)!important;line-height:1.55!important}
+.search-box{margin-top:32px!important;padding:17px!important;border:1px solid rgba(220,235,229,.28)!important;border-radius:18px!important;background:rgba(11,22,28,.72)!important;box-shadow:0 18px 50px rgba(0,0,0,.18)!important;backdrop-filter:blur(18px)!important}
+.search-tabs{gap:8px!important;margin-bottom:10px!important}
+.s-tab{border:1px solid rgba(255,255,255,.24)!important;border-radius:999px!important;background:rgba(255,255,255,.045)!important;color:#f2f5f3!important;padding:9px 16px!important}
+.s-tab.on{background:#b7e5d1!important;color:#10231a!important;border-color:#b7e5d1!important}
+.search-grid{gap:10px!important}
+.search-grid select,.search-grid input{min-height:46px!important;border:1px solid rgba(255,255,255,.22)!important;border-radius:9px!important;background:rgba(8,17,22,.68)!important;color:#f5f7f5!important}
+.search-btn,.cta-btn,.more{border-radius:10px!important}
+.search-btn{background:#b7e5d1!important;color:#10231a!important;border:1px solid #b7e5d1!important;font-weight:700!important}
+.contact-actions{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:12px!important;margin-top:18px!important}
+.contact-btn{min-width:0!important;min-height:62px!important;gap:12px!important;justify-content:flex-start!important;padding:10px 16px!important;border:1px solid rgba(255,255,255,.25)!important;border-radius:999px!important;background:rgba(8,17,22,.58)!important;color:#f6f8f6!important;font-weight:500!important;letter-spacing:0!important;box-shadow:none!important;backdrop-filter:blur(14px)!important}
+.contact-btn:before{display:none!important}
+.contact-btn.call{background:#b7e5d1!important;color:#10231a!important;border-color:#b7e5d1!important;box-shadow:0 6px 20px rgba(183,229,209,.13)!important}
+.brand-icon{width:40px!important;height:40px!important;min-width:40px!important;display:grid!important;place-items:center!important;border-radius:50%!important;background:rgba(255,255,255,.1)!important;color:currentColor!important}
+.brand-icon svg{width:23px!important;height:23px!important;display:block!important;fill:currentColor!important}
+.whatsapp-icon{background:#20b96b!important;color:#fff!important}.telegram-icon{background:#229ed9!important;color:#fff!important}.vk-icon{background:#0077ff!important;color:#fff!important}.phone-icon{background:rgba(16,35,26,.12)!important;color:#10231a!important}
+.contact-btn:hover{transform:translateY(-2px)!important;border-color:#b7e5d1!important;box-shadow:0 10px 24px rgba(0,0,0,.15)!important}
+section:not(.hero){position:relative}
+.sec-head h2{font-weight:500!important;letter-spacing:-.035em!important}
+#services .services .svc{border-radius:14px!important;border:1px solid rgba(255,255,255,.18)!important;box-shadow:0 12px 30px rgba(0,0,0,.13)!important}
+#services .services .svc .t{color:#fff!important;text-shadow:0 2px 10px rgba(0,0,0,.8)!important;font-weight:650!important;letter-spacing:-.02em!important}
+.grid-props{gap:18px!important}
+.prop{border-radius:15px!important;border:1px solid var(--line)!important;box-shadow:0 12px 30px rgba(0,0,0,.1)!important}
+.prop .ph{overflow:hidden!important}
+.prop .ph img{transition:transform .65s cubic-bezier(.2,.7,.2,1)!important}
+.prop:hover .ph img{transform:scale(1.045)!important}
+html[data-theme="light"] body{background:#f6f7f4!important;color:#202b28!important}
+html[data-theme="light"] header{background:rgba(246,247,244,.88)!important;border-bottom:1px solid rgba(28,47,38,.12)!important}
+html[data-theme="light"] .hero{background-image:linear-gradient(90deg,rgba(10,21,25,.76) 0%,rgba(10,21,25,.54) 35%,rgba(10,21,25,.13) 74%,rgba(10,21,25,.06) 100%),linear-gradient(0deg,rgba(10,21,25,.76),transparent 45%),url('hero-house.webp')!important}
+html[data-theme="light"] .hero h1{color:#fff!important;background:transparent!important;box-shadow:none!important}
+html[data-theme="light"] .hero h1 .estate-word{color:#fff!important}
+html[data-theme="light"] .hero .eyebrow,html[data-theme="light"] .hero>p{color:#fff!important}
+html[data-theme="light"] .search-box{background:rgba(15,29,34,.72)!important}
+html[data-theme="light"] .search-grid select,html[data-theme="light"] .search-grid input{background:rgba(255,255,255,.94)!important;color:#202b28!important;border-color:#d9e0db!important}
+html[data-theme="light"] .contact-btn:not(.call){background:rgba(255,255,255,.92)!important;color:#202b28!important;border-color:#d9e0db!important}
+html[data-theme="light"] .contact-btn.call{background:#477b67!important;color:#fff!important;border-color:#477b67!important}
+html[data-theme="light"] #services .services .svc:after{background:linear-gradient(180deg,rgba(0,0,0,.04),rgba(0,0,0,.55))!important}
+@media(min-width:900px){.hero{padding-top:clamp(38px,5vw,72px)!important}.hero h1{font-size:clamp(42px,5vw,72px)!important}.hero>p{font-size:18px!important}.search-box{margin-top:38px!important}}
+@media(max-width:700px){.hero{padding:28px 14px 18px!important;background-position:62% center!important}.hero h1{font-size:clamp(31px,8vw,46px)!important;line-height:1.08!important;padding:.24em .28em .28em!important}.hero>p{font-size:15px!important}.search-box{padding:12px!important;margin-top:22px!important}.contact-actions{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}.contact-btn{min-height:54px!important;padding:8px 10px!important;gap:8px!important;font-size:12.5px!important;border-radius:16px!important}.brand-icon{width:32px!important;height:32px!important;min-width:32px!important}.brand-icon svg{width:19px!important;height:19px!important}.search-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.search-grid .search-btn{grid-column:1/-1!important;min-height:44px!important}.search-tabs{flex-wrap:wrap!important}.s-tab{padding:8px 12px!important;font-size:12px!important}}
+@media(max-width:380px){.contact-actions{grid-template-columns:1fr 1fr!important}.contact-btn{font-size:11.5px!important;padding:8px!important}.hero h1{font-size:30px!important}}
+@media(prefers-reduced-motion:reduce){.hero:before,.hero h1:after{animation:none!important}.prop .ph img,.contact-btn{transition:none!important}}
 </style>
 
 </body>
