@@ -1293,31 +1293,31 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 </script>
 
 <style id="ny-services-light-theme-label-fix">
-/* Светлая тема: контрастные подписи поверх видео. Только оформление текста услуг. */
-html[data-theme="light"] #services .services .svc .t {
-  color: #18352b !important;
-  background: rgba(250, 248, 241, 0.94) !important;
-  border: 1px solid rgba(201, 162, 39, 0.68) !important;
-  border-radius: 10px !important;
-  padding: 9px 16px !important;
-  max-width: calc(100% - 24px) !important;
-  box-shadow: 0 3px 14px rgba(12, 32, 26, 0.24) !important;
+/* Светлая тема: только нейтральный белый текст поверх видео, без золотого/зелёного оттенка и плашек. */
+html[data-theme="light"] body #services .services .svc .t,
+html[data-theme="light"] body #services .services .svc .t:hover,
+html[data-theme="light"] body #services .services .svc .t:before,
+html[data-theme="light"] body #services .services .svc .t:after {
+  color: #fff !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  box-shadow: none !important;
   -webkit-text-stroke: 0 !important;
-  text-shadow: none !important;
-  line-height: 1.2 !important;
+  text-shadow: 0 1px 3px rgba(0,0,0,.95), 0 2px 12px rgba(0,0,0,.85) !important;
+  line-height: 1.15 !important;
+  font-weight: 800 !important;
+  letter-spacing: normal !important;
+  max-width: calc(100% - 24px) !important;
   overflow-wrap: anywhere !important;
 }
 @media (max-width: 700px) {
-  html[data-theme="light"] #services .services .svc .t {
-    font-size: clamp(18px, 5vw, 24px) !important;
-    padding: 9px 16px !important;
-  }
+  html[data-theme="light"] body #services .services .svc .t { font-size: clamp(18px, 5vw, 24px) !important; }
 }
 @media (min-width: 701px) {
-  html[data-theme="light"] #services .services .svc .t {
-    font-size: clamp(17px, 1.5vw, 24px) !important;
-    padding: 10px 18px !important;
-  }
+  html[data-theme="light"] body #services .services .svc .t { font-size: clamp(17px, 1.5vw, 24px) !important; }
 }
 </style>
 
