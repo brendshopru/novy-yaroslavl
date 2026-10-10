@@ -601,7 +601,7 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
 <main class="wrap">
   <section class="hero">
     <div class="eyebrow">Агентство недвижимости · Ярославль · с 2014 года</div>
-    <h1><span class="estate-word">Недвижимость</span> в Ярославле — без лишних хлопот</h1>
+    <h1><span class="estate-word">Недвижимость</span><br><span class="estate-word">для лучшей жизни</span></h1>
     <p>Продажа, покупка, аренда и сопровождение сделок любой сложности. Берём на себя юридическую сторону — вы получаете результат.</p>
 
     <div class="search-box">
@@ -1504,6 +1504,33 @@ html[data-theme="light"] #services .services .svc:after{background:linear-gradie
 @media(max-width:700px){.hero{padding:28px 14px 18px!important;background-position:62% center!important}.hero h1{font-size:clamp(31px,8vw,46px)!important;line-height:1.08!important;padding:.24em .28em .28em!important}.hero>p{font-size:15px!important}.search-box{padding:12px!important;margin-top:22px!important}.contact-actions{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}.contact-btn{min-height:54px!important;padding:8px 10px!important;gap:8px!important;font-size:12.5px!important;border-radius:16px!important}.brand-icon{width:32px!important;height:32px!important;min-width:32px!important}.brand-icon svg{width:19px!important;height:19px!important}.search-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}.search-grid .search-btn{grid-column:1/-1!important;min-height:44px!important}.search-tabs{flex-wrap:wrap!important}.s-tab{padding:8px 12px!important;font-size:12px!important}}
 @media(max-width:380px){.contact-actions{grid-template-columns:1fr 1fr!important}.contact-btn{font-size:11.5px!important;padding:8px!important}.hero h1{font-size:30px!important}}
 @media(prefers-reduced-motion:reduce){.hero:before,.hero h1:after{animation:none!important}.prop .ph img,.contact-btn{transition:none!important}}
+</style>
+
+
+<style id="ny-reference-layout-correction">
+/* Full-bleed architectural hero: keep the rest of the site and its controls intact. */
+main.wrap{overflow:visible!important}
+main.wrap>.hero{
+  width:100vw!important;max-width:none!important;
+  margin-left:calc(50% - 50vw)!important;margin-right:calc(50% - 50vw)!important;
+  box-sizing:border-box!important;
+  padding:clamp(34px,4.4vw,66px) max(24px,calc((100vw - 1280px)/2)) 26px!important;
+  min-height:590px!important;
+  background-color:#14222a!important;
+  background-image:linear-gradient(90deg,rgba(8,17,23,.86) 0%,rgba(8,17,23,.70) 31%,rgba(8,17,23,.22) 58%,rgba(8,17,23,.08) 100%),linear-gradient(0deg,rgba(8,17,23,.72),transparent 44%),url('./hero-house.webp')!important;
+  background-size:cover!important;background-position:center 48%!important;
+}
+html[data-theme="light"] main.wrap>.hero{
+  background-color:#14222a!important;
+  background-image:linear-gradient(90deg,rgba(8,17,23,.78) 0%,rgba(8,17,23,.62) 31%,rgba(8,17,23,.20) 60%,rgba(8,17,23,.07) 100%),linear-gradient(0deg,rgba(8,17,23,.72),transparent 44%),url('./hero-house.webp')!important;
+}
+.hero h1{width:min(760px,100%)!important;max-width:760px!important;font-size:clamp(42px,5vw,76px)!important;line-height:1.02!important;margin:18px 0 18px!important}
+.hero h1 .estate-word{white-space:normal!important}
+.hero .search-box{max-width:100%!important;margin-top:32px!important}
+/* Video labels keep the same desktop size in both themes. */
+@media(min-width:701px){#services .services .svc .t{font-size:clamp(17px,1.5vw,24px)!important;color:#fff!important;-webkit-text-stroke:0!important;text-shadow:0 1px 3px rgba(0,0,0,.85),0 2px 10px rgba(0,0,0,.65)!important}}
+@media(max-width:700px){main.wrap>.hero{width:100vw!important;min-height:0!important;padding:26px 18px 22px!important;background-position:58% center!important}.hero h1{font-size:clamp(34px,9vw,52px)!important;line-height:1.05!important}}
+@media(prefers-reduced-motion:reduce){.hero:before{animation:none!important}}
 </style>
 
 </body>
