@@ -1862,20 +1862,17 @@ html[data-theme="dark"]{
   --fg:#f3f5f4; --muted:#a9b6b8;
   --site-accent:#b7e5d1; --gold:#b7e5d1;
 }
-html[data-theme="dark"],
-html[data-theme="dark"] body{
-  background-color:#101b1f !important;
-  background-image:
-    radial-gradient(ellipse at 18% 0%, rgba(70,100,108,.14) 0%, transparent 55%),
-    radial-gradient(ellipse at center, transparent 52%, rgba(0,0,0,.34) 100%),
-    repeating-linear-gradient(112deg, rgba(255,255,255,.014) 0 1px, transparent 1px 3px),
-    linear-gradient(160deg,#121d21 0%,#0f1a1e 55%,#131f24 100%) !important;
-  background-attachment:fixed !important;
+html[data-theme="dark"]{
+  background-color:#2a2e30 !important;
+  background-image:linear-gradient(rgba(10,16,18,.22),rgba(10,16,18,.22)),url('bg-dark.webp') !important;
+  background-size:cover !important;background-position:center top !important;
+  background-repeat:no-repeat !important;background-attachment:fixed !important;
 }
+html[data-theme="dark"] body{background:transparent !important}
 html[data-theme="dark"] main.wrap{background:transparent !important}
 
 /* Шапка */
-html[data-theme="dark"] header{background:rgba(15,26,32,.82) !important;border-bottom:1px solid rgba(226,238,236,.12) !important}
+html[data-theme="dark"] header{background:rgba(18,24,27,.78) !important;border-bottom:1px solid rgba(226,238,236,.12) !important}
 
 /* Верхний блок и поиск */
 html[data-theme="dark"] main.wrap>.hero{background-color:#121c20 !important}
@@ -1894,9 +1891,10 @@ html[data-theme="dark"] .calc-result,
 html[data-theme="dark"] .cc-card,
 html[data-theme="dark"] .map-card,
 html[data-theme="dark"] .empty{
-  background-color:#121d21 !important;
+  background-color:rgba(14,22,25,.80) !important;
   background-image:none !important;
-  border-color:#26373d !important;
+  border-color:#3a4a50 !important;
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
 }
 html[data-theme="dark"] .services .svc{background-color:#0d181b !important}
 html[data-theme="dark"] .cc-card{background-image:linear-gradient(160deg,#132024,#0f1a1e) !important}
@@ -1926,6 +1924,19 @@ html[data-theme="dark"] .site-intro{background:radial-gradient(circle at 50% 42%
 html[data-theme="dark"] footer{background:linear-gradient(180deg,transparent,rgba(0,0,0,.34)) !important}
 html[data-theme="dark"] .reviews-nav button,
 html[data-theme="dark"] #objects .catalog-nav button{background:#121d21 !important;border-color:#26373d !important}
+
+/* Светлая тема: фактура светлой штукатурки */
+html[data-theme="light"]{
+  background-color:#c4c5c8 !important;
+  background-image:url('bg-light.webp') !important;
+  background-size:cover !important;background-position:center top !important;
+  background-repeat:no-repeat !important;background-attachment:fixed !important;
+}
+html[data-theme="light"] body{background:transparent !important}
+html[data-theme="light"] header{background:rgba(236,238,238,.84) !important}
+html[data-theme="light"] .svc,html[data-theme="light"] .prop,html[data-theme="light"] .member,
+html[data-theme="light"] .rv,html[data-theme="light"] .calc,html[data-theme="light"] .cc-card,
+html[data-theme="light"] .map-card{background-color:rgba(255,255,255,.80) !important;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 </style>
 
 </body>
