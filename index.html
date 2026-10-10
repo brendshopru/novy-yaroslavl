@@ -1998,6 +1998,39 @@ html[data-theme="light"] body main.wrap .hero h1 .estate-word{color:#1f2a2d !imp
 html[data-theme="light"] body main.wrap .hero h1 .estate-word:last-child{color:#3b5a5c !important}
 </style>
 
+<style id="ny-polish-3">
+/* Правки v3. Старый код не тронут. Чтобы откатить — удалите этот блок. */
+
+/* 1. Кнопки связи растянуты по всей линии: четыре равные части на ПК и телефоне */
+@media(min-width:701px){
+  html[data-theme] body .hero .contact-actions{display:grid !important;grid-template-columns:repeat(4,minmax(0,1fr)) !important;justify-items:center !important;gap:12px !important}
+  html[data-theme] body .hero .contact-actions .contact-btn{font-size:14px !important}
+}
+
+/* 2. Рамка поиска ещё прозрачнее */
+html[data-theme="dark"] body .hero .search-box{background:rgba(10,18,22,.14) !important;border-color:rgba(255,255,255,.12) !important;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+html[data-theme="dark"] body .hero .search-grid select,
+html[data-theme="dark"] body .hero .search-grid input{background:rgba(8,15,18,.26) !important;border-color:rgba(255,255,255,.16) !important}
+html[data-theme="light"] body .hero .search-box{background:rgba(255,255,255,.18) !important;border-color:rgba(32,49,44,.12) !important;-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px)}
+html[data-theme="light"] body .hero .search-grid select,
+html[data-theme="light"] body .hero .search-grid input{background:rgba(255,255,255,.52) !important}
+
+/* 3. Светлая тема: старые зелёные заливки заменены графитом */
+html[data-theme="light"] body .search-tabs .s-tab.on{background:#2f3e43 !important;border-color:#2f3e43 !important;color:#fff !important;box-shadow:none !important}
+html[data-theme="light"] body .prop .tag{background:#2f3e43 !important;color:#fff !important}
+html[data-theme="light"] body #themeToggle.nav-theme{border-color:rgba(47,62,67,.35) !important}
+html[data-theme="light"] body #themeToggle .theme-icon{color:#33474c !important}
+html[data-theme="light"] body #themeToggle[aria-pressed="true"] .theme-icon{background:#2f3e43 !important;color:#fff !important;border-color:#2f3e43 !important}
+html[data-theme="light"] body main.wrap .hero h1::before{background:rgba(47,62,67,.40) !important}
+html[data-theme="light"] body main.wrap .hero h1::after{background:conic-gradient(from var(--wa),transparent 0deg,transparent 278deg,#33474c 326deg,#fff 350deg,transparent 360deg) !important;filter:none !important}
+html[data-theme="light"] .cc-i,html[data-theme="light"] .cc-row i,html[data-theme="light"] .f-ic{background:rgba(47,62,67,.09) !important;color:#33474c !important}
+
+/* 4. Подвал: без линии сверху и тёмного блока, сливается со страницей */
+html[data-theme] body footer{background:none !important;border-top:0 !important;box-shadow:none !important}
+html[data-theme] body footer::before{content:none !important;display:none !important}
+html[data-theme] body footer .f-bottom{border-top:0 !important;background:none !important}
+</style>
+
 </body>
 </html>
 
