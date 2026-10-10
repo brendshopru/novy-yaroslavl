@@ -1728,6 +1728,46 @@ html[data-theme="light"] .mobile-bottom-nav svg,
 html[data-theme="light"] .bottom-nav svg { color:currentColor!important; }
 </style>
 
+
+<style id="ny-light-contrast-and-mint-intro-fix">
+/* Светлая тема: текст на мятных CTA должен быть тёмным и контрастным. */
+html[data-theme="light"] #calcCallback,
+html[data-theme="light"] .f-cta,
+html[data-theme="light"] .contact-btn.call,
+html[data-theme="light"] .fab,
+html[data-theme="light"] .ny-modal button[type="submit"],
+html[data-theme="light"] .ny-modal .submit,
+html[data-theme="light"] .ny-modal .primary,
+html[data-theme="light"] .callback-modal button[type="submit"] {
+  color:#17252a!important;
+}
+html[data-theme="light"] #fabSheet,
+html[data-theme="light"] #fabSheet .cc-row,
+html[data-theme="light"] #fabSheet .cc-row b,
+html[data-theme="light"] #fabSheet .cc-row em,
+html[data-theme="light"] footer,
+html[data-theme="light"] footer p,
+html[data-theme="light"] footer h4,
+html[data-theme="light"] footer a,
+html[data-theme="light"] footer .f-addr,
+html[data-theme="light"] footer .f-hours {
+  color:#263b34!important;
+}
+html[data-theme="light"] #fabSheet .cc-row {background:rgba(255,255,255,.94)!important;border-color:#d9e0db!important}
+html[data-theme="light"] footer a {text-shadow:none!important;opacity:1!important}
+html[data-theme="light"] footer svg {stroke:currentColor!important}
+
+/* Интро и рамка заголовка сразу используют мятную палитру; жёлтая фаза убрана. */
+.site-intro {background:radial-gradient(circle at 50% 42%,rgba(183,229,209,.10),transparent 32%),#07150f!important}
+.intro-kicker,.intro-title span {color:#b7e5d1!important}
+.intro-line:after {background:linear-gradient(90deg,transparent,#b7e5d1,#fff,#b7e5d1,transparent)!important;box-shadow:0 0 12px rgba(183,229,209,.45)!important}
+.intro-house:before,.intro-house:after {border-color:#b7e5d1!important}
+.hero h1:before {background:rgba(183,229,209,.40)!important}
+.hero h1:after {animation:none!important;background:linear-gradient(135deg,transparent 20%,rgba(183,229,209,.72) 50%,transparent 80%)!important;filter:none!important}
+.intro-line:after {animation:none!important;left:0!important;width:100%!important;opacity:.55!important}
+@media(prefers-reduced-motion:reduce){.site-intro,.hero h1:after,.intro-line:after{animation:none!important}}
+</style>
+
 </body>
 </html>
 
