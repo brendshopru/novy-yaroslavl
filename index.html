@@ -2469,13 +2469,13 @@ html[data-theme="light"] .rv {
 #services .services .svc .t:after { content:none !important; display:none !important; }
 /* Верх фото плавно растворяется под шапкой — без жёсткой линии и видимых углов (обе темы). */
 html[data-theme] body main.wrap>section.hero::after{
-  -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 56px,#000 calc(100% - 240px),transparent 100%) !important;
-  mask-image:linear-gradient(to bottom,transparent 0,#000 56px,#000 calc(100% - 240px),transparent 100%) !important;
+  -webkit-mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.08) 14px,rgba(0,0,0,.30) 36px,rgba(0,0,0,.62) 62px,rgba(0,0,0,.88) 86px,#000 110px,#000 calc(100% - 240px),transparent 100%) !important;
+  mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.08) 14px,rgba(0,0,0,.30) 36px,rgba(0,0,0,.62) 62px,rgba(0,0,0,.88) 86px,#000 110px,#000 calc(100% - 240px),transparent 100%) !important;
 }
 @media(max-width:700px){
   html[data-theme] body main.wrap>section.hero::after{
-    -webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 40px,#000 calc(100% - 200px),transparent 100%) !important;
-    mask-image:linear-gradient(to bottom,transparent 0,#000 40px,#000 calc(100% - 200px),transparent 100%) !important;
+    -webkit-mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.10) 10px,rgba(0,0,0,.40) 26px,rgba(0,0,0,.80) 46px,#000 64px,#000 calc(100% - 200px),transparent 100%) !important;
+    mask-image:linear-gradient(to bottom,transparent 0,rgba(0,0,0,.10) 10px,rgba(0,0,0,.40) 26px,rgba(0,0,0,.80) 46px,#000 64px,#000 calc(100% - 200px),transparent 100%) !important;
   }
 }
 /* Фото hero шире body на его отступ 8px: не обрезаем по бокам (убирает видимые «углы» фото). */
