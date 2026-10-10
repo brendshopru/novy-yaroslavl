@@ -1106,9 +1106,9 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
     if(x.video){
       var v=card.querySelector('.svc-video');
       if(!v){
-        v=document.createElement('video');v.className='svc-video';v.muted=true;v.loop=true;v.playsInline=true;v.preload='metadata';v.setAttribute('muted','');v.setAttribute('playsinline','');v.setAttribute('aria-hidden','true');card.appendChild(v);
+        v=document.createElement('video');v.className='svc-video';v.muted=true;v.defaultMuted=true;v.volume=0;v.loop=true;v.playsInline=true;v.disablePictureInPicture=true;v.preload='metadata';v.setAttribute('muted','');v.setAttribute('playsinline','');v.setAttribute('disablepictureinpicture','');v.setAttribute('aria-hidden','true');v.addEventListener('play',function(){v.muted=true;v.defaultMuted=true;v.volume=0;});v.addEventListener('volumechange',function(){if(!v.muted||v.volume!==0){v.muted=true;v.volume=0;}});card.appendChild(v);
       }
-      if(v.getAttribute('src')!==x.video){v.src=x.video;v.load();}
+      v.muted=true;v.defaultMuted=true;v.volume=0;v.disablePictureInPicture=true; if(v.getAttribute('src')!==x.video){v.src=x.video;v.load();}
       card.classList.add('has-video');
     }else{
       var old=card.querySelector('.svc-video');if(old)old.remove();card.classList.remove('has-video');
