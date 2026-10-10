@@ -1372,14 +1372,30 @@ html[data-theme="light"] {
   --line: #DCE2DA;
 }
 html[data-theme="light"] header { background: rgba(247,246,241,.94); }
+/* Возвращаем фирменную анимированную рамку вокруг заголовка Hero,
+   сохраняя сдержанную мятно-графитовую палитру. */
 html[data-theme="light"] .hero h1,
 html[data-theme="dark"] .hero h1 {
-  background: transparent !important;
-  box-shadow: none !important;
-  border-radius: 0 !important;
-  padding: 0 !important;
+  background: color-mix(in srgb, var(--site-accent) 5%, transparent) !important;
+  box-shadow: 0 0 28px color-mix(in srgb, var(--site-accent) 8%, transparent) !important;
+  border-radius: .22em !important;
+  padding: .18em .30em .22em !important;
 }
-.hero h1:before, .hero h1:after { content: none !important; animation: none !important; }
+.hero h1:before, .hero h1:after {
+  content: "" !important;
+  border-radius: inherit !important;
+  animation: none !important;
+}
+.hero h1:before {
+  padding: 1px !important;
+  background: color-mix(in srgb, var(--site-accent) 32%, transparent) !important;
+}
+.hero h1:after {
+  padding: 2px !important;
+  background: conic-gradient(from var(--wa), transparent 0deg, transparent 255deg, var(--site-accent) 320deg, #fff 352deg, transparent 360deg), conic-gradient(from calc(var(--wa) + 180deg), transparent 0deg, transparent 285deg, var(--site-accent) 335deg, #fff 356deg, transparent 360deg) !important;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--site-accent) 40%, transparent)) !important;
+  animation: wordSpin 6s linear infinite !important;
+}
 .hero h1 .estate-word { color: var(--site-accent) !important; }
 .site-intro {
   background: radial-gradient(circle at 50% 40%,rgba(111,148,132,.09),transparent 38%),var(--bg) !important;
