@@ -1660,6 +1660,74 @@ html[data-theme="light"] .search-grid select, html[data-theme="light"] .search-g
 html[data-theme="light"] .contact-btn:not(.call) { background:rgba(255,255,255,.84)!important; color:#24312f!important; border-color:rgba(53,94,79,.25)!important; }
 html[data-theme="light"] header { background:rgba(241,245,241,.94)!important; }
 </style>
+
+<style id="ny-mint-final-ui-fix">
+/* Hero headline follows the approved reference: first line white, second line mint. */
+.hero h1 .estate-word { color:#f5f7f5 !important; }
+.hero h1 .estate-word:last-child { color:#b7e5d1 !important; }
+html[data-theme="light"] .hero h1 .estate-word { color:#f5f7f5 !important; }
+html[data-theme="light"] .hero h1 .estate-word:last-child { color:#b7e5d1 !important; }
+
+/* Replace remaining gold install and callback accents with the agency mint. */
+.nav-install {
+  border-color:rgba(183,229,209,.52)!important;
+  background:rgba(183,229,209,.10)!important;
+  color:var(--fg,#f4f1e8)!important;
+}
+.nav-install:hover {
+  border-color:#b7e5d1!important;
+  background:rgba(183,229,209,.18)!important;
+  box-shadow:0 0 18px rgba(183,229,209,.12)!important;
+}
+#calcCallback,.f-cta,.contact-btn.call,.fab {
+  background:linear-gradient(135deg,#b7e5d1,#d5f0e3)!important;
+  border-color:rgba(183,229,209,.72)!important;
+  color:#17252a!important;
+  box-shadow:0 6px 18px rgba(0,0,0,.18)!important;
+}
+#calcCallback:hover,.f-cta:hover,.contact-btn.call:hover,.fab:hover {
+  background:#c8eddd!important;
+  box-shadow:0 8px 22px rgba(87,153,125,.22)!important;
+}
+.pwa-modal-card {
+  background:#14252b!important;
+  border-color:rgba(183,229,209,.42)!important;
+}
+.pwa-close {
+  background:#b7e5d1!important;
+  border-color:#b7e5d1!important;
+  color:#17252a!important;
+  font-weight:700!important;
+}
+.ny-modal button[type="submit"],.ny-modal .submit,.ny-modal .primary,
+.callback-modal button[type="submit"] {
+  background:#b7e5d1!important;border-color:#b7e5d1!important;color:#17252a!important;
+}
+/* Bottom fixed controls remain readable in light theme. */
+html[data-theme="light"] .fab,
+html[data-theme="light"] .fav-float,
+html[data-theme="light"] .ny-toast {
+  color:#20312c!important;
+  border-color:rgba(53,94,79,.34)!important;
+}
+html[data-theme="light"] .fav-float { background:rgba(248,251,248,.97)!important; }
+html[data-theme="light"] .ny-toast { background:rgba(248,251,248,.98)!important; }
+html[data-theme="light"] footer,
+html[data-theme="light"] footer .f-bottom,
+html[data-theme="light"] .mobile-bottom-nav,
+html[data-theme="light"] .bottom-nav {
+  color:#263b34!important;
+}
+html[data-theme="light"] footer a,
+html[data-theme="light"] .mobile-bottom-nav a,
+html[data-theme="light"] .bottom-nav a {
+  color:#263b34!important;
+}
+html[data-theme="light"] footer svg,
+html[data-theme="light"] .mobile-bottom-nav svg,
+html[data-theme="light"] .bottom-nav svg { color:currentColor!important; }
+</style>
+
 </body>
 </html>
 
