@@ -1,15 +1,105 @@
-const CACHE='ny-shell-ccae5fae8aefc07f';
-const STATIC=['./','./manifest.webmanifest','./icons/icon-192-ccae5fae8aefc07f.png','./icons/icon-512-ccae5fae8aefc07f.png'];
-self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(c=>c.addAll(STATIC)).then(()=>self.skipWaiting()))});
-self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
-self.addEventListener('fetch',event=>{
-  const r=event.request;
-  if(r.method!=='GET'||new URL(r.url).origin!==location.origin)return;
-  const u=new URL(r.url);
-  // Always get site data/scripts from network so admin/GitHub updates appear immediately.
-  if(u.pathname.endsWith('/data.js')||u.pathname.endsWith('/app.js')||u.pathname.endsWith('/styles.css')||u.pathname.endsWith('/index.html')||u.pathname.endsWith('/manifest.webmanifest')){
-    event.respondWith(fetch(r,{cache:'no-store'}).catch(()=>caches.match(r).then(x=>x||caches.match('./'))));
+const CACHE = 'ny-shell-ccae5fae8aefc07f-v2';
+
+const STATIC = [
+  './',
+  './manifest.webmanifest',
+  './icons/icon-192-ccae5fae8aefc07f.png',
+  './icons/icon-512-ccae5fae8aefc07f.png'
+];
+
+self.addEventListener('install', event => {
+  event.waitUntil(
+    caches.open(CACHE)
+      .then(cache => cache.addAll(STATIC))
+      .then(() => self.skipWaiting())
+  );
+});
+
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys()
+      .then(keys =>
+        Promise.all(
+          keys
+            .filter(key => key !== CACHE)
+            .map(key => caches.delete(key))
+        )
+      )
+      .then(() => self.clients.claim())
+  );
+});
+
+self.addEventListener('fetch', event => {
+  const request = event.request;
+
+  if (
+    request.method !== 'GET' ||
+    new URL(request.url).origin !== self.location.origin
+  ) {
     return;
   }
-  event.respondWith(caches.match(r).then(cached=>cached||fetch(r).then(res=>{const copy=res.clone();caches.open(CACHE).then(c=>c.put(r,copy));return res}).catch(()=>cached)));
+
+  const url = new URL(request.url);
+
+  const isAppFile = [
+    '/data.js',
+    '/app.js',
+    '/styles.css',
+    '/index.html',
+    '/manifest.webmanifest'
+  ].some(path => url.pathname.endsWith(path));
+
+  // Страницы и файлы приложения: сеть в первую очередь.
+  if (request.mode === 'navigate' || isAppFile) {
+    event.respondWith(
+      fetch(request, { cache: 'no-store' })
+        .then(response => {
+          if (response.ok) {
+            const copy = response.clone();
+
+            caches.open(CACHE)
+              .then(cache => cache.put(request, copy))
+              .catch(() => {});
+
+          }
+
+          return response;
+        })
+        .catch(async () => {
+          const cached =
+            await caches.match(request) ||
+            (request.mode === 'navigate'
+              ? await caches.match('./')
+              : undefined);
+
+          if (cached) return cached;
+
+          return new Response('Нет подключения к интернету.', {
+            status: 503,
+            headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+          });
+        })
+    );
+
+    return;
+  }
+
+  // Остальные ресурсы: сначала кэш, затем сеть.
+  event.respondWith(
+    caches.match(request).then(cached => {
+      if (cached) return cached;
+
+      return fetch(request).then(response => {
+        if (response.ok) {
+          const copy = response.clone();
+
+          caches.open(CACHE)
+            .then(cache => cache.put(request, copy))
+            .catch(() => {});
+        }
+
+        return response;
+      });
+    })
+  );
 });
