@@ -1854,6 +1854,80 @@ html[data-theme="light"] .callback-modal button[type="submit"] {
 }
 html[data-theme="light"] .contact-btn:not(.call) {background:rgba(255,255,255,.92)!important;color:#24312f!important;border-color:#d9e0db!important}
 </style>
+<style id="ny-graphite-from-mockup">
+/* Цвета сняты пипеткой с макета: фон #0f1a20–#121c20, края #0d181b, панели #121d21–#132124.
+   Только тёмная тема. Светлая тема не затронута. Чтобы вернуть прежний вид — удалите этот блок. */
+html[data-theme="dark"]{
+  --bg:#101b1f; --card:#121d21; --card2:#17262b; --line:#26373d;
+  --fg:#f3f5f4; --muted:#a9b6b8;
+  --site-accent:#b7e5d1; --gold:#b7e5d1;
+}
+html[data-theme="dark"],
+html[data-theme="dark"] body{
+  background-color:#101b1f !important;
+  background-image:
+    radial-gradient(ellipse at 18% 0%, rgba(70,100,108,.14) 0%, transparent 55%),
+    radial-gradient(ellipse at center, transparent 52%, rgba(0,0,0,.34) 100%),
+    repeating-linear-gradient(112deg, rgba(255,255,255,.014) 0 1px, transparent 1px 3px),
+    linear-gradient(160deg,#121d21 0%,#0f1a1e 55%,#131f24 100%) !important;
+  background-attachment:fixed !important;
+}
+html[data-theme="dark"] main.wrap{background:transparent !important}
+
+/* Шапка */
+html[data-theme="dark"] header{background:rgba(15,26,32,.82) !important;border-bottom:1px solid rgba(226,238,236,.12) !important}
+
+/* Верхний блок и поиск */
+html[data-theme="dark"] main.wrap>.hero{background-color:#121c20 !important}
+html[data-theme="dark"] .search-box{background:rgba(15,26,30,.78) !important;border-color:rgba(226,238,236,.20) !important}
+html[data-theme="dark"] .search-grid select,
+html[data-theme="dark"] .search-grid input{background:rgba(10,18,21,.72) !important;border-color:rgba(226,238,236,.18) !important}
+html[data-theme="dark"] .contact-btn:not(.call){background:rgba(15,26,30,.66) !important}
+
+/* Все карточки и панели */
+html[data-theme="dark"] .svc,
+html[data-theme="dark"] .prop,
+html[data-theme="dark"] .member,
+html[data-theme="dark"] .rv,
+html[data-theme="dark"] .calc,
+html[data-theme="dark"] .calc-result,
+html[data-theme="dark"] .cc-card,
+html[data-theme="dark"] .map-card,
+html[data-theme="dark"] .empty{
+  background-color:#121d21 !important;
+  background-image:none !important;
+  border-color:#26373d !important;
+}
+html[data-theme="dark"] .services .svc{background-color:#0d181b !important}
+html[data-theme="dark"] .cc-card{background-image:linear-gradient(160deg,#132024,#0f1a1e) !important}
+html[data-theme="dark"] .calc{background-image:linear-gradient(160deg,#132024,#0f1a1e) !important}
+html[data-theme="dark"] .cc-row,
+html[data-theme="dark"] .f-col .f-contact{
+  background:linear-gradient(145deg,rgba(255,255,255,.04),rgba(255,255,255,.012)) !important;
+  border-color:rgba(226,238,236,.11) !important;
+}
+html[data-theme="dark"] .ny-rv-av,
+html[data-theme="dark"] .fav-th{background:#17262b !important}
+
+/* Окна и выезжающие панели */
+html[data-theme="dark"] .fab-sheet{background:rgba(15,26,30,.97) !important;border-color:rgba(226,238,236,.14) !important}
+html[data-theme="dark"] .ny-modal-card{background:linear-gradient(160deg,#132024,#0f1a1e) !important;border-color:#26373d !important}
+html[data-theme="dark"] .ny-modal input,
+html[data-theme="dark"] .ny-modal select{background:#0d181b !important;border-color:#26373d !important}
+html[data-theme="dark"] .fav-panel{background:linear-gradient(170deg,#132024,#0d181b) !important;border-color:#26373d !important}
+html[data-theme="dark"] .fav-item{background:rgba(255,255,255,.03) !important}
+html[data-theme="dark"] .pwa-modal-card{background:#121d21 !important}
+html[data-theme="dark"] .ny-toast,
+html[data-theme="dark"] .fav-float,
+html[data-theme="dark"] .to-top{background:rgba(15,26,30,.94) !important}
+html[data-theme="dark"] .site-intro{background:radial-gradient(circle at 50% 42%,rgba(183,229,209,.08),transparent 34%),#0d181b !important}
+
+/* Подвал */
+html[data-theme="dark"] footer{background:linear-gradient(180deg,transparent,rgba(0,0,0,.34)) !important}
+html[data-theme="dark"] .reviews-nav button,
+html[data-theme="dark"] #objects .catalog-nav button{background:#121d21 !important;border-color:#26373d !important}
+</style>
+
 </body>
 </html>
 
