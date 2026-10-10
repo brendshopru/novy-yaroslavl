@@ -1533,10 +1533,6 @@ html[data-theme="light"] main.wrap>.hero{
 @media(prefers-reduced-motion:reduce){.hero:before{animation:none!important}}
 </style>
 
-</body>
-</html>
-
-
 <style id="ny-global-premium-colors-final">
 /* Единая графитово-синяя фактура по всей странице — не чёрные поля. */
 html, body {
@@ -1607,3 +1603,65 @@ html[data-theme="light"] .search-grid input {
   main.wrap > .hero { min-height: 620px !important; }
 }
 </style>
+
+<style id="ny-final-consistent-theme-and-layout">
+/* Акцент заголовка: мятный, как в согласованном макете, в обеих темах. */
+.hero h1 .estate-word { color:#b7e5d1 !important; }
+html[data-theme="light"] .hero h1 .estate-word { color:#9ad8bd !important; }
+
+/* Переключатель — компактная двухпозиционная капсула с солнцем и луной. */
+#themeToggle.nav-theme {
+  position:relative!important; display:inline-flex!important; align-items:center!important;
+  justify-content:space-between!important; gap:0!important; width:68px!important; min-width:68px!important;
+  height:34px!important; padding:3px!important; border-radius:999px!important;
+  border:1px solid rgba(183,229,209,.45)!important;
+  background:rgba(183,229,209,.12)!important; color:#dcebe4!important;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.025)!important;
+  overflow:hidden!important; font-size:0!important; line-height:1!important;
+}
+#themeToggle .theme-icon { position:absolute!important; z-index:2!important; top:50%!important; left:7px!important;
+  transform:translateY(-50%)!important; display:grid!important; place-items:center!important;
+  width:23px!important; height:23px!important; border-radius:50%!important; font-size:17px!important;
+  color:#e6f3ed!important; transition:left .25s ease,background .25s ease,color .25s ease!important; }
+#themeToggle .theme-label { display:none!important; }
+#themeToggle[aria-pressed="true"] .theme-icon { left:36px!important; background:#b7e5d1!important; color:#17252a!important; }
+html[data-theme="light"] #themeToggle.nav-theme { background:rgba(39,73,61,.10)!important; border-color:rgba(53,94,79,.35)!important; }
+html[data-theme="light"] #themeToggle .theme-icon { color:#355e4f!important; }
+html[data-theme="light"] #themeToggle[aria-pressed="true"] .theme-icon { background:#477b67!important; color:#fff!important; }
+
+/* Все разделы на ПК занимают общую широкую сетку; только hero — во всю ширину окна. */
+@media(min-width:900px){
+  main.wrap { width:100%!important; max-width:none!important; margin-left:0!important; margin-right:0!important; padding-left:0!important; padding-right:0!important; }
+  main.wrap > section:not(.hero), main.wrap > .section, main.wrap > #objects, main.wrap > #services,
+  main.wrap > #calc, main.wrap > #team, main.wrap > #contacts {
+    width:min(1280px,calc(100% - 64px))!important; max-width:1280px!important;
+    margin-left:auto!important; margin-right:auto!important; box-sizing:border-box!important;
+  }
+  main.wrap > .hero { width:100vw!important; max-width:none!important; }
+}
+
+/* В светлой теме фотография остаётся видимой, а сам hero становится светлым, не чёрным блоком. */
+html[data-theme="light"] main.wrap > .hero {
+  background-color:#e9efeb!important;
+  background-image:
+    linear-gradient(90deg,rgba(241,246,242,.92) 0%,rgba(241,246,242,.78) 30%,rgba(241,246,242,.30) 56%,rgba(241,246,242,.04) 100%),
+    linear-gradient(0deg,rgba(241,246,242,.36) 0%,transparent 42%),
+    url('./hero-house.webp')!important;
+  color:#24312f!important;
+}
+html[data-theme="light"] .hero .eyebrow,
+html[data-theme="light"] .hero > p { color:#263b34!important; text-shadow:0 1px 0 rgba(255,255,255,.28)!important; }
+html[data-theme="light"] .hero h1 { color:#20312c!important; background:rgba(255,255,255,.12)!important; }
+html[data-theme="light"] .hero h1 .estate-word { color:#477b67!important; }
+html[data-theme="light"] .hero h1:before { background:rgba(71,123,103,.52)!important; }
+html[data-theme="light"] .hero h1:after { background:conic-gradient(from var(--wa),transparent 0deg,transparent 278deg,#477b67 326deg,#fff 350deg,transparent 360deg)!important; }
+html[data-theme="light"] .search-box { background:rgba(248,251,248,.88)!important; color:#24312f!important; border-color:rgba(53,94,79,.28)!important; }
+html[data-theme="light"] .search-grid select, html[data-theme="light"] .search-grid input { background:rgba(255,255,255,.96)!important; color:#24312f!important; }
+html[data-theme="light"] .contact-btn:not(.call) { background:rgba(255,255,255,.84)!important; color:#24312f!important; border-color:rgba(53,94,79,.25)!important; }
+html[data-theme="light"] header { background:rgba(241,245,241,.94)!important; }
+</style>
+</body>
+</html>
+
+
+
