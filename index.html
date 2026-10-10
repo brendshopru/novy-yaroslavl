@@ -2221,6 +2221,63 @@ html[data-theme="light"] body footer .f-top>.f-col:nth-child(2) a:hover::after{b
 @media(prefers-reduced-motion:reduce){html[data-theme] body footer .f-top>.f-col:nth-child(2) a,html[data-theme] body footer .f-top>.f-col:nth-child(2) a::before,html[data-theme] body footer .f-top>.f-col:nth-child(2) a::after{transition:none !important}}
 </style>
 
+<style id="ny-polish-7">
+/* ===== ny-polish-7 ===== */
+/* A. Слово «ЯРОСЛАВЛЬ» — мятное в обеих темах */
+html[data-theme] body .logo b{color:#b7e5d1 !important;background:none !important;padding:0 !important;letter-spacing:.02em}
+html[data-theme="light"] body .logo b{color:#6dbd9b !important;text-shadow:0 1px 0 rgba(255,255,255,.9),0 0 14px rgba(143,205,178,.55) !important}
+html[data-theme="light"] body .logo:hover b{background:none !important}
+html[data-theme] body .logo{font-weight:700;letter-spacing:.04em}
+
+/* B. Шапка: парящая стеклянная капсула */
+html[data-theme] body header{background:transparent !important;border-bottom:0 !important;box-shadow:none !important;-webkit-backdrop-filter:none !important;backdrop-filter:none !important;padding-top:10px}
+html[data-theme] body header::after{display:none !important}
+html[data-theme] body header .nav.wrap{border-radius:22px;padding:10px 14px 10px 22px !important;-webkit-backdrop-filter:saturate(1.4) blur(18px);backdrop-filter:saturate(1.4) blur(18px);transition:box-shadow .3s ease}
+html[data-theme="dark"] body header .nav.wrap{background:linear-gradient(135deg,rgba(24,38,43,.78),rgba(14,24,28,.70)) !important;border:1px solid rgba(183,229,209,.20);box-shadow:0 10px 30px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.07)}
+html[data-theme="light"] body header .nav.wrap{background:linear-gradient(135deg,rgba(255,255,255,.88),rgba(240,247,243,.78)) !important;border:1px solid rgba(143,205,178,.55);box-shadow:0 10px 28px rgba(31,42,45,.10),inset 0 1px 0 #fff}
+html[data-theme] body header .nav-links{gap:4px}
+html[data-theme] body header .nav-links a{padding:8px 14px;border-radius:999px;transition:background .25s ease,color .25s ease}
+html[data-theme] body header .nav-links a::after{display:none !important}
+html[data-theme="dark"] body header .nav-links a:hover{background:rgba(183,229,209,.14);color:#d5f0e3}
+html[data-theme="light"] body header .nav-links a:hover{background:rgba(183,229,209,.55);color:#17252a}
+@media(max-width:700px){
+  html[data-theme] body header{padding-top:6px}
+  html[data-theme] body header .nav.wrap{border-radius:18px;padding:8px 10px 8px 14px !important;width:calc(100% - 16px);margin-inline:auto}
+  html[data-theme] body header .nav-links a{padding:6px 8px}
+}
+
+/* C. Звёзды отзывов — золотые */
+.ny-stars,.rv [class*="star"],.rv [class*="rating"],.rv .rate{color:#e8b94a !important;letter-spacing:2px;text-shadow:0 0 10px rgba(232,185,74,.35)}
+.ny-stars svg,.rv [class*="star"] svg{fill:#e8b94a !important;color:#e8b94a !important}
+html[data-theme="light"] .ny-stars,html[data-theme="light"] .rv [class*="star"]{color:#d9a21b !important;text-shadow:0 1px 6px rgba(217,162,27,.30)}
+
+/* D. Калькулятор: живое мятное свечение и подсветка результата */
+#calc .calc{position:relative;overflow:hidden}
+#calc .calc::before{content:"";position:absolute;width:340px;height:340px;right:-120px;top:-140px;border-radius:50%;pointer-events:none;background:radial-gradient(circle,rgba(183,229,209,.28),transparent 65%);animation:nyCalcGlow 7s ease-in-out infinite alternate}
+#calc .calc>*{position:relative;z-index:1}
+@keyframes nyCalcGlow{from{transform:translate(0,0) scale(1);opacity:.7}to{transform:translate(-50px,40px) scale(1.25);opacity:1}}
+#calc .calc-result{position:relative;overflow:hidden}
+#calc .calc-result::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.22) 50%,transparent 65%);transform:translateX(-120%);animation:nyCalcShine 5s ease-in-out infinite}
+@keyframes nyCalcShine{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+#calc .calc .big{background:linear-gradient(90deg,#b7e5d1,#e8f8ef);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;transition:transform .25s ease;display:inline-block}
+html[data-theme="light"] #calc .calc .big{background:linear-gradient(90deg,#33474c,#4f9c7d);-webkit-background-clip:text;background-clip:text}
+#calc .calc .big.ny-pop{animation:nyPop .35s ease}
+@keyframes nyPop{40%{transform:scale(1.06)}}
+#calc input[type="range"]{filter:drop-shadow(0 0 6px rgba(183,229,209,.35))}
+#calc input[type="range"]:active{filter:drop-shadow(0 0 10px rgba(183,229,209,.7))}
+@media(prefers-reduced-motion:reduce){#calc .calc::before,#calc .calc-result::after{animation:none}}
+
+/* E. Светлая тема: фото дома видно лучше */
+html[data-theme="light"] body main.wrap>section.hero::after{background-image:linear-gradient(90deg,rgba(246,247,243,.62) 0%,rgba(246,247,243,.28) 30%,rgba(246,247,243,0) 55%),url('./hero-house.webp')}
+html[data-theme="light"] body main.wrap>section.hero::before{opacity:.35}
+@media(max-width:700px){html[data-theme="light"] body main.wrap>section.hero::after{background-image:linear-gradient(180deg,rgba(246,247,243,.58) 0%,rgba(246,247,243,.22) 45%,rgba(246,247,243,0) 100%),url('./hero-house.webp')}}
+</style>
+<script id="ny-polish-7-js">(function(){
+function stars(){document.querySelectorAll('.rv *').forEach(function(e){if(e.children.length===0&&/^[\s★☆⭐✮✭]+$/.test(e.textContent||'')&&e.textContent.trim())e.classList.add('ny-stars');});}
+var r=document.getElementById('reviews');if(r){new MutationObserver(stars).observe(r,{childList:true,subtree:true});}
+stars();setTimeout(stars,800);setTimeout(stars,2500);
+var b=document.getElementById('rMonthly');if(b){new MutationObserver(function(){b.classList.remove('ny-pop');void b.offsetWidth;b.classList.add('ny-pop');}).observe(b,{childList:true,characterData:true,subtree:true});}
+})();</script>
 </body>
 </html>
 
