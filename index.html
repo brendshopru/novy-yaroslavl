@@ -96,9 +96,10 @@ html,body{overflow-x:clip;overflow-y:visible}
 .fab svg{width:22px;height:22px;flex-shrink:0}
 @keyframes fabPulse{0%{transform:scale(1);opacity:.75}100%{transform:scale(1.28,1.5);opacity:0}}
 
-/* ===== CTA buttons: exact same pulsing ring as the floating "Написать" button ===== */
-#calcCallback,.f-cta{position:relative;overflow:visible;background:linear-gradient(135deg,var(--site-accent),color-mix(in srgb,var(--site-accent) 65%,#fff));color:#17210f;border-color:transparent;box-shadow:0 12px 32px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.15) inset}
-#calcCallback:before,.f-cta:before{content:"";position:absolute;inset:0;border-radius:inherit;border:2px solid var(--site-accent);animation:fabPulse 2.6s ease-out infinite;pointer-events:none}
+/* ===== CTA buttons: restrained pulse, without covering nearby controls ===== */
+#calcCallback,.f-cta{position:relative;isolation:isolate;background:linear-gradient(135deg,var(--site-accent),color-mix(in srgb,var(--site-accent) 65%,#fff));color:#17210f;border-color:transparent;box-shadow:0 5px 14px rgba(0,0,0,.22),0 0 0 1px rgba(255,255,255,.12) inset}
+#calcCallback:before,.f-cta:before{content:"";position:absolute;inset:-1px;border-radius:inherit;border:1.5px solid color-mix(in srgb,var(--site-accent) 78%,transparent);animation:ctaSoftPulse 2.6s ease-out infinite;pointer-events:none;z-index:-1}
+@keyframes ctaSoftPulse{0%{transform:scale(1);opacity:.48}100%{transform:scale(1.07,1.12);opacity:0}}
 @media(prefers-reduced-motion:reduce){#calcCallback:before,.f-cta:before{animation:none}}
 .fab-sheet{position:fixed;right:16px;bottom:calc(86px + env(safe-area-inset-bottom));z-index:1000;width:min(350px,calc(100vw - 32px));max-height:calc(100vh - 120px);overflow:auto;background:rgba(9,26,19,.97);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:18px;box-shadow:0 24px 60px rgba(0,0,0,.5);opacity:0;visibility:hidden;transform:translateY(14px) scale(.96);transform-origin:bottom right;transition:opacity .28s ease,transform .28s ease,visibility .28s}
 .fab-sheet.open{opacity:1;visibility:visible;transform:none}
