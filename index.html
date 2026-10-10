@@ -1768,6 +1768,47 @@ html[data-theme="light"] footer svg {stroke:currentColor!important}
 @media(prefers-reduced-motion:reduce){.site-intro,.hero h1:after,.intro-line:after{animation:none!important}}
 </style>
 
+
+<style id="ny-last-light-theme-nav-consistency-fix">
+/* Нижняя навигация: отключаем старые золотые бегущие линии и оставляем спокойный мятный акцент. */
+footer a::before, footer a::after, .f-bottom a::before, .f-bottom a::after,
+.mobile-bottom-nav::before, .mobile-bottom-nav::after, .mobile-bottom-nav a::before, .mobile-bottom-nav a::after,
+.bottom-nav::before, .bottom-nav::after, .bottom-nav a::before, .bottom-nav a::after {
+  animation:none!important;
+  border-color:rgba(183,229,209,.42)!important;
+  background-color:transparent;
+  box-shadow:none!important;
+}
+footer a:hover, .f-bottom a:hover, .mobile-bottom-nav a:hover, .bottom-nav a:hover {
+  color:#477b67!important;
+  text-decoration-color:#477b67!important;
+}
+html[data-theme="light"] footer, html[data-theme="light"] .f-bottom,
+html[data-theme="light"] .mobile-bottom-nav, html[data-theme="light"] .bottom-nav,
+html[data-theme="light"] .mobile-bottom-nav a, html[data-theme="light"] .bottom-nav a {
+  color:#263b34!important;
+  border-color:#d9e0db!important;
+}
+html[data-theme="light"] .nav-install {
+  color:#263b34!important; background:rgba(255,255,255,.78)!important;
+  border-color:rgba(53,94,79,.28)!important; box-shadow:none!important;
+}
+/* В светлой теме все элементы верхнего блока согласованы: светлые поля, мятная основная кнопка, тёмный текст. */
+html[data-theme="light"] .search-box {background:rgba(248,251,248,.94)!important;color:#24312f!important;border-color:#d9e0db!important;box-shadow:0 10px 30px rgba(21,42,33,.10)!important}
+html[data-theme="light"] .search-box button, html[data-theme="light"] .search-grid button,
+html[data-theme="light"] .search-btn, html[data-theme="light"] .cta-btn {
+  background:#b7e5d1!important; border-color:#b7e5d1!important; color:#17252a!important;
+  box-shadow:none!important; text-shadow:none!important;
+}
+html[data-theme="light"] .contact-btn.call, html[data-theme="light"] #calcCallback,
+html[data-theme="light"] .f-cta, html[data-theme="light"] .ny-modal button[type="submit"],
+html[data-theme="light"] .ny-modal .submit, html[data-theme="light"] .ny-modal .primary,
+html[data-theme="light"] .callback-modal button[type="submit"] {
+  background:#b7e5d1!important; border-color:#9ad8bd!important; color:#17252a!important;
+  box-shadow:none!important; animation:none!important;
+}
+html[data-theme="light"] .contact-btn:not(.call) {background:rgba(255,255,255,.92)!important;color:#24312f!important;border-color:#d9e0db!important}
+</style>
 </body>
 </html>
 
