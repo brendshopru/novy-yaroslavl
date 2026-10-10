@@ -2365,6 +2365,52 @@ html[data-theme="light"] #calc input[type="range"]:active{
 }
 </style>
 
+
+<style id="ny-hero-brand-color-refinement">
+/* Точечная коррекция первого экрана: фирменная мята и без карточки вокруг заголовка. */
+:root { --ny-brand-mint: #b7e5d1; --ny-brand-graphite: #24312f; }
+/* Шапка прокручивается вместе со страницей, без прилипания. */
+header { position: relative !important; top: auto !important; }
+.hero h1 {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  padding: .08em 0 .12em !important;
+  text-shadow: none !important;
+}
+.hero h1 .estate-word { white-space: normal !important; }
+/* Тёмная тема: оставляем исходную фирменную мяту. */
+html[data-theme="dark"] .hero h1 .estate-word,
+html:not([data-theme="light"]) .hero h1 .estate-word { color: var(--ny-brand-mint) !important; }
+/* Светлая тема: первая строка графитовая, вторая — та же мята, что и на тёмной. */
+html[data-theme="light"] .hero h1 .estate-word:first-child {
+  color: var(--ny-brand-graphite) !important;
+  text-shadow: 0 1px 0 rgba(255,255,255,.16) !important;
+}
+html[data-theme="light"] .hero h1 .estate-word:last-child {
+  color: var(--ny-brand-mint) !important;
+  text-shadow: 0 1px 7px rgba(13,35,27,.34) !important;
+}
+/* Убираем прямоугольную рамку/бегущий контур именно вокруг текста, оставляя фоновую анимацию дома. */
+.hero h1:before, .hero h1:after { content: none !important; animation: none !important; }
+/* В светлой теме фотография выглядит естественнее: мягко высветляем левую область под графитовым текстом,
+   не накладывая отдельную стеклянную карточку и сохраняя контраст справа на фасаде. */
+html[data-theme="light"] main.wrap > .hero {
+  background-image:
+    linear-gradient(90deg, rgba(239,244,240,.78) 0%, rgba(239,244,240,.62) 27%, rgba(239,244,240,.28) 45%, rgba(239,244,240,.03) 67%, rgba(9,18,24,.02) 100%),
+    linear-gradient(0deg, rgba(9,18,24,.26) 0%, transparent 40%),
+    url('./hero-house.webp') !important;
+}
+html[data-theme="light"] .hero .eyebrow,
+html[data-theme="light"] .hero > p {
+  color: #263632 !important;
+  text-shadow: 0 1px 2px rgba(255,255,255,.3) !important;
+}
+@media (max-width:700px) {
+  .hero h1 { padding: .05em 0 .1em !important; }
+}
+</style>
+
 </body>
 </html>
 
