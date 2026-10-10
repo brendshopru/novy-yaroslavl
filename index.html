@@ -1933,6 +1933,71 @@ html[data-theme="light"] .rv,html[data-theme="light"] .calc,html[data-theme="lig
 html[data-theme="light"] .map-card{background-color:rgba(255,255,255,.80) !important;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
 </style>
 
+<style id="ny-polish-2">
+/* Правки v2. Весь старый код сохранён. Чтобы откатить — удалите этот блок. */
+
+/* 1. Верхний блок: фото в отдельном слое, внизу плавно растворяется в фон страницы */
+html[data-theme] body main.wrap>section.hero{background-image:none !important;background-color:transparent !important;box-shadow:none !important}
+html[data-theme] body main.wrap>section.hero::after{
+  content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;
+  background-size:cover;background-position:center 48%;background-repeat:no-repeat;
+  -webkit-mask-image:linear-gradient(to bottom,#000 0,#000 calc(100% - 240px),transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0,#000 calc(100% - 240px),transparent 100%);
+}
+html[data-theme="dark"] body main.wrap>section.hero::after{
+  background-image:linear-gradient(90deg,rgba(9,18,24,.68) 0%,rgba(9,18,24,.48) 30%,rgba(9,18,24,.10) 57%,rgba(9,18,24,.02) 100%),linear-gradient(0deg,rgba(9,18,24,.46) 0%,transparent 42%),url('./hero-house.webp');
+}
+html[data-theme="light"] body main.wrap>section.hero::after{
+  background-image:linear-gradient(90deg,rgba(241,246,242,.92) 0%,rgba(241,246,242,.78) 30%,rgba(241,246,242,.30) 56%,rgba(241,246,242,.04) 100%),linear-gradient(0deg,rgba(241,246,242,.36) 0%,transparent 42%),url('./hero-house.webp');
+}
+@media(max-width:700px){
+  html[data-theme] body main.wrap>section.hero::after{background-position:58% center;-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 calc(100% - 200px),transparent 100%);mask-image:linear-gradient(to bottom,#000 0,#000 calc(100% - 200px),transparent 100%)}
+  html[data-theme="light"] body main.wrap>section.hero::after{background-image:linear-gradient(180deg,rgba(241,246,242,.90) 0%,rgba(241,246,242,.82) 50%,rgba(241,246,242,.50) 100%),url('./hero-house.webp')}
+}
+
+/* 2. Панель поиска: прозрачное стекло, фото просвечивает */
+html[data-theme="dark"] body .hero .search-box{background:rgba(10,18,22,.34) !important;border-color:rgba(255,255,255,.16) !important;box-shadow:none !important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+html[data-theme="dark"] body .hero .search-grid select,
+html[data-theme="dark"] body .hero .search-grid input{background:rgba(8,15,18,.42) !important;border-color:rgba(255,255,255,.18) !important}
+html[data-theme="light"] body .hero .search-box{background:rgba(255,255,255,.42) !important;border-color:rgba(32,49,44,.14) !important;box-shadow:none !important;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+html[data-theme="light"] body .hero .search-grid select,
+html[data-theme="light"] body .hero .search-grid input{background:rgba(255,255,255,.70) !important}
+
+/* 3. Кнопки связи: без плашек и рамок, красивым рядом */
+html[data-theme] body .hero .contact-actions{display:grid !important;grid-template-columns:repeat(4,minmax(0,1fr)) !important;gap:8px !important;margin-top:22px !important}
+@media(min-width:701px){html[data-theme] body .hero .contact-actions{display:flex !important;flex-wrap:wrap !important;justify-content:flex-start !important;gap:14px 44px !important}}
+html[data-theme] body .hero .contact-actions .contact-btn{
+  display:flex !important;flex-direction:column !important;align-items:center !important;justify-content:flex-start !important;
+  gap:9px !important;min-height:0 !important;padding:4px 2px !important;
+  background:none !important;border:0 !important;border-radius:0 !important;box-shadow:none !important;
+  -webkit-backdrop-filter:none !important;backdrop-filter:none !important;
+  color:#fff !important;font-size:13px !important;font-weight:600 !important;line-height:1.2 !important;text-align:center !important;
+  text-shadow:0 1px 3px rgba(0,0,0,.7) !important;
+}
+html[data-theme] body .hero .contact-actions .contact-btn:hover{transform:translateY(-3px) !important;background:none !important;border:0 !important;box-shadow:none !important}
+html[data-theme] body .hero .contact-actions .contact-btn .brand-icon{width:54px !important;height:54px !important;min-width:54px !important;box-shadow:0 6px 18px rgba(0,0,0,.28) !important;transition:transform .3s ease}
+html[data-theme] body .hero .contact-actions .contact-btn .brand-icon svg{width:26px !important;height:26px !important}
+html[data-theme] body .hero .contact-actions .contact-btn:hover .brand-icon{transform:scale(1.08)}
+html[data-theme] body .hero .contact-actions .contact-btn.call .brand-icon{background:#b7e5d1 !important;color:#17252a !important}
+html[data-theme="light"] body .hero .contact-actions .contact-btn{color:#20302f !important;text-shadow:0 1px 2px rgba(255,255,255,.6) !important}
+@media(max-width:700px){html[data-theme] body .hero .contact-actions .contact-btn{font-size:12px !important}html[data-theme] body .hero .contact-actions .contact-btn .brand-icon{width:50px !important;height:50px !important;min-width:50px !important}}
+
+/* 4. Светлая тема: акцентные надписи графитовые, а не старый зелёный */
+html[data-theme="light"]{--site-accent:#33474c;--gold:#33474c}
+html[data-theme="light"] .fav-badge{color:#fff !important}
+html[data-theme="light"] .cc-row:hover i,
+html[data-theme="light"] .f-contact:hover .f-ic{color:#fff !important}
+
+/* 5. Светлая тема: навигация подвала читается */
+html[data-theme="light"] .f-top>.f-col:nth-child(2) a{color:#2b3a3e !important;border-bottom-color:rgba(32,49,44,.16) !important}
+html[data-theme="light"] .f-top>.f-col:nth-child(2) a::after{color:#33474c !important}
+html[data-theme="light"] .f-top>.f-col:nth-child(2) a:hover{color:#111b1d !important;border-color:rgba(32,49,44,.38) !important}
+
+/* 6. Светлая тема: заголовок верхнего блока читается */
+html[data-theme="light"] body main.wrap .hero h1 .estate-word{color:#1f2a2d !important}
+html[data-theme="light"] body main.wrap .hero h1 .estate-word:last-child{color:#3b5a5c !important}
+</style>
+
 </body>
 </html>
 
