@@ -35,7 +35,14 @@ window.SITE_DATA = {
         "1 комната",
         "34 м²",
         "3/9 эт."
-      ]
+      ],
+      "description": "",
+      "status": "В продаже",
+      "video": "",
+      "photos": [
+        "photos/5e358f75e0212530.jpg"
+      ],
+      "photo": "photos/5e358f75e0212530.jpg"
     },
     {
       "id": 3,
@@ -48,7 +55,31 @@ window.SITE_DATA = {
       "meta": [
         "120 м²",
         "8 соток"
-      ]
+      ],
+      "description": "",
+      "status": "",
+      "video": "",
+      "photos": [
+        "photos/44feef16c67fd96c.jpg"
+      ],
+      "photo": "photos/44feef16c67fd96c.jpg"
+    },
+    {
+      "id": 1791633539322,
+      "title": "паа",
+      "price": 55555,
+      "address": "птпрпп",
+      "type": "Квартира",
+      "district": "Кировский",
+      "tag": "",
+      "description": "",
+      "meta": [],
+      "status": "",
+      "video": "",
+      "photos": [
+        "photos/d1de9903863aeb74.jpg"
+      ],
+      "photo": "photos/d1de9903863aeb74.jpg"
     }
   ],
   "team": [
