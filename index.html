@@ -1535,3 +1535,75 @@ html[data-theme="light"] main.wrap>.hero{
 
 </body>
 </html>
+
+
+<style id="ny-global-premium-colors-final">
+/* Единая графитово-синяя фактура по всей странице — не чёрные поля. */
+html, body {
+  background-color: #18252b !important;
+  background-image:
+    radial-gradient(ellipse at 18% 8%, rgba(113,139,146,.20) 0%, rgba(35,51,58,.10) 32%, transparent 58%),
+    radial-gradient(ellipse at 82% 28%, rgba(81,105,112,.14) 0%, transparent 48%),
+    repeating-linear-gradient(112deg, rgba(255,255,255,.012) 0px, rgba(255,255,255,.012) 1px, transparent 1px, transparent 4px),
+    linear-gradient(135deg,#1d2b32 0%,#172329 48%,#202e34 100%) !important;
+  background-attachment: fixed !important;
+}
+body { color: #f3f5f3 !important; }
+main.wrap { background: transparent !important; }
+header {
+  background: rgba(20,32,38,.78) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  backdrop-filter: blur(18px) !important;
+  border-bottom: 1px solid rgba(226,238,236,.16) !important;
+}
+/* Let the agreed architectural photo read clearly behind the copy. */
+main.wrap > .hero {
+  background-color: #1b2b32 !important;
+  background-image:
+    linear-gradient(90deg,rgba(9,18,24,.68) 0%,rgba(9,18,24,.48) 30%,rgba(9,18,24,.10) 57%,rgba(9,18,24,.02) 100%),
+    linear-gradient(0deg,rgba(9,18,24,.46) 0%,transparent 42%),
+    url('./hero-house.webp') !important;
+  background-size: cover !important;
+  background-position: center 48% !important;
+  background-repeat: no-repeat !important;
+}
+html[data-theme="light"] {
+  background-color: #f0f2ef !important;
+  background-image:
+    radial-gradient(ellipse at 18% 8%,rgba(255,255,255,.96) 0%,transparent 54%),
+    repeating-linear-gradient(112deg,rgba(32,54,48,.018) 0px,rgba(32,54,48,.018) 1px,transparent 1px,transparent 4px),
+    linear-gradient(135deg,#f4f5f1 0%,#e8ede9 100%) !important;
+}
+html[data-theme="light"] body {
+  background: transparent !important;
+  color: #24312f !important;
+}
+html[data-theme="light"] header {
+  background: rgba(239,242,238,.88) !important;
+  border-bottom-color: rgba(33,49,44,.13) !important;
+}
+html[data-theme="light"] main.wrap > .hero {
+  /* Hero remains photographic and cinematic in both themes; only the rest of the page changes theme. */
+  background-color: #1b2b32 !important;
+  background-image:
+    linear-gradient(90deg,rgba(9,18,24,.68) 0%,rgba(9,18,24,.48) 30%,rgba(9,18,24,.10) 57%,rgba(9,18,24,.02) 100%),
+    linear-gradient(0deg,rgba(9,18,24,.46) 0%,transparent 42%),
+    url('./hero-house.webp') !important;
+}
+html[data-theme="light"] .hero h1,
+html[data-theme="light"] .hero .eyebrow,
+html[data-theme="light"] .hero > p { color:#fff !important; }
+html[data-theme="light"] .search-box {
+  background: rgba(22,36,42,.80) !important;
+  border-color: rgba(225,239,237,.30) !important;
+  color: #f5f7f5 !important;
+}
+html[data-theme="light"] .search-grid select,
+html[data-theme="light"] .search-grid input {
+  background: rgba(250,252,250,.96) !important;
+  color: #23302d !important;
+}
+@media (min-width: 701px) {
+  main.wrap > .hero { min-height: 620px !important; }
+}
+</style>
