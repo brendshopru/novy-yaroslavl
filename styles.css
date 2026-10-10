@@ -28,3 +28,55 @@ section{padding:48px 0}.sec-head{display:flex;justify-content:space-between;alig
 .team{display:grid;grid-template-columns:1fr;gap:14px}@media(min-width:700px){.team{grid-template-columns:repeat(3,1fr)}}.member{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;text-align:center}.member .av{width:68px;height:68px;border-radius:50%;background:var(--card2);margin:0 auto 12px;display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--gold);font-size:20px}.member .nm{font-weight:700;font-size:14px}.member .role{color:var(--muted);font-size:12px;margin-top:3px}
 .reviews{display:grid;grid-template-columns:1fr;gap:14px}@media(min-width:760px){.reviews{grid-template-columns:repeat(2,1fr)}}.rv{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px}.rv .stars{color:var(--gold);font-size:14px;margin-bottom:10px}.rv p{font-size:13.5px;line-height:1.6;color:var(--fg)}.rv .who{margin-top:12px;font-size:12px;color:var(--muted);font-weight:700}
 footer{border-top:1px solid var(--line);padding:48px 0 32px}.foot-grid{display:grid;grid-template-columns:1fr;gap:28px}@media(min-width:800px){.foot-grid{grid-template-columns:1.2fr 1fr 1fr}}.foot-col .h{font-size:13px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;margin-bottom:12px}.foot-col div,.foot-col a{font-size:13.5px;color:var(--muted);margin-bottom:8px;display:block}.map-stub{aspect-ratio:16/8;background:var(--card);border:1px solid var(--line);border-radius:14px;margin-top:10px;display:flex;align-items:center;justify-content:center}.map-stub span{color:var(--muted);font-size:12px}.copy{text-align:center;color:var(--muted);font-size:12px;margin-top:36px}
+
+/* Переключатель темы: отдельная кнопка, не меняющая существующие обработчики */
+.nav-actions{display:flex;align-items:center;gap:10px;margin-left:auto;flex-shrink:0}.nav-actions .nav-phone{margin-left:0!important}
+.nav-theme{appearance:none;display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:38px;padding:0 11px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--fg);font-size:12px;font-weight:700;white-space:nowrap;flex:0 0 auto}
+.nav-theme:hover{border-color:var(--gold)}.theme-icon{font-size:16px;line-height:1;color:var(--gold)}
+@media(max-width:700px){.nav{gap:8px}.nav-actions{gap:6px}.nav-theme{width:36px;min-width:36px;height:38px;padding:0}.nav-theme .theme-label{display:none}.nav-install{max-width:82px;padding-left:8px!important;padding-right:8px!important}.nav-actions .nav-phone{padding-left:8px!important;padding-right:8px!important;font-size:12px}}
+
+/* Светлая тема — переключается атрибутом на html */
+html[data-theme="light"]{color-scheme:light;--bg:#f5f3ed;--card:#ffffff;--card2:#eeeae0;--fg:#26352d;--muted:#68766e;--gold:#ad8414;--line:#dedbd1}
+html[data-theme="light"] body{background:var(--bg);color:var(--fg)}
+html[data-theme="light"] header{background:rgba(245,243,237,.94);border-bottom-color:var(--line)}
+html[data-theme="light"] .nav-theme{background:#fff;color:#26352d;border-color:#dedbd1}
+html[data-theme="light"] .search-grid select,html[data-theme="light"] .search-grid input{background:#fff;color:var(--fg);border-color:var(--line)}
+html[data-theme="light"] .s-tab.on,html[data-theme="light"] .search-btn,html[data-theme="light"] .cta-btn,html[data-theme="light"] .prop .tag{background:var(--gold);color:#fff}
+html[data-theme="light"] .prop .ph{background:linear-gradient(135deg,#e7e4da,#f5f3ed)}
+html[data-theme="light"] .calc-result{background:#eeece4}
+html[data-theme="light"] .site-intro{background:radial-gradient(circle at 50% 42%,rgba(173,132,20,.10),transparent 32%),#f5f3ed;color:#26352d}
+html[data-theme="light"] .intro-line{background:rgba(38,53,45,.14)}
+html[data-theme="light"] .intro-skip{color:rgba(38,53,45,.58)}
+html[data-theme="light"] .pwa-modal{background:rgba(38,53,45,.42)}
+html[data-theme="light"] .pwa-modal-card{background:#fff;color:#26352d;border-color:#dedbd1;box-shadow:0 24px 80px rgba(38,53,45,.18)}
+html[data-theme="light"] .pwa-modal-card p{color:#68766e}
+html[data-theme="light"] .pwa-close{border-color:#dedbd1;background:#f5f3ed;color:#26352d}
+html[data-theme="light"] .intro-line:after{background:linear-gradient(90deg,transparent,var(--site-accent),#fff,var(--site-accent),transparent)}
+@media(prefers-reduced-motion:reduce){.nav-theme{transition:none}}
+
+/* Дополнительные тёмные элементы, заданные во встроенных стилях index.html */
+html[data-theme="light"] .contact-btn:not(.call),
+html[data-theme="light"] .cc-row,
+html[data-theme="light"] .fav-item,
+html[data-theme="light"] .f-col .f-contact,
+html[data-theme="light"] .f-top>.f-col:nth-child(2) a{background:linear-gradient(145deg,#fff,#f5f3ed);color:var(--fg);border-color:var(--line)}
+html[data-theme="light"] .to-top,
+html[data-theme="light"] .fav-float{background:rgba(255,255,255,.96);color:#ad4260;border-color:var(--line)}
+html[data-theme="light"] .fab-sheet,
+html[data-theme="light"] .fav-panel{background:linear-gradient(170deg,#fff,#f2f0e8);color:var(--fg);border-color:var(--line)}
+html[data-theme="light"] .cc-card,
+html[data-theme="light"] .ny-modal-card{background:linear-gradient(160deg,#fff,#f2f0e8);color:var(--fg);border-color:var(--line)}
+html[data-theme="light"] .ny-modal{background:rgba(38,53,45,.38)}
+html[data-theme="light"] .ny-x,
+html[data-theme="light"] .fav-x{background:#eeece4;color:var(--fg)}
+html[data-theme="light"] .ny-toast{background:rgba(255,255,255,.98);color:var(--fg);border-color:var(--gold)}
+html[data-theme="light"] .ny-photo-count{background:rgba(38,53,45,.78);color:#fff}
+html[data-theme="light"] .ny-arr{background:rgba(255,255,255,.9);color:var(--fg);border-color:rgba(38,53,45,.2)}
+html[data-theme="light"] .ny-fav{background:rgba(255,255,255,.9);color:#ad4260;border-color:rgba(38,53,45,.2)}
+html[data-theme="light"] .ny-lb{background:rgba(245,243,237,.96)}
+html[data-theme="light"] .ny-lb button,
+html[data-theme="light"] .ny-lb .cnt{background:rgba(38,53,45,.10);color:var(--fg)}
+html[data-theme="light"] .services .svc:after{background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(255,255,255,.12))!important}
+html[data-theme="light"] .cc-row:before,
+html[data-theme="light"] .contact-btn:before{opacity:.22}
+html[data-theme="light"] footer{background:linear-gradient(180deg,transparent,rgba(38,53,45,.035))!important}

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="color-scheme" content="dark">
-  <meta name="theme-color" content="#0c201a">
+  <meta name="color-scheme" content="dark light">
+  <meta name="theme-color" content="#0c201a" id="themeColorMeta">
   <title>Новый Ярославль — агентство недвижимости</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon-192.png" sizes="192x192">
@@ -12,7 +12,10 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
-  <meta name="ny-build" content="2026-10-07-8">
+  <meta name="ny-build" content="2026-10-10-theme-toggle-1">
+  <script>
+  (function(){try{var t=localStorage.getItem('ny_theme_v1');if(t==='light')document.documentElement.setAttribute('data-theme','light');else document.documentElement.setAttribute('data-theme','dark');}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();
+  </script>
   <script>
   /* Анти-кэш: стили и скрипты подтягиваются заново (версия меняется раз в минуту) */
   window.__NY_V=Math.floor(Date.now()/60000);
@@ -590,7 +593,7 @@ section.hero.sec-collapsed>:not(.sec-toggle-wrap):not(.eyebrow):not(h1){display:
       <a href="#team">Команда</a>
       <a href="#contacts">Контакты</a>
     </nav>
-    <div class="nav-actions"><button class="nav-install" id="installApp" type="button" aria-label="Установить приложение">Установить</button><a class="nav-phone" data-contact="phone" href="tel:+79201085073">Связаться</a></div>
+    <div class="nav-actions"><button class="nav-install" id="installApp" type="button" aria-label="Установить приложение">Установить</button><button class="nav-theme" id="themeToggle" type="button" aria-label="Включить светлую тему" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☼</span><span class="theme-label">Светлая</span></button><a class="nav-phone" data-contact="phone" href="tel:+79201085073">Связаться</a></div>
   </div>
 </header>
 
@@ -1260,6 +1263,32 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
     show('В Chrome или Edge откройте меню браузера и выберите «Установить приложение» / «Установить Новый Ярославль». Приложение появится на рабочем столе.');
   });
   if('serviceWorker' in navigator){window.addEventListener('load',function(){navigator.serviceWorker.register('./sw.js').catch(function(){})})}
+})();
+</script>
+
+<script id="ny-theme-toggle">
+(function(){
+  var root=document.documentElement;
+  var button=document.getElementById('themeToggle');
+  var meta=document.getElementById('themeColorMeta');
+  if(!button)return;
+  function applyTheme(theme,save){
+    var light=theme==='light';
+    root.setAttribute('data-theme',light?'light':'dark');
+    button.setAttribute('aria-pressed',light?'true':'false');
+    button.setAttribute('aria-label',light?'Включить тёмную тему':'Включить светлую тему');
+    var label=button.querySelector('.theme-label');
+    var icon=button.querySelector('.theme-icon');
+    if(label)label.textContent=light?'Тёмная':'Светлая';
+    if(icon)icon.textContent=light?'☾':'☼';
+    if(meta)meta.setAttribute('content',light?'#f5f3ed':'#0c201a');
+    if(save){try{localStorage.setItem('ny_theme_v1',light?'light':'dark')}catch(e){}}
+  }
+  var current=root.getAttribute('data-theme')==='light'?'light':'dark';
+  applyTheme(current,false);
+  button.addEventListener('click',function(){
+    applyTheme(root.getAttribute('data-theme')==='light'?'dark':'light',true);
+  });
 })();
 </script>
 </body>
