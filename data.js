@@ -354,7 +354,7 @@ window.SITE_DATA = {
       "title": "Новостройки",
       "photo": "",
       "description": "",
-      "video": "videos/c7649394a19d3abd.mp4",
+      "video": "videos/50f1dcb242e485ea.mp4",
       "visible": true
     }
   ],
