@@ -319,7 +319,7 @@ window.SITE_DATA = {
       "title": "Аренда",
       "photo": "",
       "description": "",
-      "video": "videos/079532840da9f2bd.mp4",
+      "video": "",
       "visible": true
     },
     {
