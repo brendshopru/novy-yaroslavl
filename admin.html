@@ -53,11 +53,9 @@ body{padding-bottom:92px}
 <style>
 /* ===== Точечная полировка панели видимости ===== */
 #toggleServices,#toggleCatalog,#toggleCalc,#toggleSearch{min-width:220px;justify-content:center;font-weight:800}
-<style>
 #siteVisibilityPanel .actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 #siteVisibilityPanel .admin-btn{min-height:46px}
 @media(max-width:700px){#siteVisibilityPanel .actions{grid-template-columns:1fr}}
-</style>
 </style>
 
 <style id="admin-v12">
@@ -65,6 +63,34 @@ body{padding-bottom:92px}
 @media(max-width:850px){.dash-grid{grid-template-columns:repeat(2,1fr)}.service-manager{grid-template-columns:1fr 1fr}.admin-hero{align-items:flex-start;flex-direction:column}}
 @media(max-width:600px){.service-manager{grid-template-columns:1fr}.dash-card{padding:14px}.admin-hero{padding:20px}.admin-hero h2{font-size:24px}}
 </style>
+
+<style id="admin-site-theme-polish">
+:root{--admin-accent:var(--site-accent,var(--gold,#b7e5d1))}
+.admin-head h1,.admin-hero h2,.panel h2{letter-spacing:-.025em}
+.admin-hero{background:linear-gradient(125deg,color-mix(in srgb,var(--admin-accent) 12%,var(--card)),var(--card) 68%);border-color:color-mix(in srgb,var(--admin-accent) 35%,var(--line));box-shadow:0 12px 32px rgba(0,0,0,.07)}
+.admin-hero .eyebrow,.admin .eyebrow{color:var(--admin-accent)}
+.admin-btn{background:var(--admin-accent);color:#14221d;border:1px solid color-mix(in srgb,var(--admin-accent) 72%,transparent);box-shadow:0 3px 12px color-mix(in srgb,var(--admin-accent) 15%,transparent);transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}
+.admin-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 18px color-mix(in srgb,var(--admin-accent) 24%,transparent);filter:brightness(1.03)}
+.admin-btn.secondary{background:var(--card2);color:var(--fg);border-color:var(--line);box-shadow:none}
+.admin-btn.danger{background:#7b3438;color:#fff}
+.panel,.dash-card,.service-card{box-shadow:0 8px 26px rgba(0,0,0,.045)}
+.panel{border-color:var(--line)}
+.service-card{transition:border-color .18s ease,transform .18s ease;min-width:0}
+.service-card:focus-within,.service-card:hover{border-color:color-mix(in srgb,var(--admin-accent) 55%,var(--line))}
+.service-card input:focus,.service-card textarea:focus,.form-grid input:focus,.form-grid textarea:focus,.form-grid select:focus{outline:2px solid color-mix(in srgb,var(--admin-accent) 55%,transparent);outline-offset:1px}
+.service-video-row button,.service-meta button,.service-meta label{border:1px solid var(--line);transition:border-color .18s ease,background .18s ease}
+.service-video-row button:hover,.service-meta button:hover,.service-meta label:hover{border-color:var(--admin-accent)}
+.service-card .svc-toggle{accent-color:var(--admin-accent)}
+.token-gate{background:radial-gradient(circle at 50% 25%,color-mix(in srgb,var(--admin-accent) 16%,transparent),transparent 40%),var(--bg)}
+.token-card{background:var(--card);border-color:color-mix(in srgb,var(--admin-accent) 28%,var(--line));box-shadow:0 28px 80px rgba(0,0,0,.25)}
+.token-mark{background:var(--admin-accent);color:#14221d;box-shadow:0 5px 18px color-mix(in srgb,var(--admin-accent) 22%,transparent)}
+.token-card input{background:var(--bg);border-color:var(--line);color:var(--fg)}
+.pubdock{background:color-mix(in srgb,var(--bg) 92%,transparent);border-color:var(--line)}
+.pubbar .dirty{color:var(--admin-accent)}
+.hero-status span{color:var(--admin-accent)}
+@media(max-width:650px){.admin{padding-top:24px}.panel{padding:16px}.admin-head h1{font-size:26px}.pubdock{padding-left:4vw;padding-right:4vw}.pubdock .admin-btn{padding:10px 12px;font-size:13px}}
+</style>
+
 </head>
 <body>
 <header><div class="nav wrap"><a class="logo" href="index.html">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a><a class="nav-phone" href="index.html">На сайт →</a></div></header>
@@ -94,26 +120,6 @@ body{padding-bottom:92px}
 <div class="actions wide"><button class="admin-btn" type="submit">Сохранить контакты</button><button class="admin-btn secondary pub-inline" type="button">🚀 Опубликовать на сайт</button><span id="contactsSaved" class="admin-note" style="margin:0"></span></div>
 </form>
 <div class="actions"><a id="testPhone" class="admin-btn secondary" href="#">📞 Позвонить</a><a id="testWa" class="admin-btn secondary" href="#" target="_blank" rel="noopener">💬 WhatsApp</a><a id="testTg" class="admin-btn secondary" href="#" target="_blank" rel="noopener">✈️ Telegram</a><a id="testVk" class="admin-btn secondary" href="#" target="_blank" rel="noopener">🔵 VK</a></div></section>
-
-
-<section class="panel" id="appIconPanel">
-<h2>Иконка приложения</h2>
-<p class="admin-note">Здесь меняется только иконка установленного приложения. Логотип сайта, контакты, объекты и другие данные не затрагиваются. После публикации новая иконка получает новую версию, чтобы браузер не использовал старый файл из кэша.</p>
-<div class="form-grid">
-<div>
-<label class="admin-note" style="display:block;margin:0 0 6px">Новая иконка приложения (PNG/JPG/WebP)</label>
-<input type="file" id="appIconFile" accept="image/png,image/jpeg,image/webp" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)">
-</div>
-<div>
-<div class="admin-note" style="margin:0 0 6px">Предпросмотр</div>
-<div id="appIconPreview" style="width:96px;height:96px;border-radius:20px;overflow:hidden;background:#07150f;border:1px solid var(--line);display:grid;place-items:center;color:var(--muted)">Нет иконки</div>
-</div>
-<div class="actions wide">
-<button class="admin-btn secondary" type="button" id="appIconClear">Сбросить выбранную</button>
-<span id="appIconStatus" class="admin-note" style="margin:0"></span>
-</div>
-</div>
-</section>
 
 <section class="panel"><h2>Объекты</h2><div id="propertyList"></div>
 <form id="propertyForm" class="form-grid" style="margin-top:18px">
@@ -437,34 +443,6 @@ async function boot(){
  norm(state);fillContacts();renderContacts();render();updateStorage();updatePub();
 }
 
-
-/* ---------- app icon: only PWA icon files + manifest/SW ---------- */
-let pendingAppIcon="";
-function iconCanvasData(src,size){
- return new Promise((resolve,reject)=>{
-  const img=new Image();img.onload=()=>{
-   const c=document.createElement("canvas");c.width=size;c.height=size;const x=c.getContext("2d");
-   const k=Math.max(size/img.width,size/img.height),w=img.width*k,h=img.height*k;
-   x.clearRect(0,0,size,size);x.drawImage(img,(size-w)/2,(size-h)/2,w,h);resolve(c.toDataURL("image/png"));
-  };img.onerror=reject;img.src=src;
- });
-}
-function renderAppIcon(){
- const box=$("appIconPreview");if(!box)return;
- if(pendingAppIcon){box.innerHTML=`<img src="${esc(pendingAppIcon)}" alt="" style="width:100%;height:100%;object-fit:cover">`}
- else {box.textContent="Нет иконки"}
-}
-$("appIconFile")?.addEventListener("change",async e=>{
- const f=e.target.files[0];e.target.value="";if(!f)return;
- try{
-  const src=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result);r.onerror=rej;r.readAsDataURL(f)});
-  pendingAppIcon=await iconCanvasData(src,512);
-  renderAppIcon();
-  $("appIconStatus").textContent="Иконка выбрана. Нажмите «Опубликовать на сайт».";
- }catch(err){alert("Не удалось открыть изображение") }
-});
-$("appIconClear")?.addEventListener("click",()=>{pendingAppIcon="";renderAppIcon();$("appIconStatus").textContent="Выбранная иконка сброшена."});
-
 /* ---------- publish to GitHub ---------- */
 const tokenKey="ny_gh_token";
 function repoInfo(){
@@ -507,39 +485,6 @@ $("publishBtn").addEventListener("click",async()=>{
   for(const [o,k] of imgs){const v=o[k];if(!cache[v]){n++;setStatus(`Загружаю фото ${n}…`);const name="photos/"+await sha16(v)+".jpg";const ex=await gh(token,"GET",name);if(ex.status===404){const up=await gh(token,"PUT",name,{message:"Фото из админки",content:v.split(",")[1]});if(!up.ok&&up.status!==422)throw new Error(explain(up));}else if(!ex.ok)throw new Error(explain(ex));cache[v]=name;}o[k]=cache[v];}
   for(const [o,k] of vids){const v=o[k];if(!cache[v]){n++;setStatus(`Загружаю видео ${n}…`);const mime=(v.match(/^data:(video\/[^;]+);/)||[])[1]||"video/mp4";const ext=mime.includes("webm")?"webm":mime.includes("quicktime")?"mov":"mp4";const name="videos/"+await sha16(v)+"."+ext;const ex=await gh(token,"GET",name);if(ex.status===404){const up=await gh(token,"PUT",name,{message:"Видео из админки",content:v.split(",")[1]});if(!up.ok&&up.status!==422)throw new Error(explain(up));}else if(!ex.ok)throw new Error(explain(ex));cache[v]=name;}o[k]=cache[v];}
   out.properties.forEach(p=>{if(Array.isArray(p.photos))p.photo=p.photos[0]||""});
-  if(pendingAppIcon){
-   setStatus("Обновляю иконку приложения…");
-   const icon512=pendingAppIcon;
-   const icon192=await iconCanvasData(icon512,192);
-   const iconHash=await sha16(icon512);
-   const icon192Path="icons/icon-192-"+iconHash+".png";
-   const icon512Path="icons/icon-512-"+iconHash+".png";
-   for(const [path,data] of [[icon192Path,icon192],[icon512Path,icon512]]){
-    const ex=await gh(token,"GET",path);
-    if(ex.status===404){
-     const up=await gh(token,"PUT",path,{message:"Обновление иконки приложения",content:data.split(",")[1]});
-     if(!up.ok&&up.status!==422)throw new Error(explain(up));
-    }else if(!ex.ok)throw new Error(explain(ex));
-   }
-   const manifestResp=await gh(token,"GET","manifest.webmanifest");
-   if(!manifestResp.ok&&manifestResp.status!==404)throw new Error(explain(manifestResp));
-   let manifest={name:"Новый Ярославль — агентство недвижимости",short_name:"Новый Ярославль",lang:"ru",start_url:"./",scope:"./",display:"standalone",background_color:"#07150f",theme_color:"#0c201a",description:"Агентство недвижимости «Новый Ярославль»"};
-   let manifestSha="";
-   if(manifestResp.ok){const mj=await manifestResp.json();manifest=mj.content?JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(mj.content.replace(/\n/g,"")),c=>c.charCodeAt(0)))):manifest;manifestSha=mj.sha||"";}
-   manifest.icons=[{src:icon192Path,sizes:"192x192",type:"image/png",purpose:"any maskable"},{src:icon512Path,sizes:"512x512",type:"image/png",purpose:"any maskable"}];
-   const manifestPut=await gh(token,"PUT","manifest.webmanifest",{message:"Обновление иконки приложения",content:b64utf8(JSON.stringify(manifest,null,2)+"\n"),...(manifestSha?{sha:manifestSha}:{})});
-   if(!manifestPut.ok)throw new Error(explain(manifestPut));
-   const swResp=await gh(token,"GET","sw.js");
-   if(swResp.ok){
-    const sj=await swResp.json();let sw=new TextDecoder().decode(Uint8Array.from(atob(sj.content.replace(/\n/g,"")),c=>c.charCodeAt(0)));
-    sw=sw.replace(/const CACHE='[^']*';/,"const CACHE='ny-shell-"+iconHash+"';");
-    sw=sw.replace(/const STATIC=\[[^\]]*\];/,"const STATIC=['./','./manifest.webmanifest','./"+icon192Path+"','./"+icon512Path+"'];");
-    sw=sw.replace(/if\(u\.pathname\.endsWith\('\/data\.js'\)\|\|u\.pathname\.endsWith\('\/app\.js'\)\|\|u\.pathname\.endsWith\('\/styles\.css'\)\|\|u\.pathname\.endsWith\('\/index\.html'\)\)/, "if(u.pathname.endsWith('/data.js')||u.pathname.endsWith('/app.js')||u.pathname.endsWith('/styles.css')||u.pathname.endsWith('/index.html')||u.pathname.endsWith('/manifest.webmanifest'))");
-    const swPut=await gh(token,"PUT","sw.js",{message:"Обновление кэша иконки приложения",content:b64utf8(sw),sha:sj.sha});
-    if(!swPut.ok)throw new Error(explain(swPut));
-   }
-   pendingAppIcon="";renderAppIcon();$("appIconStatus").textContent="✓ Иконка опубликована. На уже установленных устройствах обновление произойдёт после обновления PWA/проверки манифеста браузером.";
-  }
   setStatus("Записываю данные сайта…");
   const cur=await gh(token,"GET","data.js");
   let sha;if(cur.ok){sha=(await cur.json()).sha}else if(cur.status!==404)throw new Error(explain(cur));
@@ -594,13 +539,13 @@ function renderServicesV12(){
  <input data-sv="title" data-i="${i}" value="${esc(x.title||"")}" placeholder="Название услуги">
  <textarea data-sv="desc" data-i="${i}" placeholder="Короткое описание">${esc(x.description||"")}</textarea>
  ${x.video?`<video class="svc-video-preview" src="${esc(x.video)}" controls playsinline preload="metadata"></video>`:''}
- <div class="service-video-row"><label>Видео <input type="file" accept="video/mp4,video/webm,video/quicktime" data-video="${i}" hidden></label><button type="button" data-videopick="${i}">${x.video?'Заменить видео':'Загрузить видео'}</button><button type="button" data-delvideo="${i}" ${x.video?'':'disabled'}>Удалить видео</button></div>
+ <div class="service-video-row"><label>Видео <input type="file" accept="video/*" data-video="${i}" hidden></label><button type="button" data-videopick="${i}">${x.video?'Заменить видео':'Загрузить видео'}</button><button type="button" data-delvideo="${i}" ${x.video?'':'disabled'}>Удалить видео</button></div>
  <div class="service-meta"><label>Фото <input type="file" accept="image/*" data-photo="${i}" hidden></label><button type="button" data-crop="${i}" ${x.photo?'':'disabled'}>✂ Кадр</button><button type="button" data-delphoto="${i}" ${x.photo?'':'disabled'}>Удалить фото</button><label><input class="svc-toggle" type="checkbox" data-visible="${i}" ${x.visible!==false?'checked':''}> Показывать</label><button type="button" data-delservice="${i}">Удалить услугу</button></div></article>`).join("");
  box.querySelectorAll('[data-sv]').forEach(el=>el.addEventListener('input',()=>{const i=+el.dataset.i;state.services[i][el.dataset.sv]=el.value;save()}));
  box.querySelectorAll('[data-visible]').forEach(el=>el.addEventListener('change',()=>{state.services[+el.dataset.visible].visible=el.checked;save()}));
  box.querySelectorAll('[data-photo]').forEach(el=>el.addEventListener('change',async e=>{const i=+e.target.dataset.photo,f=e.target.files[0];e.target.value='';if(!f)return;try{const src=await readImage(f,1800,.9);const out=await cropImage(src,'service',0);if(out){state.services[i].photo=out;save();renderServicesV12()}}catch(err){alert('Не удалось открыть фото')}}));
  box.querySelectorAll('[data-videopick]').forEach(btn=>btn.addEventListener('click',()=>box.querySelector('[data-video="'+btn.dataset.videopick+'"]')?.click()));
- box.querySelectorAll('[data-video]').forEach(el=>el.addEventListener('change',async e=>{const i=+e.target.dataset.video,f=e.target.files[0];e.target.value='';if(!f)return;if(!/^video\/(mp4|webm|quicktime)$/.test(f.type)){alert('Выберите MP4, WebM или MOV.');return}if(f.size>50*1024*1024){alert('Видео должно быть не больше 50 МБ.');return}try{state.services[i].video=await readVideo(f);save();renderServicesV12()}catch(err){alert('Не удалось загрузить видео.')}}));
+ box.querySelectorAll('[data-video]').forEach(el=>el.addEventListener('change',async e=>{const i=+e.target.dataset.video,f=e.target.files[0];e.target.value='';if(!f)return;const looksLikeVideo=(f.type&&f.type.startsWith('video/'))||/\.(mp4|m4v|mov|webm|ogv|ogg|avi|mkv|mpeg|mpg|3gp|3g2|ts|mts|m2ts|wmv|flv|f4v|vob|mxf)$/i.test(f.name);if(!looksLikeVideo){alert('Выберите видеофайл.');return}if(f.size>100*1024*1024){alert('Файл больше 100 МБ. GitHub не принимает такой файл через используемый способ загрузки. Уменьшите видео до 100 МБ.');return}try{setStatus('Читаю видео…');state.services[i].video=await readVideo(f);const ok=save();if(!ok){setStatus('Видео пока только в памяти этой вкладки. Сразу нажмите «Опубликовать на сайт», не обновляя страницу.','err')}else{setStatus('Видео добавлено в черновик. Нажмите «Опубликовать на сайт», чтобы отправить его в репозиторий.','clean')}renderServicesV12()}catch(err){setStatus('Не удалось прочитать видео: '+(err.message||'ошибка файла'),'err');alert('Не удалось прочитать видеофайл. Попробуйте другой файл или уменьшите его размер.')}}));
  box.querySelectorAll('[data-delvideo]').forEach(el=>el.addEventListener('click',()=>{state.services[+el.dataset.delvideo].video='';save();renderServicesV12()}));
  box.querySelectorAll('[data-crop]').forEach(el=>el.addEventListener('click',async()=>{const i=+el.dataset.crop;const out=await cropImage(state.services[i].photo,'service',0);if(out){state.services[i].photo=out;save();renderServicesV12()}}));
  box.querySelectorAll('[data-delphoto]').forEach(el=>el.addEventListener('click',()=>{state.services[+el.dataset.delphoto].photo='';save();renderServicesV12()}));
