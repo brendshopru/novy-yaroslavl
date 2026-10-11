@@ -37,9 +37,9 @@ textarea{min-height:90px;resize:vertical}.wide{grid-column:1/-1}
 details.panel summary{cursor:pointer;font-weight:700}details.panel ol{margin:12px 0 0 18px;line-height:1.8;font-size:13px;color:var(--muted)}
 .admin-btn:disabled{opacity:.55;cursor:wait}
 body{padding-bottom:92px}
-.pubdock{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 5vw calc(10px + env(safe-area-inset-bottom));background:rgba(7,21,15,.95);backdrop-filter:blur(14px);border-top:1px solid var(--line);font-size:13px}
+.pubdock{position:fixed;left:0;right:0;bottom:0;z-index:50;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 5vw calc(10px + env(safe-area-inset-bottom));background:rgba(32,36,38,.96);backdrop-filter:blur(14px);border-top:1px solid var(--line);font-size:13px}
 .pubdock .st{display:flex;flex-direction:column;gap:2px;min-width:0}.pubdock .admin-btn{padding:12px 18px;font-size:15px}
-.crop-modal{position:fixed;inset:0;z-index:100;background:rgba(3,10,7,.9);display:none;align-items:center;justify-content:center;padding:12px;overflow:auto}
+.crop-modal{position:fixed;inset:0;z-index:100;background:rgba(18,21,23,.92);display:none;align-items:center;justify-content:center;padding:12px;overflow:auto}
 .crop-modal.on{display:flex}
 .crop-card{width:min(480px,100%);background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;max-height:100%;overflow:auto}
 .crop-card h2{font-size:18px}
@@ -53,44 +53,34 @@ body{padding-bottom:92px}
 <style>
 /* ===== Точечная полировка панели видимости ===== */
 #toggleServices,#toggleCatalog,#toggleCalc,#toggleSearch{min-width:220px;justify-content:center;font-weight:800}
+<style>
 #siteVisibilityPanel .actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 #siteVisibilityPanel .admin-btn{min-height:46px}
 @media(max-width:700px){#siteVisibilityPanel .actions{grid-template-columns:1fr}}
 </style>
+</style>
 
 <style id="admin-v12">
-.admin-hero{display:flex;justify-content:space-between;gap:24px;align-items:center;padding:26px 28px;margin:0 0 16px;background:linear-gradient(135deg,rgba(199,168,91,.13),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:22px}.admin-hero h2{font-size:28px;margin:5px 0 8px}.admin-hero p{max-width:720px;color:var(--muted);margin:0;line-height:1.6}.hero-status{display:flex;gap:10px;align-items:center;white-space:nowrap}.hero-status span{font-size:12px;color:#7ddc9a}.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.dash-card{padding:18px 20px;background:var(--card);border:1px solid var(--line);border-radius:16px}.dash-card b{display:block;font-size:27px}.dash-card span{color:var(--muted);font-size:12px}.section-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.service-manager{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.service-card{border:1px solid var(--line);background:var(--bg);border-radius:16px;padding:14px}.service-card .svc-photo{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:11px;background:var(--card);margin-bottom:10px}.service-card input,.service-card textarea{width:100%;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:9px;color:var(--fg);font:inherit;margin-top:7px}.service-card textarea{min-height:70px}.service-meta{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}.service-meta button,.service-meta label{font-size:11px;padding:7px 9px;border-radius:8px;background:var(--line);color:var(--fg);cursor:pointer}.token-gate{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at 50% 30%,rgba(199,168,91,.12),transparent 35%),#07150f;display:flex;align-items:center;justify-content:center;padding:20px}.token-card{width:min(430px,100%);padding:32px;background:rgba(20,35,27,.96);border:1px solid rgba(255,255,255,.12);border-radius:24px;box-shadow:0 30px 90px rgba(0,0,0,.45)}.token-mark{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--gold);color:#17210f;font-weight:900;margin-bottom:24px}.token-card h2{font-size:30px;margin:6px 0 10px}.token-card p{color:var(--muted);line-height:1.6;font-size:13px}.token-card input{width:100%;box-sizing:border-box;background:#07150f;border:1px solid var(--line);border-radius:11px;padding:13px;color:var(--fg);font:inherit;margin:10px 0}.token-card .admin-btn{width:100%;margin-top:4px}.gate-error{color:#ff8a8a;font-size:12px;margin-top:10px;min-height:16px}.token-gate[hidden]{display:none}.service-card.dragging{opacity:.5}.service-card .svc-toggle{accent-color:var(--gold)}.service-video-row{display:flex;gap:7px;align-items:center;margin-top:8px;flex-wrap:wrap}.service-video-row button{font-size:11px;padding:7px 9px;border-radius:8px;background:var(--line);color:var(--fg);border:0;cursor:pointer}.service-video-row label{display:none}.svc-video-preview{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:11px;background:#000;margin:-2px 0 10px}
+.admin-hero{display:flex;justify-content:space-between;gap:24px;align-items:center;padding:26px 28px;margin:0 0 16px;background:linear-gradient(135deg,rgba(183,229,209,.10),rgba(255,255,255,.025));border:1px solid var(--line);border-radius:22px}.admin-hero h2{font-size:28px;margin:5px 0 8px}.admin-hero p{max-width:720px;color:var(--muted);margin:0;line-height:1.6}.hero-status{display:flex;gap:10px;align-items:center;white-space:nowrap}.hero-status span{font-size:12px;color:#7ddc9a}.dash-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}.dash-card{padding:18px 20px;background:var(--card);border:1px solid var(--line);border-radius:16px}.dash-card b{display:block;font-size:27px}.dash-card span{color:var(--muted);font-size:12px}.section-head{display:flex;justify-content:space-between;gap:15px;align-items:flex-start}.service-manager{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.service-card{border:1px solid var(--line);background:var(--bg);border-radius:16px;padding:14px}.service-card .svc-photo{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:11px;background:var(--card);margin-bottom:10px}.service-card input,.service-card textarea{width:100%;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:9px;color:var(--fg);font:inherit;margin-top:7px}.service-card textarea{min-height:70px}.service-meta{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}.service-meta button,.service-meta label{font-size:11px;padding:7px 9px;border-radius:8px;background:var(--line);color:var(--fg);cursor:pointer}.token-gate{position:fixed;inset:0;z-index:9999;background:radial-gradient(circle at 50% 30%,rgba(183,229,209,.10),transparent 35%),#07150f;display:flex;align-items:center;justify-content:center;padding:20px}.token-card{width:min(430px,100%);padding:32px;background:rgba(43,48,51,.98);border:1px solid rgba(255,255,255,.12);border-radius:24px;box-shadow:0 30px 90px rgba(0,0,0,.45)}.token-mark{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:var(--gold);color:#17210f;font-weight:900;margin-bottom:24px}.token-card h2{font-size:30px;margin:6px 0 10px}.token-card p{color:var(--muted);line-height:1.6;font-size:13px}.token-card input{width:100%;box-sizing:border-box;background:#202426;border:1px solid var(--line);border-radius:11px;padding:13px;color:var(--fg);font:inherit;margin:10px 0}.token-card .admin-btn{width:100%;margin-top:4px}.gate-error{color:#ff8a8a;font-size:12px;margin-top:10px;min-height:16px}.token-gate[hidden]{display:none}.service-card.dragging{opacity:.5}.service-card .svc-toggle{accent-color:var(--gold)}.service-video-row{display:flex;gap:7px;align-items:center;margin-top:8px;flex-wrap:wrap}.service-video-row button{font-size:11px;padding:7px 9px;border-radius:8px;background:var(--line);color:var(--fg);border:0;cursor:pointer}.service-video-row label{display:none}.svc-video-preview{width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:11px;background:#000;margin:-2px 0 10px}
 @media(max-width:850px){.dash-grid{grid-template-columns:repeat(2,1fr)}.service-manager{grid-template-columns:1fr 1fr}.admin-hero{align-items:flex-start;flex-direction:column}}
 @media(max-width:600px){.service-manager{grid-template-columns:1fr}.dash-card{padding:14px}.admin-hero{padding:20px}.admin-hero h2{font-size:24px}}
-</style>
 
-<style id="admin-site-theme-polish">
-:root{--admin-accent:var(--site-accent,var(--gold,#b7e5d1))}
-.admin-head h1,.admin-hero h2,.panel h2{letter-spacing:-.025em}
-.admin-hero{background:linear-gradient(125deg,color-mix(in srgb,var(--admin-accent) 12%,var(--card)),var(--card) 68%);border-color:color-mix(in srgb,var(--admin-accent) 35%,var(--line));box-shadow:0 12px 32px rgba(0,0,0,.07)}
-.admin-hero .eyebrow,.admin .eyebrow{color:var(--admin-accent)}
-.admin-btn{background:var(--admin-accent);color:#14221d;border:1px solid color-mix(in srgb,var(--admin-accent) 72%,transparent);box-shadow:0 3px 12px color-mix(in srgb,var(--admin-accent) 15%,transparent);transition:transform .18s ease,box-shadow .18s ease,filter .18s ease}
-.admin-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 6px 18px color-mix(in srgb,var(--admin-accent) 24%,transparent);filter:brightness(1.03)}
-.admin-btn.secondary{background:var(--card2);color:var(--fg);border-color:var(--line);box-shadow:none}
-.admin-btn.danger{background:#7b3438;color:#fff}
-.panel,.dash-card,.service-card{box-shadow:0 8px 26px rgba(0,0,0,.045)}
-.panel{border-color:var(--line)}
-.service-card{transition:border-color .18s ease,transform .18s ease;min-width:0}
-.service-card:focus-within,.service-card:hover{border-color:color-mix(in srgb,var(--admin-accent) 55%,var(--line))}
-.service-card input:focus,.service-card textarea:focus,.form-grid input:focus,.form-grid textarea:focus,.form-grid select:focus{outline:2px solid color-mix(in srgb,var(--admin-accent) 55%,transparent);outline-offset:1px}
-.service-video-row button,.service-meta button,.service-meta label{border:1px solid var(--line);transition:border-color .18s ease,background .18s ease}
-.service-video-row button:hover,.service-meta button:hover,.service-meta label:hover{border-color:var(--admin-accent)}
-.service-card .svc-toggle{accent-color:var(--admin-accent)}
-.token-gate{background:radial-gradient(circle at 50% 25%,color-mix(in srgb,var(--admin-accent) 16%,transparent),transparent 40%),var(--bg)}
-.token-card{background:var(--card);border-color:color-mix(in srgb,var(--admin-accent) 28%,var(--line));box-shadow:0 28px 80px rgba(0,0,0,.25)}
-.token-mark{background:var(--admin-accent);color:#14221d;box-shadow:0 5px 18px color-mix(in srgb,var(--admin-accent) 22%,transparent)}
-.token-card input{background:var(--bg);border-color:var(--line);color:var(--fg)}
-.pubdock{background:color-mix(in srgb,var(--bg) 92%,transparent);border-color:var(--line)}
-.pubbar .dirty{color:var(--admin-accent)}
-.hero-status span{color:var(--admin-accent)}
-@media(max-width:650px){.admin{padding-top:24px}.panel{padding:16px}.admin-head h1{font-size:26px}.pubdock{padding-left:4vw;padding-right:4vw}.pubdock .admin-btn{padding:10px 12px;font-size:13px}}
-</style>
+/* Палитра админки согласована с нейтральной графитово-мятной темой сайта */
+/* Единая палитра: графитовый фон, светлый текст, мятные акценты; без зелёного и золотого */
+:root{--bg:#202426;--card:#2b3033;--card2:#343a3e;--fg:#f3f1e8;--muted:#aab4b7;--line:#454d51;--gold:#b7e5d1;--site-accent:#b7e5d1;--site-green:#202426}
+body{background:#202426!important;color:#f3f1e8!important}
+.admin-btn{color:#202426!important}
+.ph .cover{color:#202426!important}
+.token-mark{color:#202426!important}
+.pubbar .clean,.hero-status span{color:#b7e5d1!important}
 
+header{background:rgba(32,36,38,.96)!important}
+.pubdock{background:rgba(32,36,38,.96)!important}
+.token-gate{background:radial-gradient(circle at 50% 30%,rgba(183,229,209,.08),transparent 35%),#202426!important}
+.token-card{background:rgba(43,48,51,.98)!important}
+.token-card input{background:#202426!important}
+.crop-modal{background:rgba(18,21,23,.92)!important}
+</style>
 </head>
 <body>
 <header><div class="nav wrap"><a class="logo" href="index.html">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a><a class="nav-phone" href="index.html">На сайт →</a></div></header>
@@ -184,7 +174,7 @@ const $=id=>document.getElementById(id);
 const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]));
 function save(){
  try{state._dirty=true;localStorage.setItem(key,JSON.stringify(state));updateStorage();updatePub();return true}
- catch(e){alert("Не хватило места в браузере для всех фото (лимит около 5 МБ). Нажмите «🚀 Опубликовать на сайт» — фото уйдут на сайт и место освободится, потом добавляйте дальше. Либо добавьте меньше фото за раз.");return false}
+ catch(e){alert("Не хватило места в браузере для черновика. Большие видео могут не сохраниться до публикации. Нажмите «🚀 Опубликовать на сайт» после загрузки каждого файла; если появилось это сообщение, изменения не сохранены полностью.");return false}
 }
 function updateStorage(){const kb=Math.round((localStorage.getItem(key)||"").length/1024);$("storageInfo").textContent="Занято в браузере: "+kb+" КБ из ~5000 КБ."+(kb>3800?" ⚠ Почти заполнено — опубликуйте изменения, и место освободится.":"");}
 
@@ -538,14 +528,14 @@ function renderServicesV12(){
  ${x.photo?`<img class="svc-photo" src="${esc(x.photo)}" alt="">`:`<div class="svc-photo"></div>`}
  <input data-sv="title" data-i="${i}" value="${esc(x.title||"")}" placeholder="Название услуги">
  <textarea data-sv="desc" data-i="${i}" placeholder="Короткое описание">${esc(x.description||"")}</textarea>
- ${x.video?`<video class="svc-video-preview" src="${esc(x.video)}" controls playsinline preload="metadata"></video>`:''}
- <div class="service-video-row"><label>Видео <input type="file" accept="video/*" data-video="${i}" hidden></label><button type="button" data-videopick="${i}">${x.video?'Заменить видео':'Загрузить видео'}</button><button type="button" data-delvideo="${i}" ${x.video?'':'disabled'}>Удалить видео</button></div>
+ ${x.video?`<video class="svc-video-preview" src="${esc(x.video)}" muted autoplay loop playsinline preload="metadata"></video>`:''}
+ <div class="service-video-row"><label>Видео <input type="file" accept="video/mp4,video/webm,video/quicktime" data-video="${i}" hidden></label><button type="button" data-videopick="${i}">${x.video?'Заменить видео':'Загрузить видео'}</button><button type="button" data-delvideo="${i}" ${x.video?'':'disabled'}>Удалить видео</button></div>
  <div class="service-meta"><label>Фото <input type="file" accept="image/*" data-photo="${i}" hidden></label><button type="button" data-crop="${i}" ${x.photo?'':'disabled'}>✂ Кадр</button><button type="button" data-delphoto="${i}" ${x.photo?'':'disabled'}>Удалить фото</button><label><input class="svc-toggle" type="checkbox" data-visible="${i}" ${x.visible!==false?'checked':''}> Показывать</label><button type="button" data-delservice="${i}">Удалить услугу</button></div></article>`).join("");
  box.querySelectorAll('[data-sv]').forEach(el=>el.addEventListener('input',()=>{const i=+el.dataset.i;state.services[i][el.dataset.sv]=el.value;save()}));
  box.querySelectorAll('[data-visible]').forEach(el=>el.addEventListener('change',()=>{state.services[+el.dataset.visible].visible=el.checked;save()}));
  box.querySelectorAll('[data-photo]').forEach(el=>el.addEventListener('change',async e=>{const i=+e.target.dataset.photo,f=e.target.files[0];e.target.value='';if(!f)return;try{const src=await readImage(f,1800,.9);const out=await cropImage(src,'service',0);if(out){state.services[i].photo=out;save();renderServicesV12()}}catch(err){alert('Не удалось открыть фото')}}));
  box.querySelectorAll('[data-videopick]').forEach(btn=>btn.addEventListener('click',()=>box.querySelector('[data-video="'+btn.dataset.videopick+'"]')?.click()));
- box.querySelectorAll('[data-video]').forEach(el=>el.addEventListener('change',async e=>{const i=+e.target.dataset.video,f=e.target.files[0];e.target.value='';if(!f)return;const looksLikeVideo=(f.type&&f.type.startsWith('video/'))||/\.(mp4|m4v|mov|webm|ogv|ogg|avi|mkv|mpeg|mpg|3gp|3g2|ts|mts|m2ts|wmv|flv|f4v|vob|mxf)$/i.test(f.name);if(!looksLikeVideo){alert('Выберите видеофайл.');return}if(f.size>100*1024*1024){alert('Файл больше 100 МБ. GitHub не принимает такой файл через используемый способ загрузки. Уменьшите видео до 100 МБ.');return}try{setStatus('Читаю видео…');state.services[i].video=await readVideo(f);const ok=save();if(!ok){setStatus('Видео пока только в памяти этой вкладки. Сразу нажмите «Опубликовать на сайт», не обновляя страницу.','err')}else{setStatus('Видео добавлено в черновик. Нажмите «Опубликовать на сайт», чтобы отправить его в репозиторий.','clean')}renderServicesV12()}catch(err){setStatus('Не удалось прочитать видео: '+(err.message||'ошибка файла'),'err');alert('Не удалось прочитать видеофайл. Попробуйте другой файл или уменьшите его размер.')}}));
+ box.querySelectorAll('[data-video]').forEach(el=>el.addEventListener('change',async e=>{const i=+e.target.dataset.video,f=e.target.files[0];e.target.value='';if(!f)return;if(!/^video\/(mp4|webm|quicktime)$/.test(f.type)){alert('Выберите MP4, WebM или MOV.');return}if(f.size>50*1024*1024){alert('Видео должно быть не больше 50 МБ.');return}try{state.services[i].video=await readVideo(f);save();renderServicesV12()}catch(err){alert('Не удалось загрузить видео.')}}));
  box.querySelectorAll('[data-delvideo]').forEach(el=>el.addEventListener('click',()=>{state.services[+el.dataset.delvideo].video='';save();renderServicesV12()}));
  box.querySelectorAll('[data-crop]').forEach(el=>el.addEventListener('click',async()=>{const i=+el.dataset.crop;const out=await cropImage(state.services[i].photo,'service',0);if(out){state.services[i].photo=out;save();renderServicesV12()}}));
  box.querySelectorAll('[data-delphoto]').forEach(el=>el.addEventListener('click',()=>{state.services[+el.dataset.delphoto].photo='';save();renderServicesV12()}));
