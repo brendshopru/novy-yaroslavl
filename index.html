@@ -29,7 +29,7 @@
 html,body{overflow-x:clip;overflow-y:visible}
 
 /* Cinematic first impression */
-.site-intro{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;background:radial-gradient(circle at 50% 42%,rgba(199,168,91,.10),transparent 32%),#202426;color:var(--fg,#f4f1e8);transition:opacity .75s ease,visibility .75s ease}
+.site-intro{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;background:radial-gradient(circle at 50% 42%,rgba(199,168,91,.10),transparent 32%),#07150f;color:var(--fg,#f4f1e8);transition:opacity .75s ease,visibility .75s ease}
 .site-intro.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
 .intro-inner{text-align:center;width:min(720px,88vw);position:relative}
 .intro-kicker{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--site-accent);opacity:0;animation:introUp .7s .15s forwards}
@@ -628,36 +628,15 @@ html[data-theme] body .site-intro .intro-house{opacity:.07 !important}
 html[data-theme] body .site-intro .intro-house:before,html[data-theme] body .site-intro .intro-house:after{border-color:#b7e5d1 !important}
 html[data-theme] body .site-intro .intro-skip{color:rgba(255,255,255,.55) !important}
 </style>
-
-<style id="mobile-video-intro">
-.intro-video,.intro-video-shade{display:none}
-@media(max-width:700px){
-  body .site-intro{overflow:hidden;background:#202426}
-  body .site-intro .intro-video{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;background:#202426}
-  body .site-intro .intro-video-shade{display:block;position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(8,12,14,.26),rgba(8,12,14,.56) 70%,rgba(8,12,14,.76))}
-  body .site-intro .intro-house{z-index:2}
-  body .site-intro .intro-inner{z-index:3}
-  body .site-intro .intro-kicker,body .site-intro .intro-title,body .site-intro .intro-line{opacity:1;animation:none;transition:opacity .35s ease}
-  body .site-intro.video-playing .intro-kicker,body .site-intro.video-playing .intro-title,body .site-intro.video-playing .intro-line,body .site-intro.video-playing .intro-house{opacity:0!important;pointer-events:none}
-  body .site-intro .intro-title{font-size:clamp(38px,11vw,64px);text-shadow:0 2px 20px rgba(0,0,0,.35)}
-  body .site-intro .intro-controls{display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:22px}
-  body .site-intro .intro-sound,body .site-intro .intro-skip{opacity:1;animation:none;margin:0;position:relative;z-index:4;border-radius:999px;padding:12px 18px;font:inherit;font-size:12px;letter-spacing:.08em;text-transform:uppercase;cursor:pointer}
-  body .site-intro .intro-sound{background:rgba(15,22,24,.78);border:1px solid rgba(255,255,255,.48);color:#fff}
-  body .site-intro .intro-skip{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);color:#fff}
-}
-@media(min-width:701px){body .site-intro{display:none!important}}
-</style>
 </head>
 <body>
 <div class="site-intro" id="siteIntro" aria-hidden="true">
-  <video class="intro-video" id="introVideo" playsinline webkit-playsinline preload="auto" muted autoplay></video>
-  <div class="intro-video-shade" aria-hidden="true"></div>
   <div class="intro-house"></div>
   <div class="intro-inner">
     <div class="intro-kicker">Новый Ярославль · Агентство недвижимости</div>
     <div class="intro-title">Ваше новое<br><span>пространство</span></div>
     <div class="intro-line"></div>
-    <div class="intro-controls"><button class="intro-sound" id="introSound" type="button" aria-pressed="false">Включить звук</button><button class="intro-skip" id="introSkip" type="button">Пропустить</button></div>
+    <button class="intro-skip" id="introSkip" type="button">Перейти на сайт</button>
   </div>
 </div>
 <header>
@@ -831,28 +810,17 @@ html[data-theme] body .site-intro .intro-skip{color:rgba(255,255,255,.55) !impor
 
 <script>
 (function(){
-  function initMobileIntro(){
-    const intro=document.getElementById('siteIntro');
-    const skip=document.getElementById('introSkip');
-    const video=document.getElementById('introVideo');
-    const sound=document.getElementById('introSound');
-    if(!intro)return;
-    const mobile=window.matchMedia('(max-width: 700px)').matches;
-    if(!mobile){intro.classList.add('is-hidden');return;}
-    const configured=(window.SITE_DATA&&window.SITE_DATA.mobileIntro&&window.SITE_DATA.mobileIntro.video)||'';
-    if(!configured){intro.classList.add('is-hidden');return;}
-    video.src=configured;
-    let closed=false;
-    const close=()=>{if(closed)return;closed=true;intro.classList.add('is-hidden');document.body.style.overflow='';if(video){video.pause();video.currentTime=0;}};
-    document.body.style.overflow='hidden';
-    if(skip)skip.addEventListener('click',close);
-    intro.addEventListener('click',e=>{if(e.target===intro)close();});
-    window.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
-    if(video){video.muted=true;video.preload='auto';video.addEventListener('playing',()=>intro.classList.add('video-playing'),{once:true});const p=video.play();if(p&&typeof p.catch==='function')p.catch(()=>{});video.addEventListener('ended',close,{once:true});video.addEventListener('error',close,{once:true});}
-    if(sound&&video){sound.addEventListener('click',async()=>{try{video.muted=false;video.volume=1;await video.play();sound.textContent='Звук включён';sound.setAttribute('aria-pressed','true');}catch(e){video.muted=true;sound.textContent='Нажмите ещё раз для звука';sound.setAttribute('aria-pressed','false');}});}
-    setTimeout(close,30000);
-  }
-  if(document.readyState==='complete')initMobileIntro();else window.addEventListener('load',initMobileIntro,{once:true});
+  const intro=document.getElementById('siteIntro');
+  const skip=document.getElementById('introSkip');
+  if(!intro)return;
+  const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let closed=false;
+  const close=()=>{if(closed)return;closed=true;intro.classList.add('is-hidden');document.body.style.overflow='';};
+  document.body.style.overflow='hidden';
+  skip.addEventListener('click',close);
+  intro.addEventListener('click',e=>{if(e.target===intro)close();});
+  window.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+  setTimeout(close,reduce?250:2600);
 })();
 </script>
 <script>
@@ -1846,7 +1814,7 @@ html[data-theme="light"] footer a {text-shadow:none!important;opacity:1!importan
 html[data-theme="light"] footer svg {stroke:currentColor!important}
 
 /* Верхняя анимация восстановлена; сохраняем обновлённую мятную палитру. */
-.site-intro {background:radial-gradient(circle at 50% 42%,rgba(183,229,209,.10),transparent 32%),#202426!important}
+.site-intro {background:radial-gradient(circle at 50% 42%,rgba(183,229,209,.10),transparent 32%),#07150f!important}
 .intro-kicker,.intro-title span {color:#b7e5d1!important}
 .intro-line:after {background:linear-gradient(90deg,transparent,#b7e5d1,#fff,#b7e5d1,transparent)!important;box-shadow:0 0 12px rgba(183,229,209,.45)!important;animation:scanLine 1.45s .55s infinite!important;left:-35%!important;width:35%!important;opacity:1!important}
 .intro-house:before,.intro-house:after {border-color:#b7e5d1!important}
