@@ -92,6 +92,10 @@ body{background-color:var(--bg);color:var(--fg)}
 <li>Permissions → Repository permissions → <b>Contents: Read and write</b>.</li>
 <li>Скопируйте токен (начинается с <code>github_pat_</code>) и вставьте его при первой публикации. Он хранится только в вашем браузере. Админка открыта всем, но без токена опубликовать изменения нельзя.</li></ol></details>
 
+<section class="panel" id="mobileIntroPanel"><h2>Видеовступление для мобильной версии</h2>
+<p class="admin-note">Видео показывается только на телефонах при открытии сайта. На компьютере сайт открывается как обычно. После загрузки нажмите «Опубликовать на сайт».</p>
+<div class="form-grid"><div class="wide"><label class="admin-note" for="mobileIntroFile" style="display:block;margin:0 0 7px">Видео вступления (MP4 / MOV / WebM, до 100 МБ)</label><input id="mobileIntroFile" type="file" accept="video/*" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)"><div id="mobileIntroStatus" class="admin-note" style="margin-top:8px"></div><video id="mobileIntroPreview" controls playsinline preload="metadata" style="display:none;width:min(100%,520px);max-height:300px;margin-top:10px;border-radius:12px;background:#000"></video><button id="mobileIntroDelete" type="button" class="admin-btn secondary small" style="margin-top:10px">Удалить видео вступления</button></div></div></section>
+
 <section class="panel"><h2>Контакты и соцсети</h2>
 <p class="admin-note">Эти данные используются кнопками «Позвонить», WhatsApp, Telegram и VK на сайте. Номер можно вводить в любом удобном формате.</p>
 <form id="contactsForm" class="form-grid">
@@ -203,6 +207,19 @@ const CROP={
 };
 function readVideo(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
 
+// Mobile-only intro video uses the same IndexedDB and GitHub /videos/ publishing flow as service videos.
+async function renderMobileIntro(){
+ const input=$("mobileIntroFile"),status=$("mobileIntroStatus"),preview=$("mobileIntroPreview"),del=$("mobileIntroDelete");
+ if(!input||!status||!preview||!del)return;
+ const ref=state&&state.mobileIntro&&state.mobileIntro.video||"";
+ status.textContent=ref?"Видео вступления сохранено. Не забудьте опубликовать изменения.":"Видео пока не выбрано.";
+ preview.pause();preview.removeAttribute("src");preview.style.display="none";
+ if(ref){try{const data=isVideoRef(ref)?await videoGet(ref.slice(10)):ref;if(data){preview.src=data;preview.style.display="block";preview.load();status.textContent="Видео вступления готово к публикации.";}}catch(e){status.textContent="Не удалось показать предпросмотр; можно выбрать видео заново."}}
+ del.disabled=!ref;
+}
+$("mobileIntroFile")?.addEventListener("change",async e=>{const file=e.target.files&&e.target.files[0];e.target.value="";if(!file)return;if(!file.type.startsWith("video/")){alert("Выберите видеофайл.");return}if(file.size>100*1024*1024){alert("Видео должно быть не больше 100 МБ.");return}const input=$("mobileIntroStatus");try{input.textContent="Сохраняю видео в браузере…";const data=await readVideo(file);const id="mobile-intro-"+Date.now();await videoPut(id,data);if(state.mobileIntro&&isVideoRef(state.mobileIntro.video)){try{await videoDelete(state.mobileIntro.video.slice(10))}catch(e){}}state.mobileIntro={video:"idb-video:"+id};save();await renderMobileIntro();}catch(err){input.textContent="Не удалось сохранить видео. Проверьте свободное место в браузере."}});
+$("mobileIntroDelete")?.addEventListener("click",async()=>{if(!state.mobileIntro||!state.mobileIntro.video)return;if(!confirm("Удалить мобильное видеовступление? На сайте оно исчезнет после публикации."))return;const v=state.mobileIntro.video;if(isVideoRef(v)){try{await videoDelete(v.slice(10))}catch(e){}}state.mobileIntro={video:""};save();await renderMobileIntro();});
+
 function cropImage(srcUrl,kind,defIdx){
  return new Promise(resolve=>{
   const cfg=CROP[kind],img=new Image();
@@ -268,6 +285,7 @@ function cropImage(srcUrl,kind,defIdx){
    $("cropTitle").textContent=cfg.title;$("cropHint").textContent=cfg.hint;
    m.classList.add("on");document.body.style.overflow="hidden";window.addEventListener("keydown",key);
    init();
+
   }
  });
 }
@@ -472,7 +490,7 @@ $("publishBtn").addEventListener("click",async()=>{
   const imgs=[]; const vids=[];
   const walk=(o,k)=>{const v=o[k];if(typeof v==="string"&&v.startsWith("data:image"))imgs.push([o,k])};
   const walkVideo=(o,k)=>{const v=o[k];if(typeof v==="string"&&v.startsWith("data:video/"))vids.push([o,k])};
-  out.properties.forEach(p=>{(p.photos||[]).forEach((_,i,a)=>walk(a,i));walk(p,"photo");walkVideo(p,"video")});out.services.forEach(x=>{walk(x,"photo");walkVideo(x,"video")});
+  out.properties.forEach(p=>{(p.photos||[]).forEach((_,i,a)=>walk(a,i));walk(p,"photo");walkVideo(p,"video")});out.services.forEach(x=>{walk(x,"photo");walkVideo(x,"video")});if(out.mobileIntro)walkVideo(out.mobileIntro,"video");
   out.team.forEach(m=>walk(m,"photo"));out.reviews.forEach(r=>walk(r,"photo"));if(out.contacts)walk(out.contacts,"photo");
   const cache={};let n=0;
   for(const [o,k] of imgs){const v=o[k];if(!cache[v]){n++;setStatus(`Загружаю фото ${n}…`);const name="photos/"+await sha16(v)+".jpg";const ex=await gh(token,"GET",name);if(ex.status===404){const up=await gh(token,"PUT",name,{message:"Фото из админки",content:v.split(",")[1]});if(!up.ok&&up.status!==422)throw new Error(explain(up));}else if(!ex.ok)throw new Error(explain(ex));cache[v]=name;}o[k]=cache[v];}
@@ -498,7 +516,7 @@ $("publishBtn").addEventListener("click",async()=>{
 });
 document.querySelectorAll(".pub-inline").forEach(b=>b.addEventListener("click",()=>$("publishBtn").click()));
 $("publishBtn2").addEventListener("click",()=>$("publishBtn").click());
-boot();
+boot().then(()=>renderMobileIntro());
 
 /* ===== ADMIN V12: token gate + dashboard + expanded services ===== */
 (function(){
