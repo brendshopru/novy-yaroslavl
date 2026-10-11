@@ -619,14 +619,28 @@ html[data-theme="light"] #calc .calc .val {color:#33474c!important}
 </style>
 
 <style id="ny-intro-mint-early">
-/* Заставка везде одна: мятная под цвет сайта. Высокая специфичность, чтобы поздние блоки её не перекрашивали (без зелёной вспышки). */
-html[data-theme] body .site-intro{background:radial-gradient(circle at 50% 42%,rgba(183,229,209,.08),transparent 34%),#0d181b !important;color:#f4f1e8 !important}
-html[data-theme] body .site-intro .intro-title{color:#f4f1e8 !important}
-html[data-theme] body .site-intro .intro-kicker,html[data-theme] body .site-intro .intro-title span{color:#b7e5d1 !important}
-html[data-theme] body .site-intro .intro-line:after{background:linear-gradient(90deg,transparent,#b7e5d1,#fff,#b7e5d1,transparent) !important;box-shadow:0 0 12px rgba(183,229,209,.45) !important}
-html[data-theme] body .site-intro .intro-house{opacity:.07 !important}
-html[data-theme] body .site-intro .intro-house:before,html[data-theme] body .site-intro .intro-house:after{border-color:#b7e5d1 !important}
-html[data-theme] body .site-intro .intro-skip{color:rgba(255,255,255,.55) !important}
+/* Заставка на фоне самого сайта (графит / светлая штукатурка): фон прозрачный, видно фон страницы body::before.
+   Пока заставка открыта, остальное содержимое скрыто; как только она закрывается — появляется. */
+html[data-theme] body .site-intro{background:transparent !important}
+body:has(> .site-intro:not(.is-hidden)) > :not(.site-intro){visibility:hidden !important}
+/* Тёмная тема */
+html[data-theme="dark"] body .site-intro{color:#f4f1e8 !important}
+html[data-theme="dark"] body .site-intro .intro-title{color:#f4f1e8 !important}
+html[data-theme="dark"] body .site-intro .intro-kicker,html[data-theme="dark"] body .site-intro .intro-title span{color:#b7e5d1 !important}
+html[data-theme="dark"] body .site-intro .intro-line:after{background:linear-gradient(90deg,transparent,#b7e5d1,#fff,#b7e5d1,transparent) !important;box-shadow:0 0 12px rgba(183,229,209,.45) !important}
+html[data-theme="dark"] body .site-intro .intro-house{opacity:.07 !important}
+html[data-theme="dark"] body .site-intro .intro-house:before,html[data-theme="dark"] body .site-intro .intro-house:after{border-color:#b7e5d1 !important}
+html[data-theme="dark"] body .site-intro .intro-skip{color:rgba(255,255,255,.55) !important}
+/* Светлая тема: цвета букв те же, что в тёмной; белое выделено мятным */
+html[data-theme="light"] body .site-intro{color:#f4f1e8 !important}
+html[data-theme="light"] body .site-intro .intro-title{color:#f4f1e8 !important}
+html[data-theme="light"] body .site-intro .intro-title::first-line{background:#8fcdb2;text-shadow:0 1px 2px rgba(32,49,44,.38)}
+html[data-theme="light"] body .site-intro .intro-kicker,html[data-theme="light"] body .site-intro .intro-title span{color:#b7e5d1 !important;text-shadow:0 1px 0 rgba(32,49,44,.40),0 2px 6px rgba(32,49,44,.22)}
+html[data-theme="light"] body .site-intro .intro-line{background:rgba(32,49,44,.14) !important}
+html[data-theme="light"] body .site-intro .intro-line:after{background:linear-gradient(90deg,transparent,#b7e5d1,#fff,#b7e5d1,transparent) !important;box-shadow:0 0 12px rgba(183,229,209,.6) !important}
+html[data-theme="light"] body .site-intro .intro-house{opacity:.10 !important}
+html[data-theme="light"] body .site-intro .intro-house:before,html[data-theme="light"] body .site-intro .intro-house:after{border-color:#8fcdb2 !important}
+html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;background:#8fcdb2 !important;border-radius:999px;padding:7px 16px;text-shadow:0 1px 2px rgba(32,49,44,.38)}
 </style>
 </head>
 <body>
