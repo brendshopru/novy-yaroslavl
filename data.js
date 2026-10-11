@@ -366,5 +366,8 @@ window.SITE_DATA = {
   },
   "brand": {
     "appIcon": "photos/5ef717c6ab8cfce9.jpg"
+  },
+  "mobileIntro": {
+    "video": "videos/d4248fb0bd27f63d.mp4"
   }
 };
