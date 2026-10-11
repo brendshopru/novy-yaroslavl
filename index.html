@@ -2510,8 +2510,34 @@ html[data-theme="light"] body main.wrap>section.hero::after{
     mask-image:linear-gradient(to bottom,#000 0,#000 calc(100% - 220px),rgba(0,0,0,.85) calc(100% - 170px),rgba(0,0,0,.55) calc(100% - 110px),rgba(0,0,0,.22) calc(100% - 50px),transparent 100%) !important;
   }
 }
+/* Фото hero начинается с самого верха сайта и идёт под шапкой (высота шапки --ny-hdr-h задаётся скриптом, по умолчанию 118px). */
+html[data-theme] body main.wrap>section.hero{overflow:visible !important}
+html[data-theme] body main.wrap>section.hero::before,
+html[data-theme] body main.wrap>section.hero::after{top:calc(-1 * var(--ny-hdr-h,118px)) !important}
+/* Тёмный верхний слой под шапкой: текст шапки читается на любом фото. */
+html[data-theme="dark"] body main.wrap>section.hero::after{
+  background-image:linear-gradient(180deg,rgba(9,18,24,.5) 0,rgba(9,18,24,0) 240px),linear-gradient(90deg,rgba(9,18,24,.68) 0%,rgba(9,18,24,.48) 30%,rgba(9,18,24,.10) 57%,rgba(9,18,24,.02) 100%),linear-gradient(0deg,rgba(9,18,24,.46) 0%,transparent 42%),url('./hero-house.webp') !important;
+}
+html[data-theme="light"] body main.wrap>section.hero::after{
+  background-image:linear-gradient(0deg,rgba(236,237,235,.95) 0%,rgba(236,237,235,.6) 24%,transparent 48%),linear-gradient(180deg,rgba(9,18,24,.5) 0,rgba(9,18,24,0) 240px),linear-gradient(90deg,rgba(9,18,24,.68) 0%,rgba(9,18,24,.48) 30%,rgba(9,18,24,.10) 57%,rgba(9,18,24,.02) 100%),url('./hero-house-light.webp'),url('./hero-house.webp') !important;
+}
+/* Светлая тема: шапка поверх фото оформлена как в тёмной. */
+html[data-theme="light"] body header .logo{color:#f3f5f4 !important}
+html[data-theme="light"] body header .logo b{color:#b7e5d1 !important}
+html[data-theme="light"] body header .nav-links a,
+html[data-theme="light"] body header .nav-links a:hover{color:rgba(243,245,244,.92) !important}
+html[data-theme="light"] body header .nav-install{color:#f3f5f4 !important;background:rgba(183,229,209,.10) !important;background-image:none !important;border-color:rgba(183,229,209,.52) !important;box-shadow:none !important}
+html[data-theme="light"] body header .nav-theme{color:#dcebe4 !important;background:rgba(183,229,209,.12) !important;background-image:none !important;border-color:rgba(183,229,209,.45) !important;box-shadow:rgba(255,255,255,.024) 0 0 0 1px inset !important}
+html[data-theme="light"] body header .nav-theme .theme-icon{color:#e6f3ed !important;background:#202d32 !important;border-color:rgba(183,229,209,.55) !important}
+html[data-theme="light"] body header .nav-phone{color:#f3f5f4 !important;background:rgba(183,229,209,.10) !important;background-image:none !important;border-color:rgba(183,229,209,.58) !important;box-shadow:rgba(255,255,255,.06) 0 1px 0 0 inset !important}
 </style>
 
+<script>
+/* Высота области над hero (шапка) для подложки фото под шапкой. */
+(function(){function f(){try{var h=document.querySelector('main.wrap>section.hero');if(!h)return;var t=Math.round(h.getBoundingClientRect().top+(window.pageYOffset||0));if(t>0)document.documentElement.style.setProperty('--ny-hdr-h',t+'px')}catch(e){}}
+f();window.addEventListener('load',f);window.addEventListener('resize',f);
+try{var hd=document.querySelector('header');if(hd&&window.ResizeObserver)new ResizeObserver(f).observe(hd)}catch(e){}})();
+</script>
 </body>
 </html>
 
