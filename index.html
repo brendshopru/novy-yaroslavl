@@ -619,13 +619,14 @@ html[data-theme="light"] #calc .calc .val {color:#477b67!important}
 </style>
 
 <style id="ny-intro-mint-early">
-/* Заставка сразу мятная: без золотой и серо-зелёной вспышек, пока дочитываются стили в конце файла. */
-.site-intro{background:radial-gradient(circle at 50% 42%,rgba(183,229,209,.08),transparent 34%),#0d181b !important;color:#f4f1e8 !important}
-.intro-kicker,.intro-title span{color:#b7e5d1 !important}
-.intro-line:after{background:linear-gradient(90deg,transparent,#b7e5d1,#fff,#b7e5d1,transparent) !important;box-shadow:0 0 12px rgba(183,229,209,.45) !important}
-.intro-house{opacity:.07 !important}
-.intro-house:before,.intro-house:after{border-color:#b7e5d1 !important}
-.intro-skip{color:rgba(255,255,255,.55) !important}
+/* Заставка везде одна: мятная под цвет сайта. Высокая специфичность, чтобы поздние блоки её не перекрашивали (без зелёной вспышки). */
+html[data-theme] body .site-intro{background:radial-gradient(circle at 50% 42%,rgba(183,229,209,.08),transparent 34%),#0d181b !important;color:#f4f1e8 !important}
+html[data-theme] body .site-intro .intro-title{color:#f4f1e8 !important}
+html[data-theme] body .site-intro .intro-kicker,html[data-theme] body .site-intro .intro-title span{color:#b7e5d1 !important}
+html[data-theme] body .site-intro .intro-line:after{background:linear-gradient(90deg,transparent,#b7e5d1,#fff,#b7e5d1,transparent) !important;box-shadow:0 0 12px rgba(183,229,209,.45) !important}
+html[data-theme] body .site-intro .intro-house{opacity:.07 !important}
+html[data-theme] body .site-intro .intro-house:before,html[data-theme] body .site-intro .intro-house:after{border-color:#b7e5d1 !important}
+html[data-theme] body .site-intro .intro-skip{color:rgba(255,255,255,.55) !important}
 </style>
 </head>
 <body>
@@ -2523,13 +2524,74 @@ html[data-theme="light"] body main.wrap>section.hero::after{
 }
 /* Светлая тема: шапка поверх фото оформлена как в тёмной. */
 html[data-theme="light"] body header .logo{color:#f3f5f4 !important}
-html[data-theme="light"] body header .logo b{color:#b7e5d1 !important}
-html[data-theme="light"] body header .nav-links a,
-html[data-theme="light"] body header .nav-links a:hover{color:rgba(243,245,244,.92) !important}
-html[data-theme="light"] body header .nav-install{color:#f3f5f4 !important;background:rgba(183,229,209,.10) !important;background-image:none !important;border-color:rgba(183,229,209,.52) !important;box-shadow:none !important}
+html[data-theme="light"] body header .logo,html[data-theme="light"] body header .logo b{text-shadow:none !important}
+html[data-theme="light"] body header .logo b{color:#b7e5d1 !important;background:none !important;padding:0 !important;letter-spacing:.02em}
+html[data-theme="light"] body header .nav-links a{color:rgba(243,245,244,.92) !important}
+html[data-theme="light"] body header .nav-links a:hover{background:rgba(183,229,209,.14) !important;color:#d5f0e3 !important}
 html[data-theme="light"] body header .nav-theme{color:#dcebe4 !important;background:rgba(183,229,209,.12) !important;background-image:none !important;border-color:rgba(183,229,209,.45) !important;box-shadow:rgba(255,255,255,.024) 0 0 0 1px inset !important}
 html[data-theme="light"] body header .nav-theme .theme-icon{color:#e6f3ed !important;background:#202d32 !important;border-color:rgba(183,229,209,.55) !important}
 html[data-theme="light"] body header .nav-phone{color:#f3f5f4 !important;background:rgba(183,229,209,.10) !important;background-image:none !important;border-color:rgba(183,229,209,.58) !important;box-shadow:rgba(255,255,255,.06) 0 1px 0 0 inset !important}
+
+/* ===== Кнопка «Установить»: аккуратная мятная, с иконкой (обе темы) ===== */
+html[data-theme] body header .nav-install{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:0 16px 0 13px;border-radius:12px;font-weight:600;letter-spacing:.02em;
+  color:#effaf5 !important;
+  background:linear-gradient(135deg,rgba(183,229,209,.28),rgba(183,229,209,.08)) !important;
+  border:1px solid rgba(183,229,209,.62) !important;
+  box-shadow:0 6px 18px rgba(0,0,0,.20),inset 0 1px 0 rgba(255,255,255,.14) !important;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease,background .2s ease;
+}
+html[data-theme] body header .nav-install::before{
+  content:"";width:14px;height:14px;flex:0 0 14px;background:currentColor;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4v11M7 11l5 5 5-5M5 20h14'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4v11M7 11l5 5 5-5M5 20h14'/%3E%3C/svg%3E") center/contain no-repeat;
+}
+html[data-theme] body header .nav-install:hover{
+  transform:translateY(-1px);border-color:#b7e5d1 !important;
+  background:linear-gradient(135deg,rgba(183,229,209,.42),rgba(183,229,209,.16)) !important;
+  box-shadow:0 8px 22px rgba(0,0,0,.24),0 0 18px rgba(183,229,209,.28),inset 0 1px 0 rgba(255,255,255,.2) !important;
+}
+@media(max-width:700px){html[data-theme] body header .nav-install::before{display:none}}
+
+/* ===== Команда: светлая тема — при наведении мятная рамка вместо чёрной тени ===== */
+html[data-theme="light"] body .member.has-photo .av{border:1px solid rgba(143,205,178,.7) !important;box-shadow:0 8px 22px rgba(32,49,44,.12) !important}
+html[data-theme="light"] body .member.has-photo:hover .av,
+html[data-theme="light"] body .member:hover .av{box-shadow:0 0 0 2px #8fcdb2,0 12px 28px rgba(111,189,155,.30) !important}
+
+/* ===== Отзывы: мятные края в обеих темах; имена в светлой темнее ===== */
+html[data-theme="dark"] body .rv{
+  border:1px solid rgba(183,229,209,.38) !important;
+  box-shadow:0 0 0 1px rgba(183,229,209,.06),0 10px 28px rgba(0,0,0,.28),inset 0 0 24px rgba(183,229,209,.05) !important;
+}
+html[data-theme="dark"] body .rv:hover{
+  border-color:rgba(183,229,209,.75) !important;
+  box-shadow:0 0 0 1px rgba(183,229,209,.14),0 14px 34px rgba(0,0,0,.34),0 0 22px rgba(183,229,209,.14),inset 0 0 26px rgba(183,229,209,.07) !important;
+}
+html[data-theme="light"] body .rv{
+  border:1px solid rgba(143,205,178,.80) !important;
+  box-shadow:0 0 0 1px rgba(183,229,209,.35),0 10px 26px rgba(111,189,155,.16) !important;
+}
+html[data-theme="light"] body .rv:hover{
+  border-color:#6dbd9b !important;
+  box-shadow:0 0 0 1px rgba(183,229,209,.55),0 16px 36px rgba(111,189,155,.26) !important;
+}
+html[data-theme="light"] body .rv .who,
+html[data-theme="light"] body .rv .who span{color:#17252a !important;font-weight:700}
+html[data-theme="light"] body .rv .who .ny-rv-av{color:#17252a !important}
+
+/* ===== Подписи разделов (Каталог, Планирование, Люди, Клиенты, Контакты): мятный акцент в обеих темах ===== */
+html[data-theme] body .sec-head .eyebrow{
+  display:inline-flex;align-items:center;gap:10px;
+  font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;
+}
+html[data-theme] body .sec-head .eyebrow::before{
+  content:"";width:22px;height:2px;border-radius:2px;flex:0 0 22px;
+  background:linear-gradient(90deg,#b7e5d1,rgba(183,229,209,.15));
+}
+html[data-theme="dark"] body .sec-head .eyebrow{color:#b7e5d1 !important}
+html[data-theme="light"] body .sec-head .eyebrow{color:#3f8f73 !important}
+html[data-theme="light"] body .sec-head .eyebrow::before{background:linear-gradient(90deg,#6dbd9b,rgba(109,189,155,.15))}
 </style>
 
 <script>
