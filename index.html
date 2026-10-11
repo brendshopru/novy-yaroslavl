@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="color-scheme" content="dark light">
-  <meta name="theme-color" content="#0c201a" id="themeColorMeta">
+  <meta name="theme-color" content="#0d181b" id="themeColorMeta">
   <title>Новый Ярославль — агентство недвижимости</title>
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon-192.png" sizes="192x192">
@@ -1337,7 +1337,7 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
     var icon=button.querySelector('.theme-icon');
     if(label)label.textContent=light?'Тёмная':'Светлая';
     if(icon)icon.textContent=light?'☾':'☼';
-    if(meta)meta.setAttribute('content',light?'#f5f3ed':'#0c201a');
+    if(meta)meta.setAttribute('content',light?'#f5f3ed':'#0d181b');
     if(save){try{localStorage.setItem('ny_theme_v1',light?'light':'dark')}catch(e){}}
   }
   var current=root.getAttribute('data-theme')==='light'?'light':'dark';
@@ -2597,6 +2597,13 @@ html[data-theme="light"] body .sec-head .eyebrow::before{background:linear-gradi
 html[data-theme="light"] body main.wrap>section.hero .eyebrow,
 html[data-theme="light"] body main.wrap>section.hero>p,
 html[data-theme="light"] body main.wrap>section.hero h1 .estate-word{text-shadow:0 2px 14px rgba(0,0,0,.45) !important}
+
+/* Светлая тема: подписи разделов — мятная плашка с тёмным текстом (вместо зелёных букв). */
+html[data-theme="light"] body .sec-head .eyebrow{
+  color:#1f4a3b !important;background:rgba(183,229,209,.62);border:1px solid rgba(143,205,178,.85);
+  padding:5px 12px;border-radius:999px;gap:0;
+}
+html[data-theme="light"] body .sec-head .eyebrow::before{display:none}
 </style>
 
 <script>
