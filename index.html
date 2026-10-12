@@ -657,8 +657,8 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
   #siteIntro.mobile-video-mode .intro-line:after{animation:none!important;display:none!important}
   #siteIntro.mobile-video-mode .intro-inner{display:block!important;position:relative;z-index:2;width:min(720px,90vw)}
   #siteIntro.mobile-video-mode .intro-kicker,#siteIntro.mobile-video-mode .intro-title,#siteIntro.mobile-video-mode .intro-line,#siteIntro.mobile-video-mode .intro-skip{position:relative;z-index:2}
-  /* Убираем зелёную заливку кнопки только на мобильной заставке, не меняя шрифт текста. */
-  #siteIntro.mobile-video-mode .intro-skip{background:transparent!important;border-radius:0!important;padding:0!important}
+  /* Кнопка на видео: полупрозрачный контур; текст и его шрифт не меняем. */
+  #siteIntro.mobile-video-mode .intro-skip{background:rgba(255,255,255,.08)!important;border:1px solid rgba(244,241,232,.58)!important;border-radius:999px!important;padding:7px 16px!important;box-sizing:border-box;text-shadow:inherit}
 }
 </style>
 </head>
