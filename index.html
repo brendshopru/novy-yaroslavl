@@ -646,6 +646,7 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
 .mobile-intro-video{display:none}
 @media(max-width:700px){
   .site-intro.mobile-video-mode{background:#000!important;background-image:none!important;overflow:hidden}
+  .site-intro.mobile-video-waiting{opacity:0!important;visibility:hidden!important;pointer-events:none!important;transition:none!important}
   .site-intro.mobile-video-mode .mobile-intro-video{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#000;z-index:0}
   .site-intro.mobile-video-mode:after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg,rgba(5,12,13,.32),rgba(5,12,13,.12) 42%,rgba(5,12,13,.42))}
   .site-intro.mobile-video-mode .intro-house{display:none!important}
@@ -850,14 +851,23 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const mobile=window.matchMedia('(max-width:700px)').matches;
   let closed=false;
+  let introHistoryEntry=false;
   const close=()=>{if(closed)return;closed=true;intro.classList.add('is-hidden');document.body.style.overflow='';const video=document.getElementById('mobileIntroVideo');if(video){video.pause();}};
   document.body.style.overflow='hidden';
+  /* На телефоне системная кнопка «Назад» сначала закрывает заставку, а не уводит со страницы. */
+  if(mobile){
+    try{history.pushState({nyMobileIntro:true},'',location.href);introHistoryEntry=true;}catch(e){}
+    window.addEventListener('popstate',function introBackHandler(){
+      if(!closed){close();}
+      introHistoryEntry=false;
+    },{once:true});
+  }
   if(skip)skip.addEventListener('click',close);
   intro.addEventListener('click',e=>{if(e.target===intro)close();});
   window.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
 
   if(mobile){
-    intro.classList.add('mobile-video-mode');
+    intro.classList.add('mobile-video-mode','mobile-video-waiting');
     document.addEventListener('DOMContentLoaded',()=>{
       if(closed)return;
       const video=document.getElementById('mobileIntroVideo');
@@ -870,10 +880,11 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
       video.setAttribute('muted','');
       video.setAttribute('playsinline','');
       video.setAttribute('webkit-playsinline','');
+      video.addEventListener('playing',()=>intro.classList.remove('mobile-video-waiting'),{once:true});
       video.addEventListener('ended',close,{once:true});
-      video.addEventListener('error',close,{once:true});
+      video.addEventListener('error',()=>{intro.classList.remove('mobile-video-waiting');close();},{once:true});
       const attempt=video.play();
-      if(attempt&&typeof attempt.catch==='function')attempt.catch(close);
+      if(attempt&&typeof attempt.catch==='function')attempt.catch(()=>{intro.classList.remove('mobile-video-waiting');close();});
     },{once:true});
   }else{
     setTimeout(close,reduce?250:2600);
