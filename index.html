@@ -2671,3 +2671,15 @@ try{var hd=document.querySelector('header');if(hd&&window.ResizeObserver)new Res
 
 
 
+
+
+<style id="ny-desktop-hero-remove-top-haze-final">
+/* Desktop only: remove the extra pale overlay over the hero photo.
+   Keep the hero's own bottom gradient/fade, all text and controls, and mobile styling. */
+@media (min-width: 701px) {
+  html[data-theme="light"] body main.wrap > section.hero::after {
+    background-image: none !important;
+    opacity: 0 !important;
+  }
+}
+</style>
