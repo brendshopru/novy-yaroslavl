@@ -29,7 +29,7 @@
 html,body{overflow-x:clip;overflow-y:visible}
 
 /* Cinematic first impression */
-.site-intro{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;background:radial-gradient(circle at 50% 42%,rgba(183,229,209,.10),transparent 32%),#0d181b;color:var(--fg,#f4f1e8);transition:opacity .75s ease,visibility .75s ease}
+.site-intro{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;background:transparent!important;background-color:transparent!important;background-image:none!important;color:var(--fg,#f4f1e8);transition:opacity .75s ease,visibility .75s ease}
 .site-intro.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
 .intro-inner{text-align:center;width:min(720px,88vw);position:relative}
 .intro-kicker{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--site-accent);opacity:0;animation:introUp .7s .15s forwards}
@@ -646,14 +646,11 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
 .mobile-intro-video{display:none}
 @media(max-width:700px){
   /* На телефоне сразу показываем видео с исходными надписями поверх него. */
-  #siteIntro.mobile-video-mode{background:transparent!important;background-color:transparent!important;background-image:none!important;overflow:hidden}
+  #siteIntro.mobile-video-mode{background:transparent!important;background-color:transparent!important;background-image:none!important;overflow:hidden;isolation:isolate}
+  #siteIntro.mobile-video-mode::before,#siteIntro.mobile-video-mode::after{content:none!important;display:none!important}
+  #siteIntro.mobile-video-mode .mobile-intro-video{background:transparent!important;outline:0!important}
   #siteIntro.mobile-video-mode .mobile-intro-video{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;z-index:0}
   #siteIntro.mobile-video-mode .intro-house{display:none!important}
-  /* Пока видео не начало играть — никаких старых экранов с текстом. */
-  #siteIntro.mobile-video-mode:not(.video-on) .intro-inner{visibility:hidden!important}
-  /* Надписи остаются поверх видео, но без старых анимаций появления (introUp / scanLine). */
-  #siteIntro.mobile-video-mode .intro-kicker,#siteIntro.mobile-video-mode .intro-title,#siteIntro.mobile-video-mode .intro-line,#siteIntro.mobile-video-mode .intro-skip{animation:none!important;opacity:1!important;transform:none!important}
-  #siteIntro.mobile-video-mode .intro-line:after{animation:none!important;display:none!important}
   #siteIntro.mobile-video-mode .intro-inner{display:block!important;position:relative;z-index:2;width:min(720px,90vw)}
   #siteIntro.mobile-video-mode .intro-kicker,#siteIntro.mobile-video-mode .intro-title,#siteIntro.mobile-video-mode .intro-line,#siteIntro.mobile-video-mode .intro-skip{position:relative;z-index:2}
   /* Убираем зелёную заливку кнопки только на мобильной заставке, не меняя шрифт текста. */
@@ -858,35 +855,23 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
 
   if(mobile){
     intro.classList.add('mobile-video-mode');
-    const startMobileVideo=()=>{
+    document.addEventListener('DOMContentLoaded',()=>{
       if(closed)return;
       const video=document.getElementById('mobileIntroVideo');
       const configured=(window.SITE_DATA&&window.SITE_DATA.mobileIntro&&window.SITE_DATA.mobileIntro.video)||'';
       if(!video||!configured){close();return;}
+      video.src=new URL(configured,document.baseURI).href;
       video.muted=true;
       video.defaultMuted=true;
       video.playsInline=true;
       video.setAttribute('muted','');
       video.setAttribute('playsinline','');
       video.setAttribute('webkit-playsinline','');
-      video.addEventListener('playing',()=>intro.classList.add('video-on'),{once:true});
       video.addEventListener('ended',close,{once:true});
       video.addEventListener('error',close,{once:true});
-      video.src=new URL(configured,document.baseURI).href;
-      video.load();
       const attempt=video.play();
-      if(attempt&&typeof attempt.catch==='function'){
-        attempt.catch(()=>{
-          /* Если мобильный браузер запретил автозапуск, не оставляем пустую заставку. */
-          if(!closed)close();
-        });
-      }
-    };
-    if(document.readyState==='loading'){
-      document.addEventListener('DOMContentLoaded',startMobileVideo,{once:true});
-    }else{
-      startMobileVideo();
-    }
+      if(attempt&&typeof attempt.catch==='function')attempt.catch(close);
+    },{once:true});
   }else{
     setTimeout(close,reduce?250:2600);
   }
