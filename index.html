@@ -649,6 +649,8 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
   #siteIntro.mobile-video-mode{background:transparent!important;background-color:transparent!important;background-image:none!important;overflow:hidden}
   #siteIntro.mobile-video-mode .mobile-intro-video{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;z-index:0}
   #siteIntro.mobile-video-mode .intro-house{display:none!important}
+  /* Пока видео не начало играть — никаких старых экранов с текстом. */
+  #siteIntro.mobile-video-mode:not(.video-on) .intro-inner{visibility:hidden!important}
   /* Надписи остаются поверх видео, но без старых анимаций появления (introUp / scanLine). */
   #siteIntro.mobile-video-mode .intro-kicker,#siteIntro.mobile-video-mode .intro-title,#siteIntro.mobile-video-mode .intro-line,#siteIntro.mobile-video-mode .intro-skip{animation:none!important;opacity:1!important;transform:none!important}
   #siteIntro.mobile-video-mode .intro-line:after{animation:none!important;display:none!important}
@@ -867,6 +869,7 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
       video.setAttribute('muted','');
       video.setAttribute('playsinline','');
       video.setAttribute('webkit-playsinline','');
+      video.addEventListener('playing',()=>intro.classList.add('video-on'),{once:true});
       video.addEventListener('ended',close,{once:true});
       video.addEventListener('error',close,{once:true});
       video.src=new URL(configured,document.baseURI).href;
