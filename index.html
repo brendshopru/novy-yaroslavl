@@ -853,12 +853,11 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
 
   if(mobile){
     intro.classList.add('mobile-video-mode');
-    document.addEventListener('DOMContentLoaded',()=>{
+    const startMobileVideo=()=>{
       if(closed)return;
       const video=document.getElementById('mobileIntroVideo');
       const configured=(window.SITE_DATA&&window.SITE_DATA.mobileIntro&&window.SITE_DATA.mobileIntro.video)||'';
       if(!video||!configured){close();return;}
-      video.src=new URL(configured,document.baseURI).href;
       video.muted=true;
       video.defaultMuted=true;
       video.playsInline=true;
@@ -867,9 +866,21 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
       video.setAttribute('webkit-playsinline','');
       video.addEventListener('ended',close,{once:true});
       video.addEventListener('error',close,{once:true});
+      video.src=new URL(configured,document.baseURI).href;
+      video.load();
       const attempt=video.play();
-      if(attempt&&typeof attempt.catch==='function')attempt.catch(close);
-    },{once:true});
+      if(attempt&&typeof attempt.catch==='function'){
+        attempt.catch(()=>{
+          /* Если мобильный браузер запретил автозапуск, не оставляем пустую заставку. */
+          if(!closed)close();
+        });
+      }
+    };
+    if(document.readyState==='loading'){
+      document.addEventListener('DOMContentLoaded',startMobileVideo,{once:true});
+    }else{
+      startMobileVideo();
+    }
   }else{
     setTimeout(close,reduce?250:2600);
   }
