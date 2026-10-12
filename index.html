@@ -645,21 +645,19 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
 <style id="mobile-intro-video-only">
 .mobile-intro-video{display:none}
 @media(max-width:700px){
-  /* На телефоне — один слой: исходное видео и исходные надписи поверх него. */
-  .site-intro.mobile-video-mode{background:transparent!important;background-color:transparent!important;background-image:none!important;overflow:hidden}
-  .site-intro.mobile-video-mode .mobile-intro-video{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:transparent;z-index:0}
-  .site-intro.mobile-video-mode .intro-house{display:none!important}
-  .site-intro.mobile-video-mode .intro-inner{display:block!important;position:relative;z-index:2;width:min(720px,90vw);padding:24px 0 40px;text-shadow:0 2px 12px rgba(0,0,0,.85)}
-  .site-intro.mobile-video-mode .intro-kicker,.site-intro.mobile-video-mode .intro-title,.site-intro.mobile-video-mode .intro-line,.site-intro.mobile-video-mode .intro-skip{position:relative;z-index:2}
-  .site-intro.mobile-video-mode .intro-title{color:#fff!important;-webkit-text-stroke:0!important;text-shadow:0 2px 16px rgba(0,0,0,.95)!important}
-  .site-intro.mobile-video-mode .intro-kicker,.site-intro.mobile-video-mode .intro-title span{color:#b7e5d1!important;text-shadow:0 2px 12px rgba(0,0,0,.95)!important}
-  .site-intro.mobile-video-mode .intro-line{background:rgba(255,255,255,.7)!important}
-  .site-intro.mobile-video-mode .intro-skip{color:#fff!important;text-shadow:0 2px 8px rgba(0,0,0,.95)!important}
+  /* На телефоне сразу показываем видео с исходными надписями поверх него. */
+  #siteIntro.mobile-video-mode{background:transparent!important;background-color:transparent!important;background-image:none!important;overflow:hidden}
+  #siteIntro.mobile-video-mode .mobile-intro-video{display:block;position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:transparent;z-index:0}
+  #siteIntro.mobile-video-mode .intro-house{display:none!important}
+  #siteIntro.mobile-video-mode .intro-inner{display:block!important;position:relative;z-index:2;width:min(720px,90vw)}
+  #siteIntro.mobile-video-mode .intro-kicker,#siteIntro.mobile-video-mode .intro-title,#siteIntro.mobile-video-mode .intro-line,#siteIntro.mobile-video-mode .intro-skip{position:relative;z-index:2}
+  /* Убираем зелёную заливку кнопки только на мобильной заставке, не меняя шрифт текста. */
+  #siteIntro.mobile-video-mode .intro-skip{background:transparent!important;border-radius:0!important;padding:0!important}
 }
 </style>
 </head>
 <body>
-<div class="site-intro" id="siteIntro" aria-hidden="true">
+<div class="site-intro mobile-video-mode" id="siteIntro" aria-hidden="true">
   <video class="mobile-intro-video" id="mobileIntroVideo" muted playsinline webkit-playsinline preload="auto" aria-hidden="true"></video>
   <div class="intro-house"></div>
   <div class="intro-inner">
@@ -2649,14 +2647,7 @@ try{var hd=document.querySelector('header');if(hd&&window.ResizeObserver)new Res
   window.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))close();});
 })();
 </script>
-<style id="mobile-intro-final-override">
-@media(max-width:700px){
-  #siteIntro.mobile-video-mode{background:transparent!important;background-color:transparent!important;background-image:none!important}
-  #siteIntro.mobile-video-mode .mobile-intro-video{z-index:0!important;background:transparent!important;object-fit:cover!important}
-  #siteIntro.mobile-video-mode .intro-house{display:none!important}
-  #siteIntro.mobile-video-mode .intro-inner{display:block!important;visibility:visible!important;opacity:1!important;z-index:2!important}
-}
-</style>
+
 </body>
 </html>
 
