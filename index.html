@@ -657,7 +657,7 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
   #siteIntro.mobile-video-mode .intro-line:after{animation:none!important;display:none!important}
   #siteIntro.mobile-video-mode .intro-inner{display:block!important;position:relative;z-index:2;width:min(720px,90vw)}
   #siteIntro.mobile-video-mode .intro-kicker,#siteIntro.mobile-video-mode .intro-title,#siteIntro.mobile-video-mode .intro-line,#siteIntro.mobile-video-mode .intro-skip{position:relative;z-index:2}
-  /* Кнопка на видео: полупрозрачный контур; текст и его шрифт не меняем. */
+  /* Кнопка поверх видео: полупрозрачный фон и контур; текст и шрифт не меняем. */
   #siteIntro.mobile-video-mode .intro-skip{background:rgba(255,255,255,.08)!important;border:1px solid rgba(244,241,232,.58)!important;border-radius:999px!important;padding:7px 16px!important;box-sizing:border-box;text-shadow:inherit}
 }
 </style>
@@ -2545,7 +2545,6 @@ html[data-theme="dark"] body main.wrap>section.hero::after{
   background-image:linear-gradient(180deg,rgba(9,18,24,.5) 0,rgba(9,18,24,0) 240px),linear-gradient(90deg,rgba(9,18,24,.68) 0%,rgba(9,18,24,.48) 30%,rgba(9,18,24,.10) 57%,rgba(9,18,24,.02) 100%),linear-gradient(0deg,rgba(9,18,24,.46) 0%,transparent 42%),url('./hero-house.webp') !important;
 }
 html[data-theme="light"] body main.wrap>section.hero::after{
-  /* Keep the light-theme photo and bottom fade; remove only the extra top haze layer. */
   background-image:linear-gradient(0deg,rgba(236,237,235,.95) 0%,rgba(236,237,235,.6) 24%,transparent 48%),linear-gradient(90deg,rgba(9,18,24,.38) 0%,rgba(9,18,24,.27) 30%,rgba(9,18,24,.06) 57%,rgba(9,18,24,.01) 100%),url('./hero-house-light.webp'),url('./hero-house.webp') !important;
 }
 /* Светлая тема: шапка поверх фото оформлена как в тёмной. */
