@@ -2545,7 +2545,8 @@ html[data-theme="dark"] body main.wrap>section.hero::after{
   background-image:linear-gradient(180deg,rgba(9,18,24,.5) 0,rgba(9,18,24,0) 240px),linear-gradient(90deg,rgba(9,18,24,.68) 0%,rgba(9,18,24,.48) 30%,rgba(9,18,24,.10) 57%,rgba(9,18,24,.02) 100%),linear-gradient(0deg,rgba(9,18,24,.46) 0%,transparent 42%),url('./hero-house.webp') !important;
 }
 html[data-theme="light"] body main.wrap>section.hero::after{
-  background-image:linear-gradient(0deg,rgba(236,237,235,.95) 0%,rgba(236,237,235,.6) 24%,transparent 48%),linear-gradient(180deg,rgba(9,18,24,.42) 0,rgba(9,18,24,0) 240px),linear-gradient(90deg,rgba(9,18,24,.38) 0%,rgba(9,18,24,.27) 30%,rgba(9,18,24,.06) 57%,rgba(9,18,24,.01) 100%),url('./hero-house-light.webp'),url('./hero-house.webp') !important;
+  /* Keep the light-theme photo and bottom fade; remove only the extra top haze layer. */
+  background-image:linear-gradient(0deg,rgba(236,237,235,.95) 0%,rgba(236,237,235,.6) 24%,transparent 48%),linear-gradient(90deg,rgba(9,18,24,.38) 0%,rgba(9,18,24,.27) 30%,rgba(9,18,24,.06) 57%,rgba(9,18,24,.01) 100%),url('./hero-house-light.webp'),url('./hero-house.webp') !important;
 }
 /* Светлая тема: шапка поверх фото оформлена как в тёмной. */
 html[data-theme="light"] body header .logo{color:#f3f5f4 !important}
@@ -2671,18 +2672,3 @@ try{var hd=document.querySelector('header');if(hd&&window.ResizeObserver)new Res
 
 
 
-
-
-<style id="ny-desktop-hero-remove-top-haze-final">
-/* Desktop only: remove ONLY the extra top haze; keep the photo and bottom fade. */
-@media (min-width: 701px) {
-  html[data-theme="light"] body main.wrap > section.hero::after {
-    background-image:
-      linear-gradient(0deg,rgba(236,237,235,.95) 0%,rgba(236,237,235,.6) 24%,transparent 48%),
-      linear-gradient(90deg,rgba(9,18,24,.38) 0%,rgba(9,18,24,.27) 30%,rgba(9,18,24,.06) 57%,rgba(9,18,24,.01) 100%),
-      url('./hero-house-light.webp'),
-      url('./hero-house.webp') !important;
-    opacity: 1 !important;
-  }
-}
-</style>
