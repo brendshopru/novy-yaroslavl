@@ -657,6 +657,7 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
   <div class="nav wrap">
     <a class="logo" href="#">НОВЫЙ <b>ЯРОСЛАВЛЬ</b></a>
     <nav class="nav-links" aria-label="Основная навигация">
+      <a href="#about" data-open-about>О нас</a>
       <a href="#objects">Объекты</a>
       <a href="#services">Услуги</a>
       <a href="#calc">Ипотека</a>
@@ -931,10 +932,22 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
         <option>Купить недвижимость</option><option>Продать недвижимость</option><option>Снять / сдать</option>
         <option>Ипотека</option><option>Другое</option>
       </select>
-      <label class="cb-consent"><input id="cbConsent" type="checkbox" required><span>Я даю согласие на обработку моих персональных данных.</span></label>
-      <button class="ny-submit" type="submit">Отправить заявку</button>
+      <div class="cb-law"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.7 3.2 8.1 7.5 9.5 4.3-1.4 7.5-4.8 7.5-9.5V6z"/><path d="m9 12 2 2 4-4"/></svg><span>Мы обрабатываем данные по требованиям законодательства РФ.</span></div>
+      <label class="cb-consent"><input id="cbPolicy" type="checkbox" required><span>Я ознакомлен(а) с <a class="cb-doc" href="#" data-doc="policy"><svg class="cb-clip" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>политикой конфиденциальности</a> и <a class="cb-doc" href="#" data-doc="offer"><svg class="cb-clip" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>публичной офертой</a>.</span></label>
+      <label class="cb-consent"><input id="cbConsent" type="checkbox" required><span>Я даю согласие на обработку персональных данных по <a class="cb-doc" href="#" data-doc="consent"><svg class="cb-clip" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>согласию на обработку ПД</a>.</span></label>
+      <div class="cb-legal">Нормативная база: ФЗ №149-ФЗ и ФЗ №152-ФЗ.</div>
+      <button class="ny-submit" id="cbSubmit" type="submit" disabled>Отправить заявку</button>
       <div class="ny-note" id="cbNote"></div>
     </form>
+  </div>
+</div>
+<div class="ny-modal" id="aboutModal" role="dialog" aria-modal="true" aria-labelledby="abTitle">
+  <div class="ny-modal-card ny-about">
+    <button class="ny-x" id="abClose" type="button" aria-label="Закрыть">✕</button>
+    <h3 id="abTitle">О нас</h3>
+    <p>Агентство недвижимости «Новый Ярославль» успешно и качественно предоставляет свои услуги с 2014 года.</p>
+    <p>Мы заботимся о каждом клиенте нашей компании, безопасно и эффективно делаем свою работу.</p>
+    <p>Выполняем полный спектр услуг по продаже и аренде жилой, коммерческой и зарубежной недвижимости.</p>
   </div>
 </div>
 <div class="ny-toast" id="nyToast" role="status" aria-live="polite"></div>
@@ -1224,7 +1237,11 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 /* ===== Заявка на обратный звонок (уходит в WhatsApp) ===== */
 (function(){
   var modal=document.getElementById('cbModal'),form=document.getElementById('cbForm');if(!modal||!form)return;
-  var name=document.getElementById('cbName'),phone=document.getElementById('cbPhone'),goal=document.getElementById('cbGoal'),consent=document.getElementById('cbConsent'),note=document.getElementById('cbNote');
+  var name=document.getElementById('cbName'),phone=document.getElementById('cbPhone'),goal=document.getElementById('cbGoal'),consent=document.getElementById('cbConsent'),policy=document.getElementById('cbPolicy'),btn=document.getElementById('cbSubmit'),note=document.getElementById('cbNote');
+  function sync(){if(btn)btn.disabled=!(policy.checked&&consent.checked);}
+  policy.addEventListener('change',sync);consent.addEventListener('change',sync);sync();
+  /* Ссылки на документы пока не открываются (окна подключим позже). */
+  form.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.cb-doc');if(a){e.preventDefault();}});
   function open(){modal.classList.add('open');document.body.style.overflow='hidden';note.textContent='';nyOverlayPush('callback',closeNow);setTimeout(function(){name.focus();},250);}
   function closeNow(){modal.classList.remove('open');document.body.style.overflow='';}
   function close(){nyOverlayBack('callback',closeNow);}
@@ -1239,6 +1256,7 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
     e.preventDefault();
     var n=name.value.trim(),p=phone.value.trim();
     if(!n||(p.replace(/\D/g,'').length<10)){note.textContent='Укажите имя и корректный номер телефона';return;}
+    if(!policy.checked){note.textContent='Подтвердите, что вы ознакомлены с политикой конфиденциальности и офертой';return;}
     if(!consent.checked){note.textContent='Подтвердите согласие на обработку персональных данных';return;}
     var wa=document.querySelector('a[data-contact="whatsapp"]');
     var base=wa?wa.getAttribute('href'):'https://wa.me/79201085073';
@@ -2554,6 +2572,23 @@ html[data-theme="light"] body .sec-head .eyebrow{
   padding:5px 12px;border-radius:999px;gap:0;
 }
 html[data-theme="light"] body .sec-head .eyebrow::before{display:none}
+
+/* ===== Форма заявки: две галочки, ссылки на документы, плашка закона ===== */
+.cb-law{display:flex;align-items:center;gap:8px;margin:12px 0 2px;padding:9px 11px;border-radius:12px;font-size:12px;line-height:1.4;color:var(--muted);background:rgba(183,229,209,.08);border:1px solid rgba(183,229,209,.22)}
+.cb-law svg{width:16px;height:16px;flex:0 0 16px;color:#b7e5d1}
+.cb-clip{display:inline-block;vertical-align:-2px;margin-right:3px;color:#b7e5d1}
+.cb-doc{color:var(--fg);text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.cb-legal{margin-top:8px;font-size:11.5px;line-height:1.4;color:var(--muted)}
+html[data-theme="light"] body .cb-law{background:rgba(183,229,209,.30);border-color:rgba(143,205,178,.65)}
+html[data-theme="light"] body .cb-law svg,html[data-theme="light"] body .cb-clip{color:#5fae8d}
+html[data-theme] body .ny-modal .ny-submit:disabled{opacity:.5;cursor:not-allowed}
+html[data-theme] body .ny-modal .ny-submit:disabled:hover{transform:none;box-shadow:none !important}
+
+/* ===== Окно «О нас»: мятная рамка ===== */
+html[data-theme] body .ny-modal-card.ny-about{width:min(520px,100%);border:1px solid #b7e5d1 !important;box-shadow:0 0 0 1px rgba(183,229,209,.35),0 0 30px rgba(183,229,209,.22),0 30px 80px rgba(0,0,0,.5) !important}
+html[data-theme="light"] body .ny-modal-card.ny-about{border-color:#8fcdb2 !important;box-shadow:0 0 0 1px rgba(183,229,209,.55),0 0 30px rgba(183,229,209,.35),0 30px 80px rgba(31,42,45,.22) !important}
+.ny-about p{margin:14px 0 0;font-size:15px;line-height:1.6;color:var(--fg)}
+.ny-about h3{color:var(--fg)}
 </style>
 
 <script>
@@ -2561,6 +2596,19 @@ html[data-theme="light"] body .sec-head .eyebrow::before{display:none}
 (function(){function f(){try{var h=document.querySelector('main.wrap>section.hero');if(!h)return;var t=Math.round(h.getBoundingClientRect().top+(window.pageYOffset||0));if(t>0)document.documentElement.style.setProperty('--ny-hdr-h',t+'px')}catch(e){}}
 f();window.addEventListener('load',f);window.addEventListener('resize',f);
 try{var hd=document.querySelector('header');if(hd&&window.ResizeObserver)new ResizeObserver(f).observe(hd)}catch(e){}})();
+</script>
+<script>
+/* ===== Окно «О нас» ===== */
+(function(){
+  var modal=document.getElementById('aboutModal');if(!modal)return;
+  function closeNow(){modal.classList.remove('open');document.body.style.overflow='';}
+  function open(){modal.classList.add('open');document.body.style.overflow='hidden';nyOverlayPush('about',closeNow);}
+  function close(){nyOverlayBack('about',closeNow);}
+  document.addEventListener('click',function(e){var t=e.target.closest&&e.target.closest('[data-open-about]');if(t){e.preventDefault();open();}});
+  document.getElementById('abClose').addEventListener('click',close);
+  modal.addEventListener('click',function(e){if(e.target===modal)close();});
+  window.addEventListener('keydown',function(e){if(e.key==='Escape'&&modal.classList.contains('open'))close();});
+})();
 </script>
 </body>
 </html>
