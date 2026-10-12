@@ -30,7 +30,6 @@ html,body{overflow-x:clip;overflow-y:visible}
 
 /* Cinematic first impression */
 .site-intro{position:fixed;inset:0;z-index:5000;display:grid;place-items:center;background:radial-gradient(circle at 50% 42%,rgba(183,229,209,.10),transparent 32%),#0d181b;color:var(--fg,#f4f1e8);transition:opacity .75s ease,visibility .75s ease}
-@media(max-width:900px){.site-intro.mobile-video-mode{background:transparent!important;background-color:transparent!important;background-image:none!important}}
 .site-intro.is-hidden{opacity:0;visibility:hidden;pointer-events:none}
 .intro-inner{text-align:center;width:min(720px,88vw);position:relative}
 .intro-kicker{font-size:10px;letter-spacing:.32em;text-transform:uppercase;color:var(--site-accent);opacity:0;animation:introUp .7s .15s forwards}
@@ -849,7 +848,7 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
   const skip=document.getElementById('introSkip');
   if(!intro)return;
   const reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const mobile=window.matchMedia('(max-width:900px)').matches;
+  const mobile=window.matchMedia('(max-width:700px)').matches;
   let closed=false;
   const close=()=>{if(closed)return;closed=true;intro.classList.add('is-hidden');document.body.style.overflow='';const video=document.getElementById('mobileIntroVideo');if(video){video.pause();}};
   document.body.style.overflow='hidden';
