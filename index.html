@@ -2644,6 +2644,11 @@ html[data-theme] body .ny-modal-card.ny-about{width:min(520px,100%);border:1px s
 html[data-theme="light"] body .ny-modal-card.ny-about{border-color:#8fcdb2 !important;box-shadow:0 0 0 1px rgba(183,229,209,.55),0 0 30px rgba(183,229,209,.35),0 30px 80px rgba(31,42,45,.22) !important}
 .ny-about p{margin:14px 0 0;font-size:15px;line-height:1.6;color:var(--fg)}
 .ny-about h3{color:var(--fg)}
+
+/* Надписи главного экрана читаются на ярком фото: только тень под буквами (цвет, размер и положение не менялись). */
+html[data-theme] body main.wrap>section.hero .eyebrow,
+html[data-theme] body main.wrap>section.hero>p,
+html[data-theme] body main.wrap>section.hero h1 .estate-word{text-shadow:0 1px 2px rgba(0,0,0,.55),0 2px 16px rgba(0,0,0,.55) !important}
 </style>
 
 <script>
