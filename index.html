@@ -901,6 +901,14 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 /* Данные, сохранённые в админке этого браузера, имеют приоритет над data.js */
 (function(){try{var d=JSON.parse(localStorage.getItem('ny_admin_data_v1')||'null');if(d&&d._dirty!==false&&Array.isArray(d.properties))window.SITE_DATA=d;}catch(e){}})();
 </script>
+<script id="ny-app-icon">
+/* Значок сайта из админки: вкладка браузера и значок для «на главный экран» */
+(function(){try{var ic=window.SITE_DATA&&window.SITE_DATA.icon,f=ic&&ic.files;if(!f||!f[192])return;
+var l=document.querySelector('link[rel="icon"]');if(!l){l=document.createElement('link');l.rel='icon';document.head.appendChild(l)}
+l.type='image/png';l.setAttribute('sizes',f[32]?'32x32':'192x192');l.href=f[32]||f[192];
+var a=document.querySelector('link[rel="apple-touch-icon"]');if(!a){a=document.createElement('link');a.rel='apple-touch-icon';document.head.appendChild(a)}
+a.href=f[180]||f[192];}catch(e){}})();
+</script>
 <script>document.write('<script src="app.js?v='+window.__NY_V+'"><\/script>');</script>
 
 

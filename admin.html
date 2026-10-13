@@ -96,6 +96,10 @@ body{background-color:var(--bg);color:var(--fg)}
 <p class="admin-note">Видео показывается только на телефонах при открытии сайта. На компьютере сайт открывается как обычно. После загрузки нажмите «Опубликовать на сайт».</p>
 <div class="form-grid"><div class="wide"><label class="admin-note" for="mobileIntroFile" style="display:block;margin:0 0 7px">Видео вступления (MP4 / MOV / WebM, до 100 МБ)</label><input id="mobileIntroFile" type="file" accept="video/*" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)"><div id="mobileIntroStatus" class="admin-note" style="margin-top:8px"></div><video id="mobileIntroPreview" controls playsinline preload="metadata" style="display:none;width:min(100%,520px);max-height:300px;margin-top:10px;border-radius:12px;background:#000"></video><button id="mobileIntroDelete" type="button" class="admin-btn secondary small" style="margin-top:10px">Удалить видео вступления</button></div></div></section>
 
+<section class="panel" id="appIconPanel"><h2>Значок сайта и приложения</h2>
+<p class="admin-note">Иконка во вкладке браузера и на экране телефона. Загрузите квадратную картинку (лучше от 512×512), выберите кадр кнопкой ✂ и нажмите «Опубликовать на сайт».</p>
+<div class="form-grid"><div class="wide"><label class="admin-note" for="appIconFile" style="display:block;margin:0 0 6px">Картинка значка</label><input type="file" id="appIconFile" accept="image/*" style="width:100%;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px;color:var(--fg)"><div class="photos" id="appIconPreview" style="margin-top:10px"></div><div id="appIconStatus" class="admin-note" style="margin-top:8px"></div></div></div></section>
+
 <section class="panel"><h2>Контакты и соцсети</h2>
 <p class="admin-note">Эти данные используются кнопками «Позвонить», WhatsApp, Telegram и VK на сайте. Номер можно вводить в любом удобном формате.</p>
 <form id="contactsForm" class="form-grid">
@@ -567,6 +571,73 @@ function renderServicesV12(){
 $("addServiceBtn").addEventListener("click",()=>{state.services.push({title:"Новая услуга",description:"",photo:"",video:"",visible:true});save();renderServicesV12();updateDashboard();setTimeout(()=>document.querySelector('.service-card:last-child input')?.focus(),50)});
 
 (function(){const pf2=$("propertyForm");if(!pf2)return;const oldSubmit=pf2.onsubmit;/* handled by existing listener; add fields through a second listener */pf2.addEventListener("submit",()=>{setTimeout(()=>{if(typeof propEdit!=="undefined"){const idx=propEdit;/* edit is reset after save, so no reliable index here */} },0)});})();
+</script>
+<script>
+/* ===== APP ICON: значок сайта и приложения (добавленный блок) ===== */
+(function(){
+ CROP.icon={title:"Значок сайта и приложения",hint:"Выберите область, которая будет на иконке. Значок квадратный.",aspects:[["1:1",1]],out:1024,circle:false,cy:.5};
+ const sizes=[512,192,180,32];
+ let bypass=false;
+ function loadImg(src){return new Promise((res,rej)=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>rej(new Error("Не удалось открыть картинку значка"));i.src=src})}
+ function renderAppIcon(){
+  const box=$("appIconPreview"),st=$("appIconStatus");if(!box||!state)return;
+  const ic=state.icon||{};const shown=ic.pending||(ic.files&&ic.files[192])||"";
+  box.innerHTML=shown?`<div class="ph"><img src="${esc(shown)}" alt=""><div class="pb"><button type="button" title="Кадрирование" onclick="appIconCrop()">✂</button>${ic.pending?'<button type="button" title="Отменить выбор" onclick="appIconCancel()">✕</button>':''}</div></div>`:"";
+  let t="";
+  if(ic.pending)t="Новый значок выбран. Нажмите «Опубликовать на сайт».";
+  else if(ic.files)t=ic.manifest?"✓ Значок опубликован, манифест приложения обновлён (установленное приложение подхватит его само).":"✓ Значок опубликован. ⚠ Манифест приложения в репозитории не найден, поэтому установленное приложение не обновится.";
+  st.textContent=t;
+ }
+ window.appIconCrop=async()=>{const ic=state.icon||{};const src=ic.pending||(ic.files&&ic.files[512]);if(!src)return;const out=await cropImage(src,"icon",0);if(out){state.icon=Object.assign({},ic,{pending:out});save();renderAppIcon()}};
+ window.appIconCancel=()=>{const ic=Object.assign({},state.icon||{});delete ic.pending;state.icon=Object.keys(ic).length?ic:undefined;if(!state.icon)delete state.icon;save();renderAppIcon()};
+ $("appIconFile").addEventListener("change",async e=>{
+  const f=e.target.files[0];e.target.value="";if(!f)return;
+  try{const src=await readImage(f,2000,.92);const out=await cropImage(src,"icon",0);if(out){state.icon=Object.assign({},state.icon||{},{pending:out});save();renderAppIcon()}}
+  catch(err){alert("Не удалось открыть фото. Нужен JPG, PNG или WebP.")}
+ });
+ async function publishIcon(){
+  const token=askToken(false);if(!token)throw new Error("Нужен токен GitHub для публикации значка.");
+  const src=state.icon.pending;const img=await loadImg(src);
+  const v=(await sha16(src)).slice(0,8);const files={};
+  for(const s of sizes){
+   setStatus("Загружаю значок "+s+"×"+s+"…");
+   const c=document.createElement("canvas");c.width=c.height=s;const x=c.getContext("2d");
+   x.imageSmoothingQuality="high";x.fillStyle="#fff";x.fillRect(0,0,s,s);x.drawImage(img,0,0,s,s);
+   const b64=c.toDataURL("image/png").split(",")[1];const name="icons/app-"+v+"-"+s+".png";
+   const ex=await gh(token,"GET",name);
+   if(ex.status===404){const up=await gh(token,"PUT",name,{message:"Значок сайта и приложения",content:b64});if(!up.ok)throw new Error(explain(up))}
+   else if(!ex.ok)throw new Error(explain(ex));
+   files[s]=name;
+  }
+  let manifestUpdated=false,mname="manifest.webmanifest";
+  setStatus("Обновляю манифест приложения…");
+  let mr=await gh(token,"GET",mname);
+  if(mr.status===404){mname="manifest.json";mr=await gh(token,"GET",mname)}
+  if(mr.ok){
+   const j=await mr.json();let m;
+   try{m=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(j.content.replace(/\s/g,"")),ch=>ch.charCodeAt(0))))}
+   catch(e){throw new Error("Манифест ("+mname+") не удалось прочитать, я его не менял. Значок не опубликован.")}
+   m.icons=[{src:files[192],sizes:"192x192",type:"image/png",purpose:"any"},{src:files[512],sizes:"512x512",type:"image/png",purpose:"any"}];
+   const put=await gh(token,"PUT",mname,{message:"Новый значок приложения",content:b64utf8(JSON.stringify(m,null,2)+"\n"),sha:j.sha});
+   if(!put.ok)throw new Error(explain(put));
+   manifestUpdated=true;
+  }else if(mr.status!==404)throw new Error(explain(mr));
+  state.icon={version:v,files:files,manifest:manifestUpdated};
+  save();renderAppIcon();
+ }
+ /* Перехватываем нажатие «Опубликовать»: сначала значок, потом обычная публикация данных */
+ document.addEventListener("click",async e=>{
+  if(bypass)return;
+  const b=e.target.closest&&e.target.closest("#publishBtn,#publishBtn2,.pub-inline");
+  if(!b||!state||!state.icon||!state.icon.pending)return;
+  e.stopImmediatePropagation();e.preventDefault();
+  try{await publishIcon()}catch(err){setStatus(err.message||"Не удалось опубликовать значок","err");return}
+  bypass=true;try{$("publishBtn").click()}finally{bypass=false}
+ },true);
+ const _prevRender=render;
+ render=function(){_prevRender();renderAppIcon()};
+ if(state)renderAppIcon();
+})();
 </script>
 </body>
 </html>
