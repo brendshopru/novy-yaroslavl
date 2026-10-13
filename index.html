@@ -2542,10 +2542,10 @@ html[data-theme] body main.wrap>section.hero::before,
 html[data-theme] body main.wrap>section.hero::after{top:calc(-1 * var(--ny-hdr-h,118px)) !important}
 /* Тёмный верхний слой под шапкой: текст шапки читается на любом фото. */
 html[data-theme="dark"] body main.wrap>section.hero::after{
-  background-image:linear-gradient(0deg,rgba(9,18,24,.46) 0%,transparent 42%),url('./hero-house.webp') !important;
+  background-image:linear-gradient(180deg,rgba(9,18,24,.5) 0,rgba(9,18,24,0) 240px),linear-gradient(90deg,rgba(9,18,24,.68) 0%,rgba(9,18,24,.48) 30%,rgba(9,18,24,.10) 57%,rgba(9,18,24,.02) 100%),linear-gradient(0deg,rgba(9,18,24,.46) 0%,transparent 42%),url('./hero-house.webp') !important;
 }
 html[data-theme="light"] body main.wrap>section.hero::after{
-  background-image:linear-gradient(0deg,rgba(236,237,235,.95) 0%,rgba(236,237,235,.6) 24%,transparent 48%),url('./hero-house-light.webp'),url('./hero-house.webp') !important;
+  background-image:linear-gradient(0deg,rgba(236,237,235,.95) 0%,rgba(236,237,235,.6) 24%,transparent 48%),linear-gradient(90deg,rgba(9,18,24,.38) 0%,rgba(9,18,24,.27) 30%,rgba(9,18,24,.06) 57%,rgba(9,18,24,.01) 100%),url('./hero-house-light.webp'),url('./hero-house.webp') !important;
 }
 /* Светлая тема: шапка поверх фото оформлена как в тёмной. */
 html[data-theme="light"] body header .logo{color:#f3f5f4 !important}
@@ -2644,11 +2644,6 @@ html[data-theme] body .ny-modal-card.ny-about{width:min(520px,100%);border:1px s
 html[data-theme="light"] body .ny-modal-card.ny-about{border-color:#8fcdb2 !important;box-shadow:0 0 0 1px rgba(183,229,209,.55),0 0 30px rgba(183,229,209,.35),0 30px 80px rgba(31,42,45,.22) !important}
 .ny-about p{margin:14px 0 0;font-size:15px;line-height:1.6;color:var(--fg)}
 .ny-about h3{color:var(--fg)}
-
-/* Надписи главного экрана читаются на ярком фото: только тень под буквами (цвет, размер и положение не менялись). */
-html[data-theme] body main.wrap>section.hero .eyebrow,
-html[data-theme] body main.wrap>section.hero>p,
-html[data-theme] body main.wrap>section.hero h1 .estate-word{text-shadow:0 1px 2px rgba(0,0,0,.55),0 2px 16px rgba(0,0,0,.55) !important}
 </style>
 
 <script>
