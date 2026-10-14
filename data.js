@@ -369,5 +369,15 @@ window.SITE_DATA = {
   },
   "mobileIntro": {
     "video": "videos/d4248fb0bd27f63d.mp4"
+  },
+  "icon": {
+    "version": "0f643184",
+    "files": {
+      "32": "icons/app-0f643184-32.png",
+      "180": "icons/app-0f643184-180.png",
+      "192": "icons/app-0f643184-192.png",
+      "512": "icons/app-0f643184-512.png"
+    },
+    "manifest": true
   }
 };
