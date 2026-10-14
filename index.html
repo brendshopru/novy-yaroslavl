@@ -824,7 +824,7 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
         <div class="f-hours" data-hours hidden></div>
         <a class="f-cta" href="#" data-open-callback>Заказать обратный звонок</a>
       </div>
-      <div class="f-col"><h4>Навигация</h4><a href="#objects">Объекты</a><a href="#services">Услуги</a><a href="#calc">Ипотека</a><a href="#team">Команда</a><a href="#reviews-sec">Отзывы</a><a href="#contacts">Контакты</a></div>
+      <div class="f-col"><h4>Навигация</h4><a class="f-about" href="#about" data-open-about>О нас</a><a href="#objects">Объекты</a><a href="#services">Услуги</a><a href="#calc">Ипотека</a><a href="#team">Команда</a><a href="#reviews-sec">Отзывы</a><a href="#contacts">Контакты</a></div>
 
     </div>
   </div>
@@ -888,10 +888,13 @@ html[data-theme="light"] body .site-intro .intro-skip{color:#f4f1e8 !important;b
         });
       }
     };
+    let videoStarted=false;
+    const goVideo=()=>{if(videoStarted)return;videoStarted=true;startMobileVideo();};
+    window.__nyIntroGo=goVideo;
     if(document.readyState==='loading'){
-      document.addEventListener('DOMContentLoaded',startMobileVideo,{once:true});
+      document.addEventListener('DOMContentLoaded',goVideo,{once:true});
     }else{
-      startMobileVideo();
+      goVideo();
     }
   }else{
     setTimeout(close,reduce?250:2600);
@@ -906,6 +909,8 @@ document.write('<script src="data.js?t='+Date.now()+'"><\/script><script>window.
 /* Данные, сохранённые в админке этого браузера, имеют приоритет над data.js */
 (function(){try{var d=JSON.parse(localStorage.getItem('ny_admin_data_v1')||'null');if(d&&d._dirty!==false&&Array.isArray(d.properties))window.SITE_DATA=d;}catch(e){}})();
 </script>
+<script>/* Заставка: видео начинает грузиться сразу, как только известны данные, а не после загрузки всей страницы */
+try{window.__nyIntroGo&&window.__nyIntroGo();}catch(e){}</script>
 <script id="ny-app-icon">
 /* Значок сайта из админки: вкладка браузера и значок для «на главный экран» */
 (function(){try{var ic=window.SITE_DATA&&window.SITE_DATA.icon,f=ic&&ic.files;if(!f||!f[192])return;
@@ -2289,6 +2294,24 @@ html[data-theme="light"] body footer .f-top>.f-col:nth-child(2) a:hover::after{b
   html[data-theme] body footer .f-top>.f-col:nth-child(2) a::after{flex-basis:28px;width:28px;height:28px;margin-left:8px !important}
 }
 @media(prefers-reduced-motion:reduce){html[data-theme] body footer .f-top>.f-col:nth-child(2) a,html[data-theme] body footer .f-top>.f-col:nth-child(2) a::before,html[data-theme] body footer .f-top>.f-col:nth-child(2) a::after{transition:none !important}}
+</style>
+<style id="ny-footer-about-mobile">
+/* «О нас» в подвале: только мобильная версия (на ПК кнопка уже есть в шапке) */
+html[data-theme] body footer .f-top>.f-col:nth-child(2) a.f-about{display:none !important}
+@media(max-width:799px){
+  html[data-theme] body footer .f-top>.f-col:nth-child(2) a.f-about{
+    display:flex !important;grid-column:1/-1 !important;
+    border-color:rgba(183,229,209,.55) !important;
+    background:linear-gradient(135deg,rgba(183,229,209,.20),rgba(183,229,209,.05)) !important;
+    box-shadow:0 0 0 1px rgba(183,229,209,.12),0 8px 22px rgba(0,0,0,.18) !important;
+    color:#fff !important;font-weight:700 !important;letter-spacing:.02em !important}
+  html[data-theme] body footer .f-top>.f-col:nth-child(2) a.f-about::after{content:"→" !important;background:#b7e5d1 !important;color:#17252a !important}
+  html[data-theme="light"] body footer .f-top>.f-col:nth-child(2) a.f-about{
+    border-color:#8fcdb2 !important;
+    background:linear-gradient(135deg,rgba(183,229,209,.55),rgba(255,255,255,.80)) !important;
+    box-shadow:0 1px 2px rgba(31,42,45,.05),0 8px 20px rgba(31,42,45,.08) !important;
+    color:#17252a !important}
+}
 </style>
 
 <style id="ny-polish-7">
